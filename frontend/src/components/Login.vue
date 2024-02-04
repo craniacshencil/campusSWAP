@@ -1,6 +1,6 @@
 <template>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   <div class="back-overlay">
+   <div class="void">
         <h1>Login</h1>
         <div class = "register-form">
             <InputGroup>
@@ -73,8 +73,8 @@ export default{
 }
 </script>
 
-<style>
-.back-overlay{
+<style scoped>
+.void{
     background-color: #09090b;
     height: 100%;
     width: 100%;
