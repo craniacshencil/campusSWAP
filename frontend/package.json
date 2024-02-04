@@ -1,0 +1,21 @@
+{
+  "name": "cswap",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "primeicons": "^6.0.1",
+    "primevue": "^3.47.2",
+    "vue": "^3.3.11",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "vite": "^5.0.10"
+  }
+}

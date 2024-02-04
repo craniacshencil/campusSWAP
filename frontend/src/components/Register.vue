@@ -1,0 +1,1 @@
+<template>Hello from register</template>
