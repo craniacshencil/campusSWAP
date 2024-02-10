@@ -82,7 +82,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .void{
     background-color: #09090b;
     height: 100%;
