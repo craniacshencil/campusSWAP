@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from apis import views
+8
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('api/save_form_data/', views.save_form_data, name='save_form_data'),
 ]

@@ -65,17 +65,20 @@ export default{
         },
 
         submitForm(){
-            axios.post('ENTER_DJANGO_SERVER_ADDRESS_HERE', {
+            const formData = {
                 moodleID: this.moodleID,
                 email: this.email,
                 firstName: this.firstName,
                 lastName: this.lastName,
                 password: this.password,
-                confirmPassword: this.confirmPassword
-            }).then(response => {
-                console.log(response);
+            };
+
+            axios.post('/api/save_form_data/', formData)
+                
+            .then(response => {
+                console.log("success registered user");
             }).catch(error => {
-                console.log(error);
+                console.log("error when registering");
             });
         },
     }
