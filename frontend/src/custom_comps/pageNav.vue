@@ -7,8 +7,9 @@
             <Button @click = 'this.$router.push("/sell")' text class = "nav-part sell">SELL</Button>
             <Button @click = 'this.$router.push("/wishlist")' text class = "nav-part wishlist">WISHLIST</Button>
         </div>
-        <div class="card flex justify-content-center align-items-center">
-            <Dropdown v-model="selectedVal" :options="cities" optionLabel="name" placeholder="Filters" class="w-full md:w-14rem" />
+        <div class="filter-block card flex justify-content-center align-items-center">
+            <Dropdown v-model="selectedVal" :options="cities" optionLabel="name" placeholder="Sort by" class="w-full md:w-14rem" showClear />
+            <Filters />
         </div>
     </div>
 </template>
@@ -17,9 +18,10 @@
 import Button from 'primevue/button';
 import Dropdown from 'primevue/dropdown';
 import pageSidebar from './pageSidebar.vue';
+import Filters from './Filters.vue';
 export default{
     name: "pageNav",
-    components: { Button, Dropdown, pageSidebar },
+    components: { Filters, Button, Dropdown, pageSidebar },
     data(){
         return{
             selectedVal: "",
@@ -51,7 +53,13 @@ export default{
     border-bottom: 2px solid white;
 }
 
-pageSidebar{
-    flex: 2;
+.filter-block{
+    display: flex;
+    gap: 1rem;
+}
+
+#filters{
+    padding-left: 10px;
+    padding-right: 5px;
 }
 </style>

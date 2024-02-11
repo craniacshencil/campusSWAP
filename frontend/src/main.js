@@ -12,15 +12,20 @@ import 'primeicons/primeicons.css'
 import Home from "./pages/Home.vue"
 import Login from "./pages/Login.vue"
 import Register from "./pages/Register.vue"
-import test from "./pages/test.vue"
-import buy from "./pages/Buy.vue"
+import Test from "./pages/test.vue"
+import Buy from "./pages/Buy.vue"
+import Wishlist from "./pages/Wishlist.vue"
+import Sell from "./pages/Sell.vue"
 
 const routes = [
     { path: '/', component: Home },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
-    { path: '/test', component: test },
-    { path: '/buy', component: buy }
+    { path: '/test', component: Test },
+    { path: '/buy', component: Buy },
+    { path: '/wishlist', component: Wishlist},
+    { path: '/sell', component: Sell },
+
 ]
 
 const router = createRouter({
