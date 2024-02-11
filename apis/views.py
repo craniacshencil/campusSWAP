@@ -11,7 +11,7 @@ def save_form_data(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         Student.objects.create(
-            moodle_id=data.get('moodleID'),
+            moodleid=data.get('moodleID'),
             email=data.get('email'),
             first_name=data.get('firstName'),
             last_name=data.get('lastName'),

@@ -37,6 +37,7 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button'
 import passField from '../custom_comps/passField.vue'
 import Password from 'primevue/password';
+import axios from 'axios'
 
 export default{
     name: "Register",
@@ -51,14 +52,6 @@ export default{
         }
     },
     components: { InputGroup, InputGroupAddon, InputText, Button, passField, Password },
-    data(){
-        return{
-            isPasswordVisible: false,
-            isConfirmPasswordVisible: false,
-            passText: "",
-            confirmPassText: "",
-        }
-    },
     methods: {
         togglePassword(event, variable){
             variable = !variable
@@ -73,7 +66,7 @@ export default{
                 password: this.password,
             };
 
-            axios.post('/api/save_form_data/', formData)
+            axios.post('http://127.0.0.1:8000/api/save_form_data/', formData)
                 
             .then(response => {
                 console.log("success registered user");
