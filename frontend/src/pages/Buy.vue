@@ -4,6 +4,7 @@
         <pageNav />
         <main>
            <itemCard /> 
+           <button>get route</button>
         </main>
     </div>
 </template>
@@ -25,6 +26,7 @@ export default{
     width: 100%;
     
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
 }

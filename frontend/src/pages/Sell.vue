@@ -1,66 +1,83 @@
-
 <template>
-    <div class="card">
-        <DataView :value="products">
-            <template #list="slotProps">
-                <div class="grid grid-nogutter">
-                    <div v-for="(item, index) in slotProps.items" :key="index" class="col-12">
-                        <div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3" :class="{ 'border-top-1 surface-border': index !== 0 }">
-                            <div class="md:w-10rem relative">
-                                <img class="block xl:block mx-auto border-round w-full" :src="`https://primefaces.org/cdn/primevue/images/product/${item.image}`" :alt="item.name" />
-                                <Tag :value="item.inventoryStatus" :severity="getSeverity(item)" class="absolute" style="left: 4px; top: 4px"></Tag>
-                            </div>
-                            <div class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4">
-                                <div class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
-                                    <div>
-                                        <span class="font-medium text-secondary text-sm">{{ item.category }}</span>
-                                        <div class="text-lg font-medium text-900 mt-2">{{ item.name }}</div>
-                                    </div>
-                                    <div class="surface-100 p-1" style="border-radius: 30px">
-                                        <div class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2" style="border-radius: 30px; box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)">
-                                            <span class="text-900 font-medium text-sm">{{ item.rating }}</span>
-                                            <i class="pi pi-star-fill text-yellow-500"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex flex-column md:align-items-end gap-5">
-                                    <span class="text-xl font-semibold text-900">${{ item.price }}</span>
-                                    <div class="flex flex-row-reverse md:flex-row gap-2">
-                                        <Button icon="pi pi-heart" outlined></Button>
-                                        <Button icon="pi pi-shopping-cart" label="Buy Now" :disabled="item.inventoryStatus === 'OUTOFSTOCK'" class="flex-auto md:flex-initial white-space-nowrap"></Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </DataView>
+    <div class="void">
+        <pageHeader />
+        <pageNav />
+        <main>
+            <h1>Sell your items, help a student</h1>
+            <form>
+                <FloatLabel>
+                    <InputText id="Title of listing" v-model="title" class = "form-field" />
+                    <label for="Title of listing">Title of listing</label>
+                </FloatLabel>
+                <FloatLabel>
+                    <InputText id="Category" v-model="category" class = "form-field" />
+                    <label for="Category">Category</label>
+                </FloatLabel>
+                <FloatLabel>
+                    <InputText id="Price" v-model="price" class = "form-field" />
+                    <label for="Price">Price</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <Textarea class = "desc" v-model="productDesc" autoResize rows="5" cols="30" />
+                    <label for="Product Description">Product Description</label>
+                </FloatLabel>
+            </form>
+        </main>
     </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from "vue";
-import { ProductService } from '@/service/ProductService';
+<script>
+import pageNav from '@/custom_comps/pageNav.vue';
+import pageHeader from '@/custom_comps/pageHeader.vue';
+import InputText from 'primevue/inputtext';
+import FloatLabel from 'primevue/floatlabel'
 
-onMounted(() => {
-    ProductService.getProductsSmall().then((data) => (products.value = data.slice(0, 5)));
-});
-
-const products = ref();
-const getSeverity = (product) => {
-    switch (product.inventoryStatus) {
-        case 'INSTOCK':
-            return 'success';
-
-        case 'LOWSTOCK':
-            return 'warning';
-
-        case 'OUTOFSTOCK':
-            return 'danger';
-
-        default:
-            return null;
-    }
-};
+export default{
+    data(){
+        return{
+            style: "{width: 200px}",
+            value: "",
+        }
+    },
+    components:{ pageNav, pageHeader, InputText, FloatLabel }
+}
 </script>
+
+<style scoped>
+.void{
+    background-color: #09090b;
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+h1{
+    text-transform: uppercase; 
+    font-weight: 300;
+    letter-spacing: 0.4rem;
+}
+
+label{
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+.form-field{
+    width: 500px;
+    line-height: 30px;
+}
+.desc{
+    background-color: #09090b;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.desc:focus{
+    border: 1px solid teal;
+    outline: 1px solid teal;
+}
+</style>

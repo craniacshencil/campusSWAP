@@ -49,6 +49,9 @@ export default{
     gap: 1rem;
     margin: 1rem;
 }
+.nav-part{
+    letter-spacing: 0.2rem;
+}
 .nav-part:hover{
     border-bottom: 2px solid white;
 }
