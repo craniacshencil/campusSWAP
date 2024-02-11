@@ -1,1 +1,4 @@
 django==5.0.1
+mysqlclient==2.2.4
+psycopg[binary]
+django-cors-headers==4.3.1
