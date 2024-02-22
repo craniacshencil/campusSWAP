@@ -51,9 +51,11 @@ export default{
 }
 .nav-part{
     letter-spacing: 0.2rem;
+    margin-bottom: 0.1rem;
 }
 .nav-part:hover{
-    border-bottom: 2px solid white;
+    margin-bottom: 0;
+    border-bottom: 0.1rem solid white;
 }
 
 .filter-block{
