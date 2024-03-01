@@ -20,12 +20,12 @@
                 <InputText v-model = "firstName" label = "First Name" placeholder = "First Name" required />
                 <InputText v-model = "lastName" label = "Last Name" placeholder = "Last Name" required/>
             </InputGroup>
-            <Password v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask required />
+            <Password @keydown = "checkPasswordStrength" ref = "passfield" v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask required />
             <Password v-model = confirmPassword  placeholder = "Confirm Password" inputStyle = "width: 500px" toggleMask :feedback = false required />
 
             <!-- <passField label = "Password" placeholder = "Password" @valChanged = "password" /> -->
             <!-- <passField label = "Confirm Password" placeholder = "Confirm Password" @valChanged = "confirmPassword" /> -->
-            <Button @click = "submitForm" type = "submit" label = "Submit" />
+            <Button @click = "submitForm" label = "Submit" />
         </form>
     </div>
 </template>
@@ -49,6 +49,7 @@ export default{
             firstName : "",
             lastName: "",
             email: "",
+            passwordStrength: "",
         }
     },
     components: { InputGroup, InputGroupAddon, InputText, Button, passField, Password },
@@ -60,6 +61,8 @@ export default{
                 firstName: this.firstName,
                 lastName: this.lastName,
                 password: this.password,
+                confirmPassword: this.confirmPassword,
+                passwordStrength: this.$refs.passfield.meter.strength
             };
 
             axios.post('http://127.0.0.1:8000/apis/register', formData)
