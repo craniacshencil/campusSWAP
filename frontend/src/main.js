@@ -16,6 +16,7 @@ import Test from "./pages/test.vue"
 import Buy from "./pages/Buy.vue"
 import Wishlist from "./pages/Wishlist.vue"
 import Sell from "./pages/Sell.vue"
+import Settings from "./pages/Settings.vue"
 
 const routes = [
     { path: '/', component: Home },
@@ -25,6 +26,7 @@ const routes = [
     { path: '/buy', component: Buy },
     { path: '/wishlist', component: Wishlist},
     { path: '/sell', component: Sell },
+    { path: '/settings', component: Settings },
 
 ]
 
