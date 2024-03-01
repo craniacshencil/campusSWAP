@@ -53,7 +53,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:573'
+    'http://localhost:5173'
 ]
 
 ROOT_URLCONF = "campusSwap.urls"

@@ -1,32 +1,32 @@
 <template>
     <div class = "void">
         <h1>Register</h1>
-        <div class="register-form">
+        <form class="register-form">
             <InputGroup>
                 <InputGroupAddon>
                     <i class = "pi pi-user"></i>
                 </InputGroupAddon>
-                <InputText v-model = "moodleID" id = "MoodleID" placeholder = MoodleID autofocus />
+                <InputText v-model = "moodleID" type = "number" id = "MoodleID" placeholder = MoodleID autofocus required/>
             </InputGroup>
 
             <InputGroup>
                 <InputGroupAddon>
                     <i class = "pi pi-at"></i>
                 </InputGroupAddon>
-                <InputText v-model = "email" type = email label = Email placeholder = Email />
+                <InputText v-model = "email" type = email label = Email placeholder = Email required/>
             </InputGroup>
 
             <InputGroup>
-                <InputText v-model = "firstName" label = "First Name" placeholder = "First Name" />
-                <InputText v-model = "lastName" label = "Last Name" placeholder = "Last Name" />
+                <InputText v-model = "firstName" label = "First Name" placeholder = "First Name" required />
+                <InputText v-model = "lastName" label = "Last Name" placeholder = "Last Name" required/>
             </InputGroup>
-            <Password v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask />
-            <Password v-model = confirmPassword  placeholder = "Confirm Password" inputStyle = "width: 500px" toggleMask :feedback = false />
+            <Password v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask required />
+            <Password v-model = confirmPassword  placeholder = "Confirm Password" inputStyle = "width: 500px" toggleMask :feedback = false required />
 
             <!-- <passField label = "Password" placeholder = "Password" @valChanged = "password" /> -->
             <!-- <passField label = "Confirm Password" placeholder = "Confirm Password" @valChanged = "confirmPassword" /> -->
-            <Button @click = "submitForm" label = "Submit" />
-        </div>
+            <Button @click = "submitForm" type = "submit" label = "Submit" />
+        </form>
     </div>
 </template>
 
