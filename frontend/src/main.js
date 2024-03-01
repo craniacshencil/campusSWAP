@@ -19,14 +19,13 @@ import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
 
 const routes = [
-    { path: '/', component: Home },
-    { path: '/login', component: Login },
-    { path: '/register', component: Register },
-    { path: '/test', component: Test },
-    { path: '/buy', component: Buy },
-    { path: '/wishlist', component: Wishlist},
-    { path: '/sell', component: Sell },
-    { path: '/settings', component: Settings },
+    { path: '/', component: Home, name: "Home" },
+    { path: '/login', component: Login, name: "Login"},
+    { path: '/register', component: Register, name: "Register"},
+    { path: '/buy', component: Buy, name: "Buy" },
+    { path: '/wishlist', component: Wishlist, name: "Wishlist" },
+    { path: '/sell', component: Sell, name: "Sell" },
+    { path: '/settings', component: Settings, name: "Settings" },
 
 ]
 
