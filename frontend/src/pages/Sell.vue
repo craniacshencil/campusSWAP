@@ -47,8 +47,6 @@
                 <Textarea class = "desc" v-model="productDesc" />
                 <label for="Product Description">Product Description</label>
             </FloatLabel>
-            </form>
-
             <div class = "image-uploader">
                 <label for = "uploader" class = "uploader-label">Upload Images</label>
                 <Toast />
@@ -60,6 +58,7 @@
                 </FileUpload>
             </div>
             <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" />
+        </form>
     </div>
 </template>
 
@@ -111,6 +110,7 @@ export default{
 
 h1{
     text-transform: uppercase; 
+    text-align: center;
     font-weight: 300;
     letter-spacing: 0.4rem;
     margin-bottom: 2rem;
@@ -162,10 +162,12 @@ form{
     line-height: 1.5rem;
     font-size: 1.25rem;
     width: 50vh;
+    padding: 1rem;
 }
 
 .preview-listing-btn:hover{
     background-color: rgb(3, 224, 224);
     color: #09090b;
+    transition: 200ms ease-in;
 }
 </style>

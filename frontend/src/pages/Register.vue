@@ -53,10 +53,6 @@ export default{
     },
     components: { InputGroup, InputGroupAddon, InputText, Button, passField, Password },
     methods: {
-        togglePassword(event, variable){
-            variable = !variable
-        },
-
         submitForm(){
             const formData = {
                 moodleID: this.moodleID,
@@ -66,8 +62,7 @@ export default{
                 password: this.password,
             };
 
-            axios.post('http://127.0.0.1:8000/api/save_form_data/', formData)
-                
+            axios.post('http://127.0.0.1:8000/apis/register', formData)
             .then(response => {
                 console.log("success registered user");
             }).catch(error => {
@@ -78,11 +73,11 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .void{
     background-color: #09090b;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     
     display: flex;
     justify-content: center;

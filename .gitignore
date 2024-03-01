@@ -1,3 +1,7 @@
 apis/migrations
 apis/__pycache__
 campusSwap/__pycache__
+.vscode
+etc
+frontend/.vscode
+campusSwap/__pycache__
