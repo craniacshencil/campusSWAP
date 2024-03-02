@@ -4,6 +4,8 @@ import { createApp } from 'vue'
 import PrimeVue from 'primevue/config'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import ConfirmationService from 'primevue/confirmationservice';
+import ToastService from 'primevue/toastservice';
 import 'primevue/resources/primevue.min.css';
 import 'primeflex/primeflex.css'
 import 'primevue/resources/themes/aura-dark-cyan/theme.css'
@@ -12,7 +14,6 @@ import 'primeicons/primeicons.css'
 import Home from "./pages/Home.vue"
 import Login from "./pages/Login.vue"
 import Register from "./pages/Register.vue"
-import Test from "./pages/test.vue"
 import Buy from "./pages/Buy.vue"
 import Wishlist from "./pages/Wishlist.vue"
 import Sell from "./pages/Sell.vue"
@@ -35,6 +36,8 @@ const router = createRouter({
 })
 
 const app = createApp(App)
+app.use(ToastService);
+app.use(ConfirmationService);
 app.use(router)
 app.use(PrimeVue, { ripple: true})
 

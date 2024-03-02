@@ -71,7 +71,7 @@ export default{
             }).then(response => {
                 this.loginError = response.data.login_error
                 if(this.loginError == this.noError){
-                    setTimeout(() => {this.$router.push('/home')}, 750)
+                    setTimeout(() => {this.$router.push('/')}, 750)
                 }
             }).catch(error => {
                 console.log(error);

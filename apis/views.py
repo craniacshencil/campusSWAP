@@ -1,5 +1,4 @@
-from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -78,3 +77,8 @@ def login_page(request):
                     login_error = "Invalid MoodleID"
         return JsonResponse({'login_error' : login_error})
     return JsonResponse({"Error" : 'No data reached django'})
+
+@csrf_exempt
+def logout_page(request):
+    logout(request)
+    return JsonResponse({'message' : "Logout-successful"})
