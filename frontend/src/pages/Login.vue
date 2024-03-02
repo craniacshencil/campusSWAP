@@ -68,9 +68,19 @@ export default{
             axios.post('http://localhost:8000/apis/login', {
                 moodleID: this.moodleID,
                 passText: this.passText,
-            }).then(response => {
+            }, { withCredentials: true}).then(response => {
                 this.loginError = response.data.login_error
                 if(this.loginError == this.noError){
+                    const user = {
+                        'moodleID': response.data.moodleID,
+                        'email': response.data.email,
+                        'first_name': response.data.first_name,
+                        'last_name': response.data.last_name
+                    }
+                    this.$store.commit('assignUser', user)
+                    this.$store.commit('toggleIsAuthenticated')
+                    console.log(this.$store.state.isAuthenticated)
+                    console.log(this.$store.state.user)
                     setTimeout(() => {this.$router.push('/')}, 750)
                 }
             }).catch(error => {

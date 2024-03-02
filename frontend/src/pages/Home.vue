@@ -10,12 +10,16 @@
             <Button @click = "gotoRegister" label = "Register" />
         </div>
     </div>
+    <pageHeader />
+    <pageNav />
 </div>
 </template>
 <script>
-    import Button from 'primevue/button'
+import pageHeader from '@/custom_comps/pageHeader.vue'
+import pageNav from '@/custom_comps/pageNav.vue'
+import Button from 'primevue/button'
     export default{
-        components:{ Button },
+        components:{ Button, pageHeader, pageNav },
         data(){
             return{
 

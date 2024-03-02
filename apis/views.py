@@ -75,7 +75,13 @@ def login_page(request):
                     login_error = "Account does not exist for entered MoodleID"
                 except collegeStudent.DoesNotExist:
                     login_error = "Invalid MoodleID"
-        return JsonResponse({'login_error' : login_error})
+        return JsonResponse({
+                                'login_error' : login_error, 
+                                'moodleID': request.user.username,
+                                'first_name': request.user.first_name,
+                                'last_name': request.user.last_name,
+                                'email': request.user.email
+                             }, safe = False)
     return JsonResponse({"Error" : 'No data reached django'})
 
 @csrf_exempt

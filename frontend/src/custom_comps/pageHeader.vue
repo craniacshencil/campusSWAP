@@ -29,16 +29,18 @@ export default{
         confirm1(event) {
             this.$confirm.require({
                 target: event.currentTarget,
-                message: 'Are you sure you want to logout?',
+                message: `${this.$store.state.user.first_name}, you want to logout?`,
                 icon: 'pi pi-exclamation-triangle',
                 rejectClass: 'p-button-outlined p-button-sm',
                 acceptClass: 'p-button-sm',
                 rejectLabel: 'No',
                 acceptLabel: 'Yes',
                 accept: () => {
-                    this.$toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', group: 'br', life: 750 });
+                    this.$toast.add({ severity: 'info', summary: 'Confirmed', detail: 'Logging out...', group: 'br', life: 750 });
                     axios.post('http://localhost:8000/apis/logout', {
                     }).then(response => {
+                        this.$store.commit('toggleIsAuthenticated', false)
+                        this.$store.commit('assignUser', null)
                         setTimeout(() => {this.$router.push('login')}, 800)
                     }).catch(error => {
                         console.log(error);
@@ -46,8 +48,9 @@ export default{
                 },
             });
         }
-    }
+    },
 }
+
 </script>
 
 <style scoped>
