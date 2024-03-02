@@ -146,12 +146,17 @@ small{
 
 .login-redirect:hover{
     background-color: white;
-    transition: background-color 300ms;
     color: black;
     padding-bottom: 0.2rem;
     font-size: 1.1rem;
     font-weight: 700;
     border-radius: 0.4rem; 
+}
+
+.login-redirect:active{
+    color: white;
+    background-color: #09090b;
+    border: 0.1rem solid white;
 }
 
 </style>

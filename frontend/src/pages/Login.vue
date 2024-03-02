@@ -2,14 +2,18 @@
     <div class="void">
         <h1>Login</h1>
         <div class = "login-form">
-            <InputGroup>
-                <InputGroupAddon>
-                    <i class = "pi pi-user"></i> 
-                </InputGroupAddon>
-                <InputText v-model="moodleID" placeholder = MoodleID autofocus />
-            </InputGroup>
+            <div class="form-field">
+                <InputGroup>
+                    <InputText v-model="moodleID" placeholder = MoodleID autofocus />
+                    <InputGroupAddon>
+                        <i class = "pi pi-user"></i> 
+                    </InputGroupAddon>
+                </InputGroup>
+            </div>
 
-            <Password v-model = passText placeholder = "Password" :feedback = false toggleMask inputStyle = "width: 310px" />
+            <div class="form-field">
+                <Password v-model = passText placeholder = "Password" :feedback = false toggleMask inputStyle = "width: 30vw" />
+            </div>
 
             <div class = all-btns>
                 <Button class = submit-btn label = Submit @click = "submitForm" />
@@ -46,7 +50,7 @@ export default{
         },
 
         submitForm(){
-            axios.post('ENTER_DJANGO_SERVER_ADDRESS_HERE', {
+            axios.post('http://localhost:8000/apis/login', {
                 moodleID: this.moodleID,
                 passText: this.passText,
             }).then(response => {

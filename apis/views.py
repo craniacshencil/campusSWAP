@@ -55,3 +55,12 @@ def register(request):
         return JsonResponse(register_error_message_json, safe = False)
     else:
         return JsonResponse({'error': 'post-request did not reach django'})
+
+
+@csrf_exempt
+def login(request):
+    if request.method == "POST":
+        login_data = json.loads(request.body)
+        print(login_data)
+        return JsonResponse({'Success' : "data reached django"})
+    return JsonResponse({"Error" : 'No data reached django'})
