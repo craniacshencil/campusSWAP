@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -58,9 +59,23 @@ def register(request):
 
 
 @csrf_exempt
-def login(request):
+def login_page(request):
     if request.method == "POST":
         login_data = json.loads(request.body)
-        print(login_data)
+        user = authenticate(request, username = login_data['moodleID'], password = login_data['passText'])
+        if user is not None:
+            login(request, user)
+            login_error = "No Error"
+        else:
+            try:
+                is_existing_account = User.objects.get(username = login_data['moodleID'])
+                login_error = "Incorrect password"
+            except User.DoesNotExist:
+                try:
+                    is_valid_moodleID = collegeStudent.objects.get(moodleID = login_data['moodleID'])
+                    login_error = "Account does not exist for entered MoodleID"
+                except collegeStudent.DoesNotExist:
+                    login_error = "Invalid MoodleID"
+        print(login_error)
         return JsonResponse({'Success' : "data reached django"})
     return JsonResponse({"Error" : 'No data reached django'})
