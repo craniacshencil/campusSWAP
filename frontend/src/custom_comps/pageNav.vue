@@ -2,7 +2,7 @@
     <div class="wrapper">
         <pageSidebar />
         <div class="options-wrapper">
-            <router-link to = "/home" class = "nav-part home">HOME</router-link>
+            <router-link to = "/" class = "nav-part home">HOME</router-link>
             <router-link to = "/buy" class = "nav-part buy">BUY</router-link>
             <router-link to = "/sell" class = "nav-part sell">SELL</router-link>
             <router-link to = "/wishlist" class = "nav-part wishlist">WISHLIST</router-link>

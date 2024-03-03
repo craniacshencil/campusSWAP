@@ -5,11 +5,17 @@ import { userStore } from './modules/userModule'
 
 const userState = createPersistedState({
     storage: window.sessionStorage,
-    paths: ['userStore.isAuthenticated', 'userStore.user']
+    key: "user",
+    paths: ["userStore.user"]
+})
+const authState = createPersistedState({
+    storage: window.sessionStorage,
+    key: "isAuthenticated",
+    paths: ["userStore.isAuthenticated"]
 })
 export default createStore({
   modules: {
     userStore,
   },
-  plugins: [ userState ]
+  plugins: [ userState, authState]
 })

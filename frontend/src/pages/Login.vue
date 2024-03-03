@@ -1,5 +1,6 @@
 <template>
     <div class="void">
+        <Toast />
         <h1>Login</h1>
         <form class = "login-form">
             <div class="form-field">
@@ -44,9 +45,10 @@ import passField from '../custom_comps/passField.vue'
 import Password from 'primevue/password'
 import Message from 'primevue/message'
 import ProgressBar from 'primevue/progressbar'
+import Toast from 'primevue/toast'
 export default{
     name: "Login",
-    components: { InputGroup, InputGroupAddon, Button, InputText, passField, Password, Message, ProgressBar },
+    components: { Toast, InputGroup, InputGroupAddon, Button, InputText, passField, Password, Message, ProgressBar },
     data(){
         return {
             passText: "",
@@ -78,7 +80,7 @@ export default{
                         'last_name': response.data.last_name
                     }
                     this.$store.commit('assignUser', user)
-                    this.$store.commit('toggleIsAuthenticated')
+                    this.$store.commit('toggleIsAuthenticated', true)
                     setTimeout(() => {this.$router.push('/')}, 750)
                 }
             }).catch(error => {
@@ -86,7 +88,15 @@ export default{
             });
 
         },
-    }
+    },
+    // mounted(){
+    //     console.log(sessionStorage.getItem('loginWarningState'))
+    //     console.log(typeof sessionStorage.getItem('loginWarningState'))
+    //     if(sessionStorage.getItem('loginWarningState') === "true"){
+    //         this.$toast.add({ severity: 'error', summary: "Login Required", detail: `page requires you to login`, life: 3000})
+    //         sessionStorage.setItem("loginWarningState", true)
+    //     }
+    // }
 }
 </script>
 

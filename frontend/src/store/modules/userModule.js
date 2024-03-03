@@ -6,8 +6,8 @@ export const userStore = {
         }
     },
     mutations: {
-        toggleIsAuthenticated(state){
-            state.isAuthenticated = !state.isAuthenticated 
+        toggleIsAuthenticated(state, newAuthVal){
+            state.isAuthenticated = newAuthVal 
         },
         
         assignUser(state, newUser){

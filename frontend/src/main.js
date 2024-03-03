@@ -21,21 +21,40 @@ import Buy from "./pages/Buy.vue"
 import Wishlist from "./pages/Wishlist.vue"
 import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
+import { userStore } from './store/modules/userModule'
 
 const routes = [
-    { path: '/', component: Home, name: "Home" },
+    { path: '/', component: Home, name: "Home"},
     { path: '/login', component: Login, name: "Login"},
     { path: '/register', component: Register, name: "Register"},
-    { path: '/buy', component: Buy, name: "Buy" },
-    { path: '/wishlist', component: Wishlist, name: "Wishlist" },
-    { path: '/sell', component: Sell, name: "Sell" },
-    { path: '/settings', component: Settings, name: "Settings" },
+    { path: '/buy', component: Buy, name: "Buy", meta: {
+        authenticationRequired: true
+    }},
+    { path: '/wishlist', component: Wishlist, name: "Wishlist", meta: {
+        authenticationRequired: true
+    } },
+    { path: '/sell', component: Sell, name: "Sell", meta: {
+        authenticationRequired: true
+    }},
+    { path: '/settings', component: Settings, name: "Settings", meta: {
+        authenticationRequired: true
+    }},
 
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+router.beforeEach(async (to, from) => {
+    if(to.meta.authenticationRequired){
+        const isAuthenticatedString= sessionStorage.getItem('isAuthenticated')
+        const isAuthenticatedJson = JSON.parse(isAuthenticatedString)
+        if(!(isAuthenticatedJson.userStore.isAuthenticated)){
+            return { name: "Login" }
+        }
+    }
 })
 
 const app = createApp(App)
