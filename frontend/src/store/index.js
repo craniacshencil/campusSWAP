@@ -13,9 +13,9 @@ const authState = createPersistedState({
     key: "isAuthenticated",
     paths: ["userStore.isAuthenticated"]
 })
-export default createStore({
+export const store = createStore({
   modules: {
     userStore,
   },
-  plugins: [ userState, authState]
+  plugins: [ userState, authState ]
 })

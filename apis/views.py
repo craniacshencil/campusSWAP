@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
-from .models import collegeStudent
+from .models import collegeStudent, studentMetaInfo
 # Create your views here.
 @csrf_exempt
 def register(request):
@@ -42,6 +42,8 @@ def register(request):
         if is_valid_moodleID and (not is_existing_account) and (data['email'] == is_valid_moodleID) and (data['password'] == data['confirmPassword']) and (data['passwordStrength'] == 'strong'):
             user = User.objects.create_user(username = data['moodleID'], email = data['email'], password = data['password'], first_name = data['firstName'], last_name = data['lastName'])
             user.save()
+            studentMetaInfo.objects.create(moodleID = user, phonenumber = data['phonenumber'])
+
         else:
             if data['email'] != is_valid_moodleID:
                 register_error_message = "Entered email for the MoodleID is incorrect"
@@ -75,12 +77,13 @@ def login_page(request):
                     login_error = "Account does not exist for entered MoodleID"
                 except collegeStudent.DoesNotExist:
                     login_error = "Invalid MoodleID"
+        print(login_error)
         return JsonResponse({
                                 'login_error' : login_error, 
                                 'moodleID': request.user.username,
                                 'first_name': request.user.first_name,
                                 'last_name': request.user.last_name,
-                                'email': request.user.email
+                                'email': request.user.email,
                              }, safe = False)
     return JsonResponse({"Error" : 'No data reached django'})
 

@@ -1,7 +1,7 @@
 <template>
     <div class = "void">
         <h1>Register</h1>
-        <form class="register-form" @submit.prevent = "submitForm">
+        <form class="register-form">
             <div class = "form-field">
                 <InputGroup>
                     <InputGroupAddon>
@@ -31,6 +31,15 @@
             </div>
             
             <div class="form-field">
+                <InputGroup>
+                    <InputGroupAddon>
+                        <i class = "pi pi-phone"></i>
+                    </InputGroupAddon>
+                    <InputText v-model = "phonenumber" type = "number" id = "phonenumber" placeholder = "phonenumber" required/>
+                </InputGroup>
+            </div>
+            
+            <div class="form-field">
                 <Password ref = "passfield" v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask required />
                 <small v-if = "errorMessage == passwordWeak">{{ passwordWeak }}</small>
                 <small v-if = "errorMessage == passwordWeak"></small>
@@ -43,9 +52,9 @@
                 <small v-if = "errorMessage == passwordMismatch">{{  passwordMismatch }}</small>
             </div>
 
-            <!-- <passField label = "Password" placeholder = "Password" @valChanged = "password" /> -->
-            <!-- <passField label = "Confirm Password" placeholder = "Confirm Password" @valChanged = "confirmPassword" /> -->
-            <Button @click = "submitForm" label = "Submit" type = "submit" />
+            <Button label = "Submit" @click = "submitForm" />
+        <!-- Adding type = submit breaks all the django form validation -->
+        <!-- But when type = submit is not present then all the fields are note required -->
         </form>
         <div class = "successful-registration" v-if = "errorMessage == noError">
             <Message severity = "success">Registration successful</Message>
@@ -71,6 +80,7 @@ export default{
             password: "",
             confirmPassword: "", 
             moodleID : "",
+            phonenumber: "",
             firstName : "",
             lastName: "",
             email: "",
@@ -94,17 +104,23 @@ export default{
                 lastName: this.lastName,
                 password: this.password,
                 confirmPassword: this.confirmPassword,
-                passwordStrength: this.$refs.passfield.meter.strength
-            };
+                passwordStrength: this.$refs.passfield.meter.strength,
+                phonenumber: this.phonenumber,
+            }
 
             axios.post('http://127.0.0.1:8000/apis/register', formData)
             .then(response => {
                 this.errorMessage = response.data.register_error
+                console.log(this.errorMessage)
             }).catch(error => {
                 console.log("error when registering: ", error);
             });
 
         },
+    },
+
+    mounted(){
+        console.log("mounted")
     }
 }
 </script>

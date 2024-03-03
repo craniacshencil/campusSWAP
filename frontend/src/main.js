@@ -3,7 +3,7 @@ import './assets/style.css'
 import { createApp } from 'vue'
 import PrimeVue from 'primevue/config'
 import App from './App.vue'
-import store from './store'
+import { store } from './store/index'
 import { createRouter, createWebHistory } from 'vue-router'
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
@@ -11,7 +11,6 @@ import 'primevue/resources/primevue.min.css';
 import 'primeflex/primeflex.css'
 import 'primevue/resources/themes/aura-dark-cyan/theme.css'
 import 'primeicons/primeicons.css'
-import axios from 'axios'
 
 //router code
 import Home from "./pages/Home.vue"
@@ -21,7 +20,6 @@ import Buy from "./pages/Buy.vue"
 import Wishlist from "./pages/Wishlist.vue"
 import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
-import { userStore } from './store/modules/userModule'
 
 const routes = [
     { path: '/', component: Home, name: "Home"},
@@ -50,8 +48,12 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
     if(to.meta.authenticationRequired){
         const isAuthenticatedString= sessionStorage.getItem('isAuthenticated')
+        if(isAuthenticatedString === null){ //this state is reflected when no successful login exists in the session
+            return {name: "Login"}          //and you try to open a login-restricted page because store and persisted-state is not setup
+        }
         const isAuthenticatedJson = JSON.parse(isAuthenticatedString)
-        if(!(isAuthenticatedJson.userStore.isAuthenticated)){
+        console.log(isAuthenticatedJson.userStore.isAuthenticated)
+        if(!(isAuthenticatedJson.userStore.isAuthenticated)){ //this state is reflected after one successful login in the session
             return { name: "Login" }
         }
     }

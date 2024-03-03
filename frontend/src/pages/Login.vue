@@ -2,7 +2,7 @@
     <div class="void">
         <Toast />
         <h1>Login</h1>
-        <form class = "login-form" @submit.prevent = "submitForm">
+        <form class = "login-form" >
             <div class="form-field">
                 <InputGroup>
                     <InputText type = "number" v-model="moodleID" placeholder = MoodleID autofocus />
@@ -20,7 +20,7 @@
             </div>
 
             <div class = all-btns>
-                <Button class = submit-btn label = Submit type = "submit" />
+                <Button class = submit-button label = Submit @click = "submitForm" />
                 <div class = links>
                     <Button class = forgot-pass-btn label = "Forgot Password" link />
                     <Button class = sign-up-btn label = "Sign up" @click = toRegister link />
@@ -122,7 +122,7 @@ export default{
     gap: 1rem;
 }
 
-.submit-btn{
+.submit-button{
     margin-bottom: 0.5 rem;
     width: 100%;
 }

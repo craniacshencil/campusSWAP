@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class collegeStudent(models.Model):
@@ -8,3 +9,7 @@ class collegeStudent(models.Model):
     email = models.EmailField(max_length = 255)
     class Meta:
         db_table = "college_students" 
+
+class studentMetaInfo(models.Model):
+    moodleID = models.ForeignKey(User, on_delete = models.CASCADE)
+    phonenumber = models.IntegerField()
