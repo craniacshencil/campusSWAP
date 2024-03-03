@@ -1,16 +1,17 @@
 <template>
     <div class="wrapper">
-        <pageSidebar />
+        <div v-if = "this.$route.name === 'Buy'" class="filter-block card flex justify-content-center align-items-center">
+            <Filters />
+            <Dropdown v-model="selectedVal" :options="cities" optionLabel="name" placeholder="Sort by" class="w-full md:w-14rem" showClear />
+        </div>
+
         <div class="options-wrapper">
             <router-link to = "/" class = "nav-part home">HOME</router-link>
             <router-link to = "/buy" class = "nav-part buy">BUY</router-link>
             <router-link to = "/sell" class = "nav-part sell">SELL</router-link>
             <router-link to = "/wishlist" class = "nav-part wishlist">WISHLIST</router-link>
         </div>
-        <div class="filter-block card flex justify-content-center align-items-center">
-            <Dropdown v-model="selectedVal" :options="cities" optionLabel="name" placeholder="Sort by" class="w-full md:w-14rem" showClear />
-            <Filters />
-        </div>
+        <div v-if = "this.$route.name === 'Buy'" style = "min-width: 18vw"></div>
     </div>
 </template>
 
@@ -43,11 +44,19 @@ export default{
     display: flex;
     justify-content: space-between;
 }
+
+.filter-block{
+    display: flex;
+    gap: 1rem;
+}
 .options-wrapper{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 1rem;
     gap: 0.8rem;
+    margin-right: auto;
+    margin-left: auto;
 }
 .nav-part{
     display: inline-block;
@@ -73,10 +82,6 @@ export default{
     border-bottom: none;
 }
 
-.filter-block{
-    display: flex;
-    gap: 1rem;
-}
 
 #filters{
     padding-left: 10px;
