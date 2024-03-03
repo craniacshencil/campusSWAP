@@ -79,8 +79,6 @@ export default{
                     }
                     this.$store.commit('assignUser', user)
                     this.$store.commit('toggleIsAuthenticated')
-                    console.log(this.$store.state.isAuthenticated)
-                    console.log(this.$store.state.user)
                     setTimeout(() => {this.$router.push('/')}, 750)
                 }
             }).catch(error => {

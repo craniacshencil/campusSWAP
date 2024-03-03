@@ -29,7 +29,7 @@ export default{
         confirm1(event) {
             this.$confirm.require({
                 target: event.currentTarget,
-                message: `${this.$store.state.user.first_name}, you want to logout?`,
+                message: `${this.$store.state.userStore.user.first_name}, you want to logout?`,
                 icon: 'pi pi-exclamation-triangle',
                 rejectClass: 'p-button-outlined p-button-sm',
                 acceptClass: 'p-button-sm',
