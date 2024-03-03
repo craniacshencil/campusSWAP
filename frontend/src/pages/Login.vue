@@ -2,7 +2,7 @@
     <div class="void">
         <Toast />
         <h1>Login</h1>
-        <form class = "login-form">
+        <form class = "login-form" @submit.prevent = "submitForm">
             <div class="form-field">
                 <InputGroup>
                     <InputText type = "number" v-model="moodleID" placeholder = MoodleID autofocus />
@@ -20,7 +20,7 @@
             </div>
 
             <div class = all-btns>
-                <Button class = submit-btn label = Submit @click = "submitForm" />
+                <Button class = submit-btn label = Submit type = "submit" />
                 <div class = links>
                     <Button class = forgot-pass-btn label = "Forgot Password" link />
                     <Button class = sign-up-btn label = "Sign up" @click = toRegister link />

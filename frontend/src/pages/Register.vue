@@ -1,7 +1,7 @@
 <template>
     <div class = "void">
         <h1>Register</h1>
-        <form class="register-form">
+        <form class="register-form" @submit.prevent = "submitForm">
             <div class = "form-field">
                 <InputGroup>
                     <InputGroupAddon>
@@ -45,7 +45,7 @@
 
             <!-- <passField label = "Password" placeholder = "Password" @valChanged = "password" /> -->
             <!-- <passField label = "Confirm Password" placeholder = "Confirm Password" @valChanged = "confirmPassword" /> -->
-            <Button @click = "submitForm" label = "Submit" />
+            <Button @click = "submitForm" label = "Submit" type = "submit" />
         </form>
         <div class = "successful-registration" v-if = "errorMessage == noError">
             <Message severity = "success">Registration successful</Message>

@@ -3,19 +3,19 @@
         <pageHeader />
         <pageNav />
         <h1>Sell your items, help a student</h1>
-        <form>
+        <form @submit.prevent = "submitForm">
             <FloatLabel>
-                <InputText id="Title of listing" v-model="title" class = "form-field" />
+                <InputText id="Title of listing" v-model="title" class = "form-field" required/>
                 <label for="Title of listing">Title of listing</label>
             </FloatLabel>
 
             <FloatLabel>
-                <InputText id="Category" v-model="category" class = "form-field" />
+                <InputText id="Category" v-model="category" class = "form-field" required/>
                 <label for="Category">Category</label>
             </FloatLabel>
 
             <FloatLabel>
-                <InputText id="Price" v-model="price" class = "form-field" />
+                <InputText id="Price" v-model="price" class = "form-field" required/>
                 <label for="Price">Price</label>
             </FloatLabel>
 
@@ -39,12 +39,12 @@
 
             <FloatLabel>
                 <MultiSelect id="Condition" v-model="selectedCondition" display = "chip" 
-                :options = "condition" class = "form-field" />
+                :options = "condition" class = "form-field" required/>
                 <label for="Condition">Condition of Item</label>
             </FloatLabel>
 
             <FloatLabel>
-                <Textarea class = "desc" v-model="productDesc" />
+                <Textarea class = "desc" v-model="productDesc" required/>
                 <label for="Product Description">Product Description</label>
             </FloatLabel>
             <div class = "image-uploader">
@@ -57,7 +57,7 @@
                     </template>
                 </FileUpload>
             </div>
-            <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" />
+            <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" type = "submit" />
         </form>
     </div>
 </template>
@@ -72,6 +72,7 @@ import Message from 'primevue/message';
 import FileUpload from 'primevue/fileupload';
 import Toast from 'primevue/toast';
 import Button from 'primevue/button'
+import axios from 'axios';
 
 export default{
     data(){
@@ -95,6 +96,10 @@ export default{
     methods:{
         onAdvancedUpload() {
             this.$toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+        },
+
+        submitForm(){
+            axios.post("http://")
         }
     }
 }
