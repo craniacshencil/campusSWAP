@@ -1,4 +1,5 @@
 <template>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     <header>
         <Toast position = "bottom-right" group = "br"/>
         <ConfirmPopup></ConfirmPopup>
@@ -7,9 +8,14 @@
             <InputText placeholder = "Search" />
             <Button icon = "pi pi-search" />
         </InputGroup>
-        <div class="user-icons flex flex-row gap-4">
+        <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
             <Avatar class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" shape = "circle" size = "large" />
             <Avatar icon = "pi pi-user" shape = "circle" size = "large" />
+        </div>
+
+        <div v-else class = "flex flex-row gap-2">
+            <Button class = "nav-btn" @click = "this.$router.push({name: 'Register'})">Register</Button>
+            <Button class = "nav-btn" @click = "this.$router.push({ name: 'Login'})">Login</Button>
         </div>
     </header>
 </template>
@@ -63,7 +69,13 @@ header{
     gap: 5rem;
 }
 h1{
-    margin-top: 15px;
+    font-family: 'Cormorant Garamond';
+    font-size: 3rem;
+    margin: 1rem 0;
+    /* margin-top: 15px; */
+}
+.nav-btn{
+    font-weight: 600;
 }
 
 .logout-button:hover{
