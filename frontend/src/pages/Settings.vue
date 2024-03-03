@@ -1,11 +1,6 @@
 <template>
-    <header>
-        <h1>CampusSwap</h1>
-        <div class="user-icons flex flex-row gap-4">
-            <Avatar icon = "pi pi-shopping-cart" size = "large" />
-            <Avatar icon = "pi pi-user" shape = "circle" size = "large" />
-        </div>
-    </header>
+    <pageHeader />
+    <pageNav />
     <div style="margin-left: 300px;">
         <h2>Reset Password</h2>
         <FloatLabel style="margin-top: 30px;">
@@ -30,10 +25,12 @@ import Button from 'primevue/button';
 import Avatar from 'primevue/avatar';
 import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
+import pageHeader from '@/custom_comps/pageHeader.vue';
+import pageNav from '@/custom_comps/pageNav.vue';
 
 
 export default{
-    components: { Avatar, Button, Password, FloatLabel }
+    components: { pageHeader, pageNav, Avatar, Button, Password, FloatLabel }
 }
 </script>
 

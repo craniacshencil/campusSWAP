@@ -10,7 +10,7 @@
         </InputGroup>
         <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
             <Avatar class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" shape = "circle" size = "large" />
-            <Avatar icon = "pi pi-user" shape = "circle" size = "large" />
+            <Avatar class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" shape = "circle" size = "large" />
         </div>
 
         <div v-else class = "flex flex-row gap-2">
@@ -82,8 +82,15 @@ h1{
     background-color: rgb(3, 224, 224);
     cursor: pointer;
 }
+.settings-button:hover{
+    background-color: rgb(3, 224, 224);
+    cursor: pointer;
+}
 
 .logout-button:active{
+    background-color: #444;
+}
+.settings-button:active{
     background-color: #444;
 }
 </style>
