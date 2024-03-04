@@ -47,13 +47,14 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     if(to.meta.authenticationRequired){
+        console.log(sessionStorage.getItem("user"))
+        console.log(sessionStorage.getItem("isAuthenticated"))
         const isAuthenticatedString= sessionStorage.getItem('isAuthenticated')
         if(isAuthenticatedString === null){ //this state is reflected when no successful login exists in the session
             return {name: "Login"}          //and you try to open a login-restricted page because store and persisted-state is not setup
         }
         const isAuthenticatedJson = JSON.parse(isAuthenticatedString)
-        console.log(isAuthenticatedJson.userStore.isAuthenticated)
-        if(!(isAuthenticatedJson.userStore.isAuthenticated)){ //this state is reflected after one successful login in the session
+        if(!(isAuthenticatedJson.authState)){ //this state is reflected after one successful login in the session
             return { name: "Login" }
         }
     }
