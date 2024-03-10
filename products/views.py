@@ -2,7 +2,9 @@ from django.http import JsonResponse
 import os
 import requests
 from django.views.decorators.csrf import csrf_exempt
+from .models import Prouduct_listing 
 import base64
+import json
 
 # Create your views here.
 @csrf_exempt
@@ -32,6 +34,18 @@ def generate_image_url(request):
 @csrf_exempt
 def sell_form(request):
     if request.method == "POST":
-        print(request.body)
+        sell_form_data = json.loads(request.body)
+        Prouduct_listing.objects.create(
+            moodleID = int(sell_form_data['moodleID']),
+            title = sell_form_data['title'],
+            category = sell_form_data['category'],
+            price = int(sell_form_data['price']),
+            selected_year = sell_form_data['selectedYear'],
+            selected_branch = sell_form_data['selectedBranch'],
+            selected_item_type = sell_form_data['selectedItemType'],
+            selected_condition = sell_form_data['selectedCondition'],
+            product_description = sell_form_data['productDesc'],
+            image_urls = sell_form_data['image_urls'],
+        )
         return JsonResponse({'message' : "Succesfully received"})
     return JsonResponse({'error' : 'No post request received'})

@@ -77,7 +77,6 @@ def login_page(request):
                     login_error = "Account does not exist for entered MoodleID"
                 except collegeStudent.DoesNotExist:
                     login_error = "Invalid MoodleID"
-        print(login_error)
         return JsonResponse({
                                 'login_error' : login_error, 
                                 'moodleID': request.user.username,

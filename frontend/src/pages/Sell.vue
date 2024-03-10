@@ -140,7 +140,9 @@ export default{
         },
 
         submitForm(){
+            const sessionInfo = JSON.parse(sessionStorage.user)
             const sellFormData = {
+                moodleID: sessionInfo.user.moodleID,
                 title: this.title,
                 category: this.category,
                 price: this.price,
