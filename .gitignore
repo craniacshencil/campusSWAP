@@ -5,3 +5,6 @@ campusSwap/__pycache__
 etc
 frontend/.vscode
 campusSwap/__pycache__
+.env
+products/__pycache__
+products/migrations

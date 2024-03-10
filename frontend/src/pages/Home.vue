@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="main-body">
-        <h2 style="color: rgb(255, 255, 255); padding: 0  0 10px 10px;" >Recomended for you</h2>
+        <h2 style="font-size: 2rem; color: rgb(255, 255, 255); padding: 0  0 10px 10px;" >Recomended for you</h2>
         <div class="listings-section">
           <div class="listing">
             <img src="@/assets/books.jpeg" alt="Item 1">
@@ -69,11 +69,10 @@
 <script>
     import InputGroup from 'primevue/inputgroup';
     import InputText from 'primevue/inputtext';
-    import Button from 'primevue/button'
     import pageNav from '@/custom_comps/pageNav.vue';
     import pageHeader from '@/custom_comps/pageHeader.vue';
     export default{
-        components:{ pageNav, pageHeader, Button, InputText, InputGroup },
+        components:{ pageNav, pageHeader, InputText, InputGroup },
         data(){
             return{
 
@@ -93,133 +92,11 @@
 </script>
 
 <style scoped>
-    .back-overlay{
-        background-color: #090909;
-        border-radius: 10px;
-        width: 100%;
-        height: 100%;
-    }
-
-    .top-row{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0 20px;
-        border-bottom: 1px solid white;
-    }
-    h1.branding{
-        display: inline-block; 
-        color: white;
-        font-size: 78px;
-        font-family: "Cormorant Garamond";
-        padding: 0;
-        margin: 0px 60px 0px 0px;
-    }
-
-    .nav-part{
-    letter-spacing: 0.2rem;
-    margin-bottom: 0.1rem;
-    background-color: #000000;
-}
-.nav-part:hover{
-    margin-bottom: 0;
-    border-bottom: 0.1rem solid white;
-}
-
-    Button{
-        margin: 3px;
-    }
-    .logo img {
-    max-width: 100px; 
-    height: auto;
-    margin-right: 60px;
-    margin-left: 20px;
-}
-
-
-.search-bar {
-    flex: 3; 
-    display: flex;
-    align-items: center;
-    padding: 0 40px 0;
-    
-    
-}
-
-.search-bar input[type="text"] {
-    width: 100%; 
-    padding: 8px;
-    border: 2px solid black;
-    border-radius: 25px; 
-    background-color: #ffffff; 
-    /* outline: none; */
-}
-
-.search-bar button {
-    background-color: #2980af; 
-    border: none;
-    padding: 5px;
-    border-radius: 25px; 
-    cursor: pointer;   
-}
-
-.search-bar button svg {
-    width: 20px; 
-    height: 20px;
-    fill: #ffffff; 
-}
-
-.user-actions {
-    flex: 1; 
-    display: flex;
-    align-items: center;
-}
-
-.user-actions a {
-    margin-left: 50px; 
-}
-
-
-.search-container {
-    position: relative;
-}
-  
-.search-container input[type="text"] {
-    width: 200px; 
-    padding-right: 40px; 
-}
-  
-.search-container button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px; 
+.back-overlay{
+    background-color: #090909;
+    border-radius: 10px;
+    width: 100%;
     height: 100%;
-}
-  
-
-.options-container {
-    background-color: rgba(255, 255, 255, 0.735); 
-    text-align: center;
-}
-  
-.options {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 100px;
-}
-  
-.option {
-    padding: 10px 20px;
-    cursor: pointer;
-    transition:  0.3s ease;
-    background-color: #22d3ee;
-    border-radius: 20px;
-}
-  
-.option:hover {
-    background-color: rgb(181, 180, 180);
-    color: white;
 }
   
 .category-section {
@@ -235,7 +112,7 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin: 20px 0;
 }
   
 .category {
@@ -265,7 +142,7 @@
     margin-bottom: 0;
     text-transform: capitalize;
     font-weight: 700;
-    letter-spacing: 0.3rem;
+    letter-spacing: 0.2rem;
 }
 
 .category img{
@@ -307,7 +184,7 @@
 .listing {
     display: flex;
     flex-direction: column;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     height: 370px;
     border-radius: 5px;
     overflow: hidden; 
@@ -325,24 +202,26 @@
 }
   
 .listing h3 {
-    margin: 2px 0;
-    padding: 5px;
+    margin: 0;
+    padding: 0;
+    margin-top: 0.5rem;
+    padding-left: 0.3rem;
 }
   
 .listing p.description {
     flex-grow: 1;
-    margin-bottom: 10px;
-    padding: 5px;
-
-    
+    margin: 0;
+    padding: 0;
+    margin-top: 0.5rem;
+    padding-left: 0.3rem;
 }
   
 .listing button {
     margin-top: auto;
-
     padding: 10px 0px;
     background-color: #2980af;
     color: white;
+    font-weight: 700;
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -355,8 +234,7 @@
   
 
 .listing:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2rem);
+    box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.5);
 }
-  
 </style>

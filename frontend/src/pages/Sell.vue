@@ -50,14 +50,15 @@
             <div class = "image-uploader">
                 <label for = "uploader" class = "uploader-label">Upload Images</label>
                 <Toast />
-                <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" 
-                :multiple="true" accept="image/*" :maxFileSize="10e7">
+            
+                <FileUpload name="image" url = "http://localhost:8000/products/image_url_gen" @upload="onAdvancedUpload($event)" 
+                :auto= "true" filelimit = 15 accept="image/*" :maxFileSize="32e7">
                     <template #empty>
                         <p>Drag and drop files to here to upload.</p>
                     </template>
                 </FileUpload>
             </div>
-            <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" type = "submit" />
+            <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" @click = "validateForm" />
         </form>
     </div>
 </template>
@@ -65,6 +66,7 @@
 <script>
 import pageNav from '@/custom_comps/pageNav.vue';
 import pageHeader from '@/custom_comps/pageHeader.vue';
+import Textarea from 'primevue/textarea';
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel'
 import MultiSelect from 'primevue/multiselect';
@@ -83,25 +85,63 @@ export default{
             ],
             condition: ["Brand New", "Used-Good Condition", "Used-Fair Condition"
             , "Needs Repair"],
-            selectedItemType: [],
-            selectedBranch: [],
-            selectedYear: [],
-            selectedCondition: [],
             title: "",
             category: "",
             price: null,
+            selectedYear: [],
+            selectedBranch: [],
+            selectedItemType: [],
+            selectedCondition: [],
+            productDesc: "",
+            image_urls: [],
         }
     },
-    components:{ Button, pageNav, pageHeader, InputText, FloatLabel, MultiSelect, Message, FileUpload, Toast },
+    components:{ Button, pageNav, pageHeader, InputText, FloatLabel, MultiSelect, Message, FileUpload, Toast, Textarea },
     methods:{
-        onAdvancedUpload() {
-            this.$toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+        onAdvancedUpload(event) {
+            this.image_urls.push(JSON.parse(event.xhr.responseText)['image_url'])
+            console.log(this.image_urls)
+            this.$toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 })
+        },
+
+        validateForm(){
+            let validFlag = 1
+            let selectFields = [
+                {'Year' : this.selectedYear},
+                {'Branch': this.selectedBranch},
+                {'Item Condition' : this.selectedCondition},
+                {'Item Type' : this.selectedItemType},
+                {'Images': this.image_urls},
+            ] 
+            let textFields = [
+                {'Title': this.title},
+                {'Category' : this.category},
+                {'Price' : this.price},
+                {'Product Description' : this.productDesc},
+            ]
+            
+
+            for(let field of textFields){
+                if(!(Object.values(field)[0])){
+                    this.$toast.add({ severity: 'error', summary: 'Empty Field', detail: `${Object.keys(field)[0]} field is empty`, life: 3000 })
+                    validFlag = 0 
+                }
+            }
+
+            for(let field of selectFields){
+                console.log(Object.values(field)[0].length)
+                if(Object.values(field)[0].length == 0){
+                    this.$toast.add({ severity: 'error', summary: 'Empty Field', detail: `${Object.keys(field)[0]} field is empty`, life: 3000 })
+                    validFlag = 0 
+                }
+            }
+            console.log(selectFields)
         },
 
         submitForm(){
             axios.post("http://")
         }
-    }
+    },
 }
 </script>
 
@@ -171,7 +211,7 @@ form{
 }
 
 .preview-listing-btn:hover{
-    background-color: rgb(3, 224, 224);
+    background-color: #22d3ee;
     color: #09090b;
     transition: 200ms ease-in;
 }
