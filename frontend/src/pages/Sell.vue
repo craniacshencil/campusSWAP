@@ -15,30 +15,30 @@
             </FloatLabel>
 
             <FloatLabel>
-                <InputText id="Price" v-model="price" class = "form-field" required/>
+                <InputText type = number id="Price" v-model="price" class = "form-field" required/>
                 <label for="Price">Price</label>
             </FloatLabel>
 
             <FloatLabel>
-                <MultiSelect id="year" v-model="selectedYear" display = "chip" :options = "engineeringYears" 
+                <MultiSelect :showToggleAll="false" id="year" v-model="selectedYear" display = "chip" :options = "engineeringYears" 
                 class = "form-field" />
                 <label for="year">Which year students need this item?</label>
             </FloatLabel>
 
             <FloatLabel>
-                <MultiSelect id="Branch" v-model="selectedBranch" display = "chip" :options = "engineeringBranch" 
+                <MultiSelect :showToggleAll="false" id="Branch" v-model="selectedBranch" display = "chip" :options = "engineeringBranch" 
                 class = "form-field" />
                 <label for="Branch">Which branch students would need this item?</label>
             </FloatLabel>
 
             <FloatLabel>
-                <MultiSelect id="ItemType" v-model="selectedItemType" display = "chip" :options = "itemType" 
+                <MultiSelect :showToggleAll="false" id="ItemType" v-model="selectedItemType" display = "chip" :options = "itemType" 
                 class = "form-field" />
                 <label for="ItemType">Item type</label>
             </FloatLabel>
 
             <FloatLabel>
-                <MultiSelect id="Condition" v-model="selectedCondition" display = "chip" 
+                <Dropdown id="Condition" v-model="selectedCondition" display = "chip" 
                 :options = "condition" class = "form-field" required/>
                 <label for="Condition">Condition of Item</label>
             </FloatLabel>
@@ -70,6 +70,7 @@ import Textarea from 'primevue/textarea';
 import InputText from 'primevue/inputtext';
 import FloatLabel from 'primevue/floatlabel'
 import MultiSelect from 'primevue/multiselect';
+import Dropdown from 'primevue/dropdown';
 import Message from 'primevue/message';
 import FileUpload from 'primevue/fileupload';
 import Toast from 'primevue/toast';
@@ -96,11 +97,10 @@ export default{
             image_urls: [],
         }
     },
-    components:{ Button, pageNav, pageHeader, InputText, FloatLabel, MultiSelect, Message, FileUpload, Toast, Textarea },
+    components:{ Dropdown, Button, pageNav, pageHeader, InputText, FloatLabel, MultiSelect, Message, FileUpload, Toast, Textarea },
     methods:{
         onAdvancedUpload(event) {
             this.image_urls.push(JSON.parse(event.xhr.responseText)['image_url'])
-            console.log(this.image_urls)
             this.$toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 })
         },
 
@@ -127,19 +127,33 @@ export default{
                     validFlag = 0 
                 }
             }
+            console.log(validFlag)
 
             for(let field of selectFields){
-                console.log(Object.values(field)[0].length)
                 if(Object.values(field)[0].length == 0){
                     this.$toast.add({ severity: 'error', summary: 'Empty Field', detail: `${Object.keys(field)[0]} field is empty`, life: 3000 })
                     validFlag = 0 
                 }
             }
-            console.log(selectFields)
+            if(validFlag)
+                this.submitForm()
         },
 
         submitForm(){
-            axios.post("http://")
+            const sellFormData = {
+                title: this.title,
+                category: this.category,
+                price: this.price,
+                selectedYear: this.selectedYear,
+                selectedBranch: this.selectedBranch,
+                selectedItemType: this.selectedItemType,
+                selectedCondition: this.selectedCondition,
+                productDesc: this.productDesc,
+                image_urls: this.image_urls,
+            }
+            axios.post("http://localhost:8000/products/sell_form", sellFormData)
+            .then(response => console.log("Form data has been sent"))
+            .catch(error => console.log("Form data could not be sent"))
         }
     },
 }

@@ -28,3 +28,10 @@ def generate_image_url(request):
             print("response 200 not received")
             return JsonResponse({'error': 'Failed to upload image to ImgBB'}, status=500)
     return JsonResponse({'error': 'just an error'})
+
+@csrf_exempt
+def sell_form(request):
+    if request.method == "POST":
+        print(request.body)
+        return JsonResponse({'message' : "Succesfully received"})
+    return JsonResponse({'error' : 'No post request received'})
