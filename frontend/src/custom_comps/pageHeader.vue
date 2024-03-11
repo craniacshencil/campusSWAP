@@ -9,13 +9,14 @@
             <Button icon = "pi pi-search" />
         </InputGroup>
         <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
-            <Avatar class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" shape = "circle" size = "large" />
-            <Avatar class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" shape = "circle" size = "large" />
+            <Button text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
+            <Button text raised outlined class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" />
         </div>
 
         <div v-else class = "flex flex-row gap-2">
-            <Button class = "nav-btn" @click = "this.$router.push({name: 'Register'})">Register</Button>
-            <Button class = "nav-btn" @click = "this.$router.push({ name: 'Login'})">Login</Button>
+            <Button class = "register-btn nav-btn" @click = "this.$router.push({name: 'Register'})">Register</Button>
+            <Button v-if = "!this.isLoggedIn" class = "nav-btn" @click = "this.$router.push({ name: 'Login'})">Login</Button>
+            <Button v-else text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
         </div>
     </header>
 </template>
@@ -31,11 +32,17 @@ import axios from 'axios'
 
 export default{
     components: { Toast, ConfirmPopup, Avatar, InputText, Button, InputGroup },
+    data(){
+        return{
+            isLoggedIn: false,
+        }
+    },
     methods: {
         confirm1(event) {
+            const userObject = JSON.parse(sessionStorage.user)
             this.$confirm.require({
                 target: event.currentTarget,
-                message: `${this.$store.state.userStore.user.first_name}, you want to logout?`,
+                message: `${userObject.user.first_name}, you want to logout?`,
                 icon: 'pi pi-exclamation-triangle',
                 rejectClass: 'p-button-outlined p-button-sm',
                 acceptClass: 'p-button-sm',
@@ -55,6 +62,11 @@ export default{
             });
         }
     },
+    mounted(){
+        const loggedInfo = JSON.parse(sessionStorage.isAuthenticated);
+        this.isLoggedIn = loggedInfo.authState;
+        console.log(this.isLoggedIn)
+    }
 }
 </script>
 
@@ -78,19 +90,31 @@ h1{
     font-weight: 600;
 }
 
+.logout-button, 
+.settings-button{
+    font-size: 2rem;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    border: 1px solid #22d3ee;
+    
+}
 .logout-button:hover{
-    background-color: rgb(3, 224, 224);
+    transform: scale(1.3);
+    transition: 500ms;
+    color: black;
+    background-color: #22d3ee;
     cursor: pointer;
 }
 .settings-button:hover{
-    background-color: rgb(3, 224, 224);
+    transform: scale(1.3);
+    transition: 500ms;
+    color: black;
+    background-color: #22d3ee;
     cursor: pointer;
 }
 
-.logout-button:active{
-    background-color: #444;
-}
-.settings-button:active{
-    background-color: #444;
+.register-btn{
+    margin-right: 0.5rem;
 }
 </style>
