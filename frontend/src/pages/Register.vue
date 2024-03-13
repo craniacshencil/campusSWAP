@@ -1,4 +1,5 @@
 <template>
+    <Toast />
     <div class = "void">
         <h1>Register</h1>
         <form class="register-form">
@@ -52,7 +53,7 @@
                 <small v-if = "errorMessage == passwordMismatch">{{  passwordMismatch }}</small>
             </div>
 
-            <Button label = "Submit" @click = "submitForm" />
+            <Button label = "Submit" @click = "validateForm" />
         <!-- Adding type = submit breaks all the django form validation -->
         <!-- But when type = submit is not present then all the fields are note required -->
         </form>
@@ -64,12 +65,12 @@
 </template>
 
 <script>
+import Toast from 'primevue/toast';
 import InputGroup from 'primevue/inputgroup';
 import Message from 'primevue/message';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button'
-import passField from '../custom_comps/passField.vue'
 import Password from 'primevue/password';
 import axios from 'axios'
 
@@ -94,8 +95,29 @@ export default{
             noError: "No Error"
         }
     },
-    components: { Message, InputGroup, InputGroupAddon, InputText, Button, passField, Password },
+    components: { Toast, Message, InputGroup, InputGroupAddon, InputText, Button, Password },
     methods: {
+        validateForm(){
+            let isValidated = true 
+            const fields = [ 
+                {'password' : this.password },
+                {'confirmPassword' : this.confirmPassword},
+                {'phonenumber': this.phonenumber},
+                {'moodleID':this.moodleID},
+                {'firstName' : this.firstName},
+                {'lastName' : this.lastName},
+                {'email' : this.email},
+            ]
+            for(let field of fields){
+                if(!Object.values(field)[0]){
+                    this.$toast.add({ severity: 'error', summary: 'Empty Field', detail: `${Object.keys(field)[0]} field is empty`, life: 3000 })
+                    isValidated = false
+                }
+            }
+
+            if(isValidated)
+                this.submitForm();
+        },
         submitForm(){
             const formData = {
                 moodleID: this.moodleID,
@@ -118,10 +140,6 @@ export default{
 
         },
     },
-
-    mounted(){
-        console.log("mounted")
-    }
 }
 </script>
 
