@@ -100,13 +100,13 @@ export default{
         validateForm(){
             let isValidated = true 
             const fields = [ 
-                {'password' : this.password },
-                {'confirmPassword' : this.confirmPassword},
-                {'phonenumber': this.phonenumber},
                 {'moodleID':this.moodleID},
+                {'email' : this.email},
                 {'firstName' : this.firstName},
                 {'lastName' : this.lastName},
-                {'email' : this.email},
+                {'phonenumber': this.phonenumber},
+                {'password' : this.password },
+                {'confirmPassword' : this.confirmPassword},
             ]
             for(let field of fields){
                 if(!Object.values(field)[0]){

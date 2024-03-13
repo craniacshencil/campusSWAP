@@ -20,7 +20,7 @@
             </div>
 
             <div class = all-btns>
-                <Button class = submit-button label = Submit @click = "submitForm" />
+                <Button class = submit-button label = Submit @click = "validateForm" />
                 <div class = links>
                     <Button class = forgot-pass-btn label = "Forgot Password" link />
                     <Button class = sign-up-btn label = "Sign up" @click = toRegister link />
@@ -64,6 +64,23 @@ export default{
     methods: {
         toRegister(){
             this.$router.push("/register")
+        },
+
+        validateForm(){
+            let isValidated = true 
+            const fields = [ 
+                {'moodleID':this.moodleID },
+                {'password' : this.passText },
+            ]
+            for(let field of fields){
+                if(!Object.values(field)[0]){
+                    this.$toast.add({ severity: 'error', summary: 'Empty Field', detail: `${Object.keys(field)[0]} field is empty`, life: 3000 })
+                    isValidated = false
+                }
+            }
+
+            if(isValidated)
+                this.submitForm();
         },
 
         submitForm(){
