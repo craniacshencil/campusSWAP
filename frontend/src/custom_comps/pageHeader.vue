@@ -96,7 +96,7 @@ h1{
     border-radius: 50%;
     height: 3rem;
     width: 3rem;
-    border: 1px solid #22d3ee;
+    border: 0.1rem solid #22d3ee;
     
 }
 .logout-button:hover{

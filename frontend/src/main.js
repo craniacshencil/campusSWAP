@@ -20,6 +20,7 @@ import Buy from "./pages/Buy.vue"
 import Wishlist from "./pages/Wishlist.vue"
 import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
+import ListingDetails from './pages/ListingDetails.vue'
 
 const routes = [
     { path: '/', component: Home, name: "Home"},
@@ -37,7 +38,9 @@ const routes = [
     { path: '/settings', component: Settings, name: "Settings", meta: {
         authenticationRequired: true
     }},
-
+    { path: '/listingdetails', component: ListingDetails, name: "Listing details", meta: {
+        authenticationRequired: true
+    }},
 ]
 
 const router = createRouter({
@@ -47,8 +50,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     if(to.meta.authenticationRequired){
-        console.log(sessionStorage.getItem("user"))
-        console.log(sessionStorage.getItem("isAuthenticated"))
         const isAuthenticatedString= sessionStorage.getItem('isAuthenticated')
         if(isAuthenticatedString === null){ //this state is reflected when no successful login exists in the session
             return {name: "Login"}          //and you try to open a login-restricted page because store and persisted-state is not setup
@@ -65,6 +66,6 @@ app.use(ToastService);
 app.use(ConfirmationService);
 app.use(router)
 app.use(store)
-app.use(PrimeVue, { ripple: true})
+app.use(PrimeVue, { ripple: true })
 
 app.mount('#app')
