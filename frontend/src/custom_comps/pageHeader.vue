@@ -5,8 +5,8 @@
         <ConfirmPopup></ConfirmPopup>
         <h1>CampusSwap</h1>
         <InputGroup class = "search-bar">
-            <InputText placeholder = "Search" />
-            <Button icon = "pi pi-search" />
+            <InputText ref = "searchField" v-model = "searchTerm" placeholder = "Search" />
+            <Button @click = "hitSearch" icon = "pi pi-search" />
         </InputGroup>
         <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
             <Button text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
@@ -34,7 +34,8 @@ export default{
     components: { Toast, ConfirmPopup, Avatar, InputText, Button, InputGroup },
     data(){
         return{
-            isLoggedIn: false,
+            searchTerm: "",
+            isLoggedIn: false, //will be used later when programming for toasts on redirect to login-restricted pages without login
         }
     },
     methods: {
@@ -60,6 +61,15 @@ export default{
                     });
                 },
             });
+        },
+
+        hitSearch(){
+            if(this.searchTerm !== ""){
+                this.$router.push({name: 'Buy', params: {'searchTerm' : this.searchTerm}}) //when on page other than buy
+                // const searchField = this.$refs.searchField         Attempts to transfer searchTerm to 'Buy' page failing will figure out later, if necessary
+                // searchField.textContent = this.searchTerm
+                this.$emit('getSearchTerm', this.searchTerm) //when on buy page
+            }
         }
     },
 }

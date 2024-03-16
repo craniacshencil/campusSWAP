@@ -68,7 +68,6 @@ export default{
     components: { RadioButton, Checkbox, Panel, MultiSelect, Dropdown, Button, Sidebar },
     data(){
         return{
-        searchBarInput: "placeholder",
         visible: false,
         engineeringYears: ["F.E", "S.E", "T.E", "B.E"],
         engineeringBranch: ["CS", "AIML", "DS", "Civil", "Mech", "EXTC", "IT"],
