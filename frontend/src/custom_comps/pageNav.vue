@@ -2,7 +2,6 @@
     <div class="wrapper">
         <div v-if = "this.$route.name === 'Buy'" class="filter-block card flex justify-content-center align-items-center">
             <Filters />
-            <Dropdown v-model="selectedVal" :options="cities" optionLabel="name" placeholder="Sort by" class="w-full md:w-14rem" showClear />
         </div>
 
         <div class="options-wrapper">
@@ -26,12 +25,7 @@ export default{
     data(){
         return{
             selectedVal: "",
-            cities: [
-                { name: 'Price: Low to High'},
-                { name: 'Price: High to Low'},
-                { name: 'Newly Listed'},
-                { name: 'Seller Rating'},
-            ],
+            options: [ 'Price: Low to High', 'Price: High to Low', 'Newly Listed', 'Seller Rating' ],
         }
     },
 }

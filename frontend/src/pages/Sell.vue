@@ -82,10 +82,8 @@ export default{
         return{
             engineeringYears: ["F.E", "S.E", "T.E", "B.E"],
             engineeringBranch: ["CS", "AIML", "DS", "Civil", "Mech", "EXTC", "IT"],
-            itemType: ["Textbooks", "Stationery", "Tools", "Gadgets", "Electrical Components", 
-            ],
-            condition: ["Brand New", "Used-Good Condition", "Used-Fair Condition"
-            , "Needs Repair"],
+            itemType: ["Textbooks", "Stationery", "Tools", "Gadgets", "Electrical Components" ],
+            condition: ["Brand New", "Used-Good Condition", "Used-Fair Condition", "Needs Repair" ],
             title: "",
             category: "",
             price: null,
