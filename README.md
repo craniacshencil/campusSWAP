@@ -3,7 +3,7 @@ An online marketplace for students to sell their used-goods to fellow students a
 
 ## Prerequisite Downloads
 
-- [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/free/miniconda/index.html) => For setting up python and javascript virtual environment (Nodejs is included in requirements.txt, you can run node inside the conda environment)
+- [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/free/miniconda/index.html) => For setting up python and javascript virtual environment (You can run node inside the conda environment)
 - [PostgreSQL](https://www.postgresql.org/download/) => or any other SQL database (make changes in settings.py)
 
 ## Recommended IDE Setup
@@ -138,6 +138,6 @@ npm run build
 ```
 
 ## NOTE: 
-- #### You need to open the django server on your browser, just keep it running in your terminal. On the browser, it will show "Page not found at /" and a "GET 404 Error" don't worry the server is doing what it is intended to do.
+- #### You need not open the django server on your browser, just keep it running in your terminal. On the browser, it will show "Page not found at /" and a "GET 404 Error" don't worry the server is doing what it is intended to do.
 - #### To see if register is working as intended, you can check the `auth_user` table.
 - #### You don't need to keep the psql shell open for the DB operations to work.
