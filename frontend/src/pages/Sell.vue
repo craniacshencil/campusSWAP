@@ -151,6 +151,7 @@ export default{
                 productDesc: this.productDesc,
                 image_urls: this.image_urls,
             }
+            this.$router.push({ name: "Listing details", params: {'form_data' : sellFormData }})
             axios.post("http://localhost:8000/products/sell_form", sellFormData)
             .then(response => console.log("Form data has been sent"))
             .catch(error => console.log("Form data could not be sent"))

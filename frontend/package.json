@@ -15,6 +15,7 @@
     "primeicons": "^6.0.1",
     "primevue": "^3.49.1",
     "vue": "^3.3.11",
+    "vue-advanced-cropper": "^2.8.8",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
