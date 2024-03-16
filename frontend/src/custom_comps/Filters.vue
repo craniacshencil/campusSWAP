@@ -51,7 +51,7 @@
                 <Button class = "filter-field filter-btn" severity = "secondary" raised label = "Reset Filters" @click = "resetFilters" />
             </div>
         </Sidebar>
-        <Button icon="pi pi-filter" @click="visible = true" />
+        <Button class = "main-btn" label = "FILTERS" @click="visible = true" icon="pi pi-filter" />
     </div>
 </template>
 
@@ -80,24 +80,29 @@ export default{
         selectedItemType: [],
         selectedCondition: "",
         selectedVal: "",
-        filterValues: null, 
         }
     },
     methods: {
         resetFilters(){
-            this.filterValues = null
             this.selectedYear = []
+            this.selectedBranch = []
+            this.selectedItemType = [] 
+            this.selectedCondition = ""
+            this.selectedVal = ""
             console.log(this.selectedYear)
         },
 
         applyFilters(){
-            console.log(this.selectedYear)
+            const filterValues = [
+                { 'year' : this.selectedYear },
+                { 'branch': this.selectedBranch },
+                { 'itemType': this.selectedItemType },
+                { 'condition' : this.selectedCondition },
+                { 'sort': this.selectedVal },
+            ]
+            this.$emit('getFiltersVal', filterValues)
         }
     },
-
-    mounted(){
-        console.log(this.sorts)
-    }
 }
 </script>
 
@@ -152,5 +157,10 @@ label:hover{
 
 .first-btn{
     margin-top: 3rem;
+}
+
+.main-btn{
+    border-radius: 0;
+    font-weight: 700;
 }
 </style>

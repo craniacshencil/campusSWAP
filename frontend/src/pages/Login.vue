@@ -41,14 +41,13 @@ import InputGroupAddon from 'primevue/inputgroupaddon'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import axios from 'axios'
-import passField from '../custom_comps/passField.vue'
 import Password from 'primevue/password'
 import Message from 'primevue/message'
 import ProgressBar from 'primevue/progressbar'
 import Toast from 'primevue/toast'
 export default{
     name: "Login",
-    components: { Toast, InputGroup, InputGroupAddon, Button, InputText, passField, Password, Message, ProgressBar },
+    components: { Toast, InputGroup, InputGroupAddon, Button, InputText, Password, Message, ProgressBar },
     data(){
         return {
             passText: "",
@@ -98,7 +97,6 @@ export default{
                     }
                     this.$store.commit('assignUser', user)
                     this.$store.commit('toggleIsAuthenticated', true)
-                    console.log(this.$store.state.userStore)
                     setTimeout(() => {this.$router.push('/')}, 750)
                 }
             }).catch(error => {

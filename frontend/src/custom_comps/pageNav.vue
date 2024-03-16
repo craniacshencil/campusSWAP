@@ -1,33 +1,17 @@
 <template>
     <div class="wrapper">
-        <div v-if = "this.$route.name === 'Buy'" class="filter-block card flex justify-content-center align-items-center">
-            <Filters />
-        </div>
-
         <div class="options-wrapper">
             <router-link to = "/" class = "nav-part home">HOME</router-link>
             <router-link to = "/buy" class = "nav-part buy">BUY</router-link>
             <router-link to = "/sell" class = "nav-part sell">SELL</router-link>
             <router-link to = "/wishlist" class = "nav-part wishlist">WISHLIST</router-link>
         </div>
-        <div v-if = "this.$route.name === 'Buy'" style = "min-width: 1vw"></div>
     </div>
 </template>
 
 <script>
-import Button from 'primevue/button';
-import Dropdown from 'primevue/dropdown';
-import pageSidebar from './pageSidebar.vue';
-import Filters from './Filters.vue';
 export default{
     name: "pageNav",
-    components: { Filters, Button, Dropdown, pageSidebar },
-    data(){
-        return{
-            selectedVal: "",
-            options: [ 'Price: Low to High', 'Price: High to Low', 'Newly Listed', 'Seller Rating' ],
-        }
-    },
 }
 </script>
 
@@ -39,10 +23,6 @@ export default{
     justify-content: space-between;
 }
 
-.filter-block{
-    display: flex;
-    gap: 1rem;
-}
 .options-wrapper{
     display: flex;
     justify-content: space-between;
@@ -74,11 +54,5 @@ export default{
 
 .router-link-active:hover{
     border-bottom: none;
-}
-
-
-#filters{
-    padding-left: 10px;
-    padding-right: 5px;
 }
 </style>

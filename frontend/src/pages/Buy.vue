@@ -2,7 +2,11 @@
     <div class="void">
         <pageHeader />
         <pageNav />
-        <h2 class="custom-heading">FIND THE GEAR YOU NEED</h2>
+        <div class = "buy-header flex justify-content-between">
+            <Filters class = "filter-btn" @getFiltersVal = "storeFilters" />
+            <h2 class="custom-heading" >FIND THE GEAR YOU NEED</h2>
+            <div style = "width: 9vw;"></div>
+        </div>
         <main class="item-card-container">
             <itemCard />
             <itemCard />
@@ -21,8 +25,21 @@
 import itemCard from '@/custom_comps/itemCard.vue'
 import pageHeader from '@/custom_comps/pageHeader.vue'
 import pageNav from '@/custom_comps/pageNav.vue'
+import Filters from '@/custom_comps/Filters.vue'
 export default {
-    components: { itemCard , pageHeader, pageNav },
+    data(){
+        return{
+            searchTerm: [],
+            filters: [],
+            searchTermAndFilters: [],
+        }
+    },
+    components: { Filters, itemCard , pageHeader, pageNav },
+    methods: {
+        storeFilters(filters){
+            this.filters = filters
+        }
+    }
 }
 </script>
 
@@ -48,8 +65,15 @@ export default {
     padding: 30px;
 }
 
+.buy-header{
+    width: 100%;
+    border-top: 0.5px solid white;
+}
 .custom-heading {
     letter-spacing: 0.2rem;
 }
 
+.filter-btn{
+    margin-left: 1rem;
+}
 </style>
