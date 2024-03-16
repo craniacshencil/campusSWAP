@@ -10,7 +10,7 @@
             <router-link to = "/sell" class = "nav-part sell">SELL</router-link>
             <router-link to = "/wishlist" class = "nav-part wishlist">WISHLIST</router-link>
         </div>
-        <div v-if = "this.$route.name === 'Buy'" style = "min-width: 18vw"></div>
+        <div v-if = "this.$route.name === 'Buy'" style = "min-width: 1vw"></div>
     </div>
 </template>
 
