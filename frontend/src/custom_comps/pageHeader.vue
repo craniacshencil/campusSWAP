@@ -73,8 +73,10 @@ export default{
         }
     },
     mounted(){
-        const loggedInfo = JSON.parse(sessionStorage.isAuthenticated)
-        this.isLoggedIn = loggedInfo.authState;
+        if(sessionStorage.isAuthenticated){
+            const loggedInfo = JSON.parse(sessionStorage.isAuthenticated)
+            this.isLoggedIn = loggedInfo.authState;
+        }
     }
 }
 </script>
