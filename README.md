@@ -141,3 +141,8 @@ npm run build
 - #### You need not open the django server on your browser, just keep it running in your terminal. On the browser, it will show "Page not found at /" and a "GET 404 Error" don't worry the server is doing what it is intended to do.
 - #### To see if register is working as intended, you can check the `auth_user` table.
 - #### You don't need to keep the psql shell open for the DB operations to work.
+- #### If tables for certain apps are not being created:
+  ##### Current apps include: apis, products.
+  ``` sh
+  python manage.py makemigrations <app_name>
+  ```
