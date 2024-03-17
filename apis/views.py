@@ -90,3 +90,11 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return JsonResponse({'message' : "Logout-successful"})
+
+@csrf_exempt
+def reset_password(request):
+    if request.method == "POST":
+        passwords = json.loads(request.body)
+        print(passwords)
+        return JsonResponse({'message' : 'Passwords reached django'})
+    return JsonResponse({'error' : 'big error'})

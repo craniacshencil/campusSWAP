@@ -1,4 +1,5 @@
 <template>
+<Toast />
 <div class="void">
     <pageHeader />
     <pageNav />
@@ -41,6 +42,7 @@
 </template>
 <script>
 import Button from 'primevue/button';
+import Toast from 'primevue/toast';
 import pageNav from '@/custom_comps/pageNav.vue';
 import pageHeader from '@/custom_comps/pageHeader.vue';
 import Galleria from 'primevue/galleria';
@@ -55,7 +57,7 @@ export default{
             ]
         }
     },
-    components: { Skeleton, Button, pageNav, pageHeader, Galleria },
+    components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
     methods: {
         submitForm(){
             axios.post("http://localhost:8000/products/sell_form", this.productInfo)

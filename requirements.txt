@@ -1,6 +1,5 @@
 django==5.0.1
 django-cors-headers==4.3.1
-nodejs == 20.9.0
 psycopg[binary]
 requests == 2.31.0
 python-dotenv == 1.0.1

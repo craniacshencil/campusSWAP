@@ -105,7 +105,8 @@ export default{
 }
 </script>
 
-<style>
+<style> 
+/* when i scope these styles the primevue api theming does not apply  */
 .filters{
     width: 50%;
 }
@@ -122,28 +123,28 @@ export default{
     font-weight: 300;
 }
 
-label{
+.filters label{
     margin-left: 0.5rem;
 }
 
-label:hover{
+.filter label:hover{
     text-decoration: underline;
 }
 
-.p-panel{
+.filters .p-panel{
     border: none;
 }
 
-.p-panel-header{
+.filters .p-panel-header{
     padding: 0.5rem;
     letter-spacing: -.1rem;
 }
 
-.p-panel-title{
+.filters .p-panel-title{
     font-weight: 300;
 }
 
-.p-sidebar-header{
+.filters .p-sidebar-header{
     margin-left: auto;
 }
 

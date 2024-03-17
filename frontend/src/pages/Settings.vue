@@ -1,50 +1,88 @@
 <template>
+<div class="void">
     <pageHeader />
     <pageNav />
-    <div style="margin-left: 300px;">
-        <h2>Reset Password</h2>
-        <FloatLabel style="margin-top: 30px;">
-            <Password v-model="value" inputId="password" :feedback="false" />
-            <label for="password">Current Password</label>
-        </FloatLabel>
-        <FloatLabel style="margin-top: 30px;">
-            <Password v-model="value" inputId="password" />
-            <label for="password">New Password</label>
-        </FloatLabel>
-        <FloatLabel style="margin-top: 30px;">
-            <Password v-model="value" inputId="password" />
-            <label for="password">Confirm New Password</label>
-        </FloatLabel>
-
-        <Button style="margin-top: 30px;" @click = "submitForm" label = "Submit" />
-    </div>
+        <Panel class = "test-boi" header = "Reset Password" toggleable>
+            <resetPassword />
+            <!-- <div class="reset-pass-form">
+            <FloatLabel>
+                <Password class = "first-field reset-pass-field" v-model="oldPassword" id="oldpassword" :feedback="false" />
+                <label for="oldpassword">Current Password</label>
+            </FloatLabel>
+            <FloatLabel>
+                <Password class = "reset-pass-field" v-model="newPassword" id="newpassword" />
+                <label for="newpassword">New Password</label>
+            </FloatLabel>
+            <FloatLabel>
+                <Password class = "reset-pass-field" v-model="confirmNewPassword" id="confirmpassword" />
+                <label for="confirmpassword">Confirm New Password</label>
+            </FloatLabel>
+            <Button class = "reset-pass-btn" severity = "contrast" raised @click = "resetPassword" label = "Submit" />
+            </div> -->
+        </Panel>
+</div>
 </template>
 
 <script>
 import Button from 'primevue/button';
-import Avatar from 'primevue/avatar';
+import Panel from 'primevue/panel';
 import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
 import pageHeader from '@/custom_comps/pageHeader.vue';
 import pageNav from '@/custom_comps/pageNav.vue';
-
+import resetPassword from '@/custom_comps/resetPassword.vue';
 
 export default{
-    components: { pageHeader, pageNav, Avatar, Button, Password, FloatLabel }
+    // data(){
+    //     return{
+    //         oldPassword: '',
+    //         newPassword: '',
+    //         confirmNewPassword: '',
+    //     }
+    // },
+    components: { resetPassword, Panel, pageHeader, pageNav, Button, Password, FloatLabel }
 }
 </script>
 
-<style scoped>
-header{
-    width: 100%;
-    padding: 0 20px;
-    border-bottom: 1px solid white;
-    display: flex; 
-    justify-content: space-around;
+<style>
+.void{
+    background-color: #09090b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 5rem;
 }
-h1{
-    margin-top: 15px;
+
+.p-panel.test-boi{
+    width: 70%;
+    background: #090909;
+    border: .05rem solid #999;
+    padding: 1.5rem 1rem;
 }
+
+.test-boi .p-panel-title{
+    letter-spacing: -.1rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+/* .reset-pass-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    height: 30vh;
+    margin-top: 1rem;
+}
+
+.reset-pass-btn{
+    width: 25%;
+    text-transform: uppercase;
+    letter-spacing: -.1rem;
+    border-radius: 0;
+    padding: 1rem;
+    margin: 0.5rem;
+} */
 </style>
