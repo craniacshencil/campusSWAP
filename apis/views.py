@@ -59,6 +59,7 @@ def register(request):
         return JsonResponse({'error': 'post-request did not reach django'})
 
 
+
 @csrf_exempt
 def login_page(request):
     if request.method == "POST":
@@ -93,8 +94,23 @@ def logout_page(request):
 
 @csrf_exempt
 def reset_password(request):
+    # Errors to check for
+    # 1. New pass needs to be strong enough
+    # 2. New pass and Confimr pass need to match
+    # 3. Old pass doesn't match the original pass
     if request.method == "POST":
+        new_pass_error = "No Error"
         passwords = json.loads(request.body)
-        print(passwords)
-        return JsonResponse({'message' : 'Passwords reached django'})
+        user = User.objects.get(username = passwords['moodleID'])
+        if not user.check_password(raw_password=passwords['oldPassword']):
+            new_pass_error = "This password does not match the old password"
+        elif passwords['newPassword'] != passwords['confirmNewPassword']:
+            new_pass_error= "Password and Confirm Password don't match"
+        elif passwords['passwordStrength'] != 'strong':
+            new_pass_error= "Password is not strong enough"
+        
+        if new_pass_error == "No Error":
+            user.set_password(passwords['newPassword'])
+            user.save()
+        return JsonResponse({'errorMessage' : new_pass_error})
     return JsonResponse({'error' : 'big error'})
