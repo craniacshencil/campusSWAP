@@ -162,6 +162,7 @@ export default{
                 selectedCondition: this.selectedCondition,
                 productDesc: this.productDesc,
                 image_urls: this.image_urls,
+                adminApproval: false,
             }})
         }
     },

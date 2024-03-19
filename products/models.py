@@ -12,6 +12,8 @@ class Prouduct_listing(models.Model):
     selected_condition = models.CharField(max_length = 255)
     product_description = models.TextField()
     image_urls = models.TextField()
+    admin_approval = models.CharField(max_length = 5)
+    
 
 
 

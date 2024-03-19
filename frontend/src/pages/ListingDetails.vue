@@ -21,7 +21,8 @@
             <Button icon = "pi pi-heart" label= "Wishlist" severity = "secondary" raised />
         </div>
     </div>
-    <div v-if = "!infoReached" class="product-basics flex justify-content-between">
+    <!-- Temporary fix for if you try to access url without filling sell form -->
+    <div v-if = "!infoReached" class="product-basics flex justify-content-between"> 
         <div>
             <Skeleton width = "50rem" height = "30rem" class="mb-2"></Skeleton>
         </div>
@@ -36,7 +37,8 @@
             </div>
         </div>
     </div>
-    <Button v-if = "infoReached" @click = "submitForm" label = "Confirm Listing" class = "contrast confirm-btn" raised />
+    <Button @click = "confirmListing" label = "Confirm Listing" class = "contrast confirm-btn" raised />
+    <!-- <Button v-if = "productListed" @click = "this.$router.push({name: 'Settings'})" label = "Redirect" class = "contrast confirm-btn" raised /> -->
 </div>
 
 </template>
@@ -52,6 +54,7 @@ export default{
     data(){
         return{
             infoReached: false,
+            productListed: false,
             productInfo: {},
             images: [
             ]
@@ -59,9 +62,13 @@ export default{
     },
     components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
     methods: {
-        submitForm(){
-            axios.post("http://localhost:8000/products/sell_form", this.productInfo)
-            .then(response => console.log("Form data has been sent"))
+        confirmListing(){
+            axios.post("http://localhost:8000/products/sell_form", this.productInfo) 
+            .then(response => {
+                console.log("Form data has been sent")
+                this.$toast.add({ severity: 'success', summary: 'Successfully Listed', detail: `Redirecting...`, life: 3000 })
+                setTimeout(() => {this.$router.push({'name': 'Settings'})}, 3000)
+            })
             .catch(error => console.log("Form data could not be sent"))
         }
     },

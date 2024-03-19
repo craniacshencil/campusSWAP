@@ -46,6 +46,7 @@ def sell_form(request):
             selected_condition = sell_form_data['selectedCondition'],
             product_description = sell_form_data['productDesc'],
             image_urls = sell_form_data['image_urls'],
+            admin_approval = sell_form_data['adminApproval'],
         )
         return JsonResponse({'message' : "Succesfully received"})
     return JsonResponse({'error' : 'No post request received'})
