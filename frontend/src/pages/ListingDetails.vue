@@ -54,10 +54,8 @@ export default{
     data(){
         return{
             infoReached: false,
-            productListed: false,
             productInfo: {},
-            images: [
-            ]
+            images: []
         }
     },
     components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
@@ -72,7 +70,7 @@ export default{
             .catch(error => console.log("Form data could not be sent"))
         }
     },
-    mounted(){
+    created(){
         console.log(Object.keys(this.productInfo) == 0)
         console.log(this.$route.params)
         this.productInfo = this.$route.params

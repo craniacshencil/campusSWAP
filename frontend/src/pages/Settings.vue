@@ -3,7 +3,11 @@
     <pageHeader />
     <pageNav />
         <Panel collapsed = true class = "reset-pass-panel" header = "Reset Password" toggleable>
-            <resetPassword />
+            <resetPassword class = "card-items" />
+        </Panel>
+        <Panel collapsed = true class = "reset-pass-panel" header = "My Listings" toggleable>
+            <br>
+            <itemView />
         </Panel>
 </div>
 </template>
@@ -14,11 +18,12 @@ import Panel from 'primevue/panel';
 import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
 import pageHeader from '@/custom_comps/pageHeader.vue';
+import itemView from '@/custom_comps/itemView.vue'
 import pageNav from '@/custom_comps/pageNav.vue';
 import resetPassword from '@/custom_comps/resetPassword.vue';
 
 export default{
-    components: { resetPassword, Panel, pageHeader, pageNav, Button, Password, FloatLabel }
+    components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel }
 }
 </script>
 
@@ -32,7 +37,7 @@ export default{
 }
 
 .p-panel.reset-pass-panel{
-    width: 70%;
+    width: 70vw;
     background: #090909;
     border: .05rem solid #999;
     padding: 1.5rem 1rem;

@@ -139,18 +139,6 @@ export default{
 
         submitForm(){
             const sessionInfo = JSON.parse(sessionStorage.user)
-            const sellFormData = {
-                moodleID: sessionInfo.user.moodleID,
-                title: this.title,
-                category: this.category,
-                price: this.price,
-                selectedYear: this.selectedYear,
-                selectedBranch: this.selectedBranch,
-                selectedItemType: this.selectedItemType,
-                selectedCondition: this.selectedCondition,
-                productDesc: this.productDesc,
-                image_urls: this.image_urls,
-            }
             this.$router.push({ name: "Listing details", params: {
                 moodleID: sessionInfo.user.moodleID,
                 title: this.title,
