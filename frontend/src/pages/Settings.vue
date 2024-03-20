@@ -21,9 +21,16 @@ import pageHeader from '@/custom_comps/pageHeader.vue';
 import itemView from '@/custom_comps/itemView.vue'
 import pageNav from '@/custom_comps/pageNav.vue';
 import resetPassword from '@/custom_comps/resetPassword.vue';
+import axios from 'axios';
 
 export default{
-    components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel }
+    components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
+    created(){
+        const moodleID = Number(JSON.parse(sessionStorage.user).user.moodleID)
+        axios.get(`http://localhost:8000/products/user_listings/${moodleID}`)
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error))
+    }
 }
 </script>
 

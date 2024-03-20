@@ -50,3 +50,16 @@ def sell_form(request):
         )
         return JsonResponse({'message' : "Succesfully received"})
     return JsonResponse({'error' : 'No post request received'})
+
+@csrf_exempt
+def user_listings(request, moodleID):
+    if request.method == "GET":
+        print(moodleID)
+        print(type(moodleID))
+        my_listings = Prouduct_listing.objects.filter(moodleID = moodleID).values()
+        indexed_listings = {}
+        for index, item in enumerate(my_listings):
+            indexed_listings[index] = item
+        print(indexed_listings)
+        return JsonResponse(indexed_listings)
+    return JsonResponse({"error" : "Couldn't get user's listings"})

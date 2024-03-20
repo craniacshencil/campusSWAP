@@ -71,13 +71,9 @@ export default{
         }
     },
     created(){
-        console.log(Object.keys(this.productInfo) == 0)
-        console.log(this.$route.params)
         this.productInfo = this.$route.params
-        console.log(this.productInfo)
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})
-        console.log(this.images)
         this.infoReached = true
     }
 }
