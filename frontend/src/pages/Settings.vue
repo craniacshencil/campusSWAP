@@ -34,7 +34,7 @@ export default{
         axios.get(`http://localhost:8000/products/user_listings/${moodleID}`)
         .then(response => {
             this.myListings = response.data
-            console.log(response.data)
+            console.log(response.data[5].image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(","))
         })
         .catch(error => console.log(error))
     }

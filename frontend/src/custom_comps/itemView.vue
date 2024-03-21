@@ -1,7 +1,9 @@
 <template>
     <div class = "container flex justify-content-between gap-5">
         <div class = "image-main-info flex gap-3">
-            <img class = "img-spot" alt="user header" src="@/assets/placeholder.webp" style="width: 180px; height: auto;" />
+            <img class = "img-spot" alt="user header" 
+            :src="image_url" style="width: 180px; height: auto;" />
+            
             <div class = "flex flex-column">
                 <h3 class = "product-title">{{ product.title }}</h3>
                 <h4 class = "product-seller">{{ product.moodleID }}</h4>
@@ -23,18 +25,8 @@ export default{
         ,
     data(){
         return {
-                moodleID: 22106025,
-                // seller_name: 'John Doe',
-                // title: 'vim-bindings',
-                category: 'productivity',
-                // price: '000',
-                selectedYear: ['BE', 'TE', 'SE'],
-                selectedBranch: ['CS', 'AIML', 'DS'],
-                selectedItemType: ['Gadgets', 'Stationery'],
-                selectedCondition: 'Brand New',
-                productDesc: 'Very Useful Item',
-                image_urls: ['https://i.ibb.co/RY5BtG9/443bb77060cf.png'],
-                adminApproval: false,
+                //WatchMojo: Top 10 reasons why you should learn regex
+                image_url: this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(",")
         }
     },
     components: {Button},
@@ -45,7 +37,6 @@ export default{
     width: 65vw;
     padding: 2rem 0;
     border-bottom: 1px #999 solid;
-
 }
 
 .product-price{
