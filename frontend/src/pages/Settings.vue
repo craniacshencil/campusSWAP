@@ -6,8 +6,7 @@
             <resetPassword class = "card-items" />
         </Panel>
         <Panel collapsed = true class = "reset-pass-panel" header = "My Listings" toggleable>
-            <br>
-            <itemView />
+                <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
         </Panel>
 </div>
 </template>
@@ -24,11 +23,19 @@ import resetPassword from '@/custom_comps/resetPassword.vue';
 import axios from 'axios';
 
 export default{
+    data(){
+        return{
+            myListings: null,
+        }
+    },
     components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
     created(){
         const moodleID = Number(JSON.parse(sessionStorage.user).user.moodleID)
         axios.get(`http://localhost:8000/products/user_listings/${moodleID}`)
-        .then(response => console.log(response.data))
+        .then(response => {
+            this.myListings = response.data
+            console.log(response.data)
+        })
         .catch(error => console.log(error))
     }
 }
