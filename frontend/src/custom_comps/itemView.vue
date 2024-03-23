@@ -17,8 +17,8 @@
             </div>
         </div>
     </div>
-    <Dialog v-model:visible="visible" modal header="Track Listing Status" :style="{ width: '70vw', height: '20vw' }">
-        <ListingProgressSteps :adminApproval = "adminApproval"/>
+    <Dialog v-model:visible="visible" modal header="Track Listing Status" :style="{ width: '70vw', height: '40vh' }">
+        <ListingProgressSteps :adminApproval = "adminApproval" :product = "productCopy" />
     </Dialog>
 
 </template>
@@ -34,6 +34,7 @@ export default{
                 image_url: this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(","),
                 visible: false,
                 adminApproval: this.product.admin_approval,
+                productCopy: this.product,
         }
     },
     components: { Dialog, Button, ListingProgressSteps },

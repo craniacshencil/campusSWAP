@@ -30,7 +30,7 @@
 import Steps from 'primevue/steps'
 import Button from 'primevue/button'
 export default {
-    props: {adminApproval: String},
+    props: {product: Object, adminApproval: String},
     components: { Steps, Button },
     data(){
         return {
@@ -51,6 +51,36 @@ export default {
             this.items[2].small= 'Completed'
         }
     },
+
+    methods:{
+        toListingDetails(){
+        },
+
+        toListingPreview(){
+            console.log("Hello There")
+            //WatchMojo: Top 10 reasons why you should learn regex
+            const image_url =  this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(",")
+            const sessionInfo = JSON.parse(sessionStorage.user)
+            this.$router.push({ name: "Listing details", params: {
+                moodleID: sessionInfo.user.moodleID,
+                title: this.product.title,
+                category: this.product.category,
+                price: this.product.price,
+                selectedYear: this.product.selectedYear,
+                selectedBranch: this.product.selectedBranch,
+                selectedItemType: this.product.selectedItemType,
+                selectedCondition: this.product.selectedCondition,
+                productDesc: this.product.productDesc,
+                image_urls: image_url, 
+                adminApproval: false,
+                fromMyListing: true,
+            }})
+        },
+    },
+
+    created(){
+        console.log(this.product);
+    }
 }
 </script>
 

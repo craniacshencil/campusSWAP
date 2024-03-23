@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <Button @click = "confirmListing" label = "Confirm Listing" class = "contrast confirm-btn" raised />
+    <Button v-if = "!fromMyListings" @click = "confirmListing" label = "Confirm Listing" class = "contrast confirm-btn" raised />
     <!-- <Button v-if = "productListed" @click = "this.$router.push({name: 'Settings'})" label = "Redirect" class = "contrast confirm-btn" raised /> -->
 </div>
 
@@ -55,7 +55,8 @@ export default{
         return{
             infoReached: false,
             productInfo: {},
-            images: []
+            images: [],
+            fromMyListings: false,
         }
     },
     components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
@@ -75,6 +76,9 @@ export default{
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})
         this.infoReached = true
+        //To Not dispaly 'Confirm Listing' button when you are coming here from the 'MyListings' panel from 'Settings page'
+        if(this.productInfo.fromMyListing)
+            this.fromMyListings = true
     }
 }
 </script>

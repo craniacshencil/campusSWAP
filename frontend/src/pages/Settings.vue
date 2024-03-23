@@ -18,7 +18,6 @@ import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
 import pageHeader from '@/custom_comps/pageHeader.vue';
 import itemView from '@/custom_comps/itemView.vue'
-import Dialog from 'primevue/dialog';
 import pageNav from '@/custom_comps/pageNav.vue';
 import resetPassword from '@/custom_comps/resetPassword.vue';
 import axios from 'axios';
@@ -26,7 +25,6 @@ export default{
     data(){
         return{
             myListings: null,
-            visible: false,
         }
     },
     components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
