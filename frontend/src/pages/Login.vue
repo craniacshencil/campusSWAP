@@ -102,7 +102,11 @@ export default{
                     }
                     this.$store.commit('assignUser', user)
                     this.$store.commit('toggleIsAuthenticated', true)
-                    setTimeout(() => {this.$router.push('/')}, 750)
+                    if(user.superuser_status == false)
+                        setTimeout(() => {this.$router.push('/')}, 750)
+                    else 
+                        setTimeout(() => {this.$router.push('/admindash')}, 750)
+
                 }
             }).catch(error => {
                 console.log(error);

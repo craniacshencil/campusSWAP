@@ -145,7 +145,7 @@ user.save()
 npm run dev
 ```
 
-### 19. Run the Django Server (go back to the root folder):
+### 20. Run the Django Server (go back to the root folder):
 
 ```bash
 python manage.py runserver

@@ -21,6 +21,8 @@ import Wishlist from "./pages/Wishlist.vue"
 import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
 import ListingDetails from './pages/ListingDetails.vue'
+import AdminDash from './pages/AdminDash.vue'
+
 
 const routes = [
     { path: '/', component: Home, name: "Home"},
@@ -41,6 +43,10 @@ const routes = [
     { path: '/listingdetails', component: ListingDetails, name: "Listing details", meta: {
         authenticationRequired: true
     }},
+    { path: '/admindash', component: AdminDash, name: "Admin Dashboard", meta: {
+        authenticationRequired: true,
+        adminRequired: true,
+    }},
 ]
 
 const router = createRouter({
@@ -57,6 +63,16 @@ router.beforeEach(async (to, from) => {
         const isAuthenticatedJson = JSON.parse(isAuthenticatedString)
         if(!(isAuthenticatedJson.authState)){ //this state is reflected after one successful login in the session
             return { name: "Login" }
+        }
+    }
+})
+
+router.beforeEach(async (to, from) => {
+    if(to.meta.adminRequired){
+        const adminStatus= JSON.parse(sessionStorage.getItem('user')).user.superuser_status
+        console.log(adminStatus)
+        if(!(adminStatus)){ //this state is reflected after one successful login in the session
+            return { name: "Home" }
         }
     }
 })
