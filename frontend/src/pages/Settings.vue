@@ -44,7 +44,7 @@ export default{
     background-color: #09090b;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 }
 

@@ -1,36 +1,39 @@
 <template>
+    <Toast />
     <div class="void">
-        <Toast />
-        <h1>Login</h1>
-        <form class = "login-form" >
-            <div class="form-field">
-                <InputGroup>
-                    <InputText type = "number" v-model="moodleID" placeholder = MoodleID autofocus />
-                    <InputGroupAddon>
-                        <i class = "pi pi-user"></i> 
-                    </InputGroupAddon>
-                </InputGroup>
-                <small v-if = "loginError == noExistingAccount">{{ noExistingAccount}}</small>
-                <small v-if = "loginError == invalidMoodleID">{{ invalidMoodleID }}</small>
-            </div>
-
-            <div class="form-field">
-                <Password v-model = passText placeholder = "Password" :feedback = false toggleMask inputStyle = "width: 30vw" required />
-                <small v-if = "loginError == incorrectPassword">{{ incorrectPassword }}</small>
-            </div>
-
-            <div class = all-btns>
-                <Button class = submit-button label = Submit @click = "validateForm" />
-                <div class = links>
-                    <Button class = forgot-pass-btn label = "Forgot Password" link />
-                    <Button class = sign-up-btn label = "Sign up" @click = toRegister link />
+        <PrimaryNav style = "width: 100%" />
+        <div class="login-form-container">
+            <h1 style = "text-align: center;">Login</h1>
+            <form class = "login-form" >
+                <div class="form-field">
+                    <InputGroup>
+                        <InputText type = "number" v-model="moodleID" placeholder = MoodleID autofocus />
+                        <InputGroupAddon>
+                            <i class = "pi pi-user"></i> 
+                        </InputGroupAddon>
+                    </InputGroup>
+                    <small v-if = "loginError == noExistingAccount">{{ noExistingAccount}}</small>
+                    <small v-if = "loginError == invalidMoodleID">{{ invalidMoodleID }}</small>
                 </div>
+
+                <div class="form-field">
+                    <Password v-model = passText placeholder = "Password" :feedback = false toggleMask inputStyle = "width: 30vw" required />
+                    <small v-if = "loginError == incorrectPassword">{{ incorrectPassword }}</small>
+                </div>
+
+                <div class = all-btns>
+                    <Button class = submit-button label = Submit @click = "validateForm" />
+                    <div class = links>
+                        <Button class = forgot-pass-btn label = "Forgot Password" link />
+                        <Button class = sign-up-btn label = "Sign up" @click = toRegister link />
+                    </div>
+                </div>
+            </form>
+            <div class="login-successful" v-if = "loginError == noError">
+                <Message severity = "success">Login successful</Message>
+                <ProgressBar mode = "indeterminate" style = "height: 0.5rem"></ProgressBar>
+                <p>Redirecting to home...</p>
             </div>
-        </form>
-        <div class="login-successful" v-if = "loginError == noError">
-            <Message severity = "success">Login successful</Message>
-            <ProgressBar mode = "indeterminate" style = "height: 0.5rem"></ProgressBar>
-            <p>Redirecting to home...</p>
         </div>
    </div> 
 </template>
@@ -45,9 +48,10 @@ import Password from 'primevue/password'
 import Message from 'primevue/message'
 import ProgressBar from 'primevue/progressbar'
 import Toast from 'primevue/toast'
+import PrimaryNav from '@/custom_comps/PrimaryNav.vue'
 export default{
     name: "Login",
-    components: { Toast, InputGroup, InputGroupAddon, Button, InputText, Password, Message, ProgressBar },
+    components: { Toast, InputGroup, InputGroupAddon, PrimaryNav, Button, InputText, Password, Message, ProgressBar },
     data(){
         return {
             passText: "",
@@ -122,10 +126,20 @@ export default{
     height: 100vh;
     width: 100vw;
     
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login-form-container{
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
 }
 
 .login-form{

@@ -1,65 +1,68 @@
 <template>
     <Toast />
     <div class = "void">
-        <h1>Register</h1>
-        <form class="register-form">
-            <div class = "form-field">
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class = "pi pi-user"></i>
-                    </InputGroupAddon>
-                    <InputText v-model = "moodleID" type = "number" id = "MoodleID" placeholder = MoodleID autofocus required/>
-                </InputGroup>
-                <small v-if = "errorMessage == alreadyExistingAccount">{{ alreadyExistingAccount }}</small>
-                <small v-if = "errorMessage == invalidMoodleID">{{ invalidMoodleID }}</small>
-            </div>
+        <PrimaryNav />
+        <div class = "register-form-container">
+        <h1 style = "text-align: center;">Register</h1>
+            <form class="register-form">
+                <div class = "form-field">
+                    <InputGroup>
+                        <InputGroupAddon>
+                            <i class = "pi pi-user"></i>
+                        </InputGroupAddon>
+                        <InputText v-model = "moodleID" type = "number" id = "MoodleID" placeholder = MoodleID autofocus required/>
+                    </InputGroup>
+                    <small v-if = "errorMessage == alreadyExistingAccount">{{ alreadyExistingAccount }}</small>
+                    <small v-if = "errorMessage == invalidMoodleID">{{ invalidMoodleID }}</small>
+                </div>
 
-            <div class = "form-field">
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class = "pi pi-at"></i>
-                    </InputGroupAddon>
-                    <InputText v-model = "email" type = email label = Email placeholder = Email required/>
-                </InputGroup>
-                <small v-if = "errorMessage == emailMismatch">{{ emailMismatch }}</small>
-            </div>
+                <div class = "form-field">
+                    <InputGroup>
+                        <InputGroupAddon>
+                            <i class = "pi pi-at"></i>
+                        </InputGroupAddon>
+                        <InputText v-model = "email" type = email label = Email placeholder = Email required/>
+                    </InputGroup>
+                    <small v-if = "errorMessage == emailMismatch">{{ emailMismatch }}</small>
+                </div>
 
-            <div class="form-field">
-                <InputGroup>
-                    <InputText v-model = "firstName" label = "First Name" placeholder = "First Name" required />
-                    <InputText v-model = "lastName" label = "Last Name" placeholder = "Last Name" required/>
-                </InputGroup>
-            </div>
-            
-            <div class="form-field">
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class = "pi pi-phone"></i>
-                    </InputGroupAddon>
-                    <InputText v-model = "phonenumber" type = "number" id = "phonenumber" placeholder = "phonenumber" required/>
-                </InputGroup>
-            </div>
-            
-            <div class="form-field">
-                <Password ref = "passfield" v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask required />
-                <small v-if = "errorMessage == passwordWeak">{{ passwordWeak }}</small>
-                <small v-if = "errorMessage == passwordWeak"></small>
-                <small v-if = "errorMessage == passwordWeak">a. It should be atleast 8 characters long</small>
-                <small v-if = "errorMessage == passwordWeak">b. Should include a capital letter, special character and a number</small>
-            </div>
+                <div class="form-field">
+                    <InputGroup>
+                        <InputText v-model = "firstName" label = "First Name" placeholder = "First Name" required />
+                        <InputText v-model = "lastName" label = "Last Name" placeholder = "Last Name" required/>
+                    </InputGroup>
+                </div>
+                
+                <div class="form-field">
+                    <InputGroup>
+                        <InputGroupAddon>
+                            <i class = "pi pi-phone"></i>
+                        </InputGroupAddon>
+                        <InputText v-model = "phonenumber" type = "number" id = "phonenumber" placeholder = "phonenumber" required/>
+                    </InputGroup>
+                </div>
+                
+                <div class="form-field">
+                    <Password ref = "passfield" v-model = password  placeholder = "Password" inputStyle = "width: 500px" toggleMask required />
+                    <small v-if = "errorMessage == passwordWeak">{{ passwordWeak }}</small>
+                    <small v-if = "errorMessage == passwordWeak"></small>
+                    <small v-if = "errorMessage == passwordWeak">a. It should be atleast 8 characters long</small>
+                    <small v-if = "errorMessage == passwordWeak">b. Should include a capital letter, special character and a number</small>
+                </div>
 
-            <div class="form-field">
-                <Password v-model = confirmPassword  placeholder = "Confirm Password" inputStyle = "width: 500px" toggleMask :feedback = false required />
-                <small v-if = "errorMessage == passwordMismatch">{{  passwordMismatch }}</small>
-            </div>
+                <div class="form-field">
+                    <Password v-model = confirmPassword  placeholder = "Confirm Password" inputStyle = "width: 500px" toggleMask :feedback = false required />
+                    <small v-if = "errorMessage == passwordMismatch">{{  passwordMismatch }}</small>
+                </div>
 
-            <Button label = "Submit" @click = "validateForm" />
-        <!-- Adding type = submit breaks all the django form validation -->
-        <!-- But when type = submit is not present then all the fields are note required -->
-        </form>
-        <div class = "successful-registration" v-if = "errorMessage == noError">
-            <Message severity = "success">Registration successful</Message>
-            <router-link class = "login-redirect" to = "login">Redirect to Login</router-link>
+                <Button label = "Submit" @click = "validateForm" />
+            <!-- Adding type = submit breaks all the django form validation -->
+            <!-- But when type = submit is not present then all the fields are note required -->
+            </form>
+            <div class = "successful-registration" v-if = "errorMessage == noError">
+                <Message severity = "success">Registration successful</Message>
+                <router-link class = "login-redirect" to = "login">Redirect to Login</router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -71,6 +74,7 @@ import Message from 'primevue/message';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button'
+import PrimaryNav from '@/custom_comps/Primarynav.vue'
 import Password from 'primevue/password';
 import axios from 'axios'
 
@@ -95,7 +99,7 @@ export default{
             noError: "No Error"
         }
     },
-    components: { Toast, Message, InputGroup, InputGroupAddon, InputText, Button, Password },
+    components: { Toast, Message, PrimaryNav, InputGroup, InputGroupAddon, InputText, Button, Password },
     methods: {
         validateForm(){
             let isValidated = true 
@@ -146,9 +150,18 @@ export default{
 <style scoped>
 .void{
     background-color: #09090b;
-    height: 100vh;
-    width: 100vw;
-    
+    height: 100%;
+    width: 100%;
+
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.register-form-container{
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
