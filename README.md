@@ -119,13 +119,33 @@ VALUES
 ```
 You are only allowed to use these three accounts to register(not login, yes, register)
 
-### 16. Back to cmd/powershell, Compile and Hot-Reload for Development(make sure you are in the frontend folder):
+### 16. Back to cmd/powershell, Create superuser(admin):
+```sh
+python manage.py createsuperuser --username 1234
+```
+(make sure username is numerical)
+Then fill out all the fields as you are prompted
+
+### 17. Open the Django shell:
+```sh
+python manage.py shell
+```
+### 18. Set first_name, last_name for admin:
+```sh
+from django.contrib.auth.models import User
+user = User.objects.get(username = 1234)
+user.first_name = "John"
+user.last_name = "Doe"
+user.save()
+```
+
+### 19. Compile and Hot-Reload for Development(make sure you are in the frontend folder):
 
 ```sh
 npm run dev
 ```
 
-### 17. Run the Django Server (go back to the root folder):
+### 19. Run the Django Server (go back to the root folder):
 
 ```bash
 python manage.py runserver
