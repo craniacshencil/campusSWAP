@@ -18,14 +18,15 @@ import Password from 'primevue/password';
 import FloatLabel from 'primevue/floatlabel';
 import pageHeader from '@/custom_comps/pageHeader.vue';
 import itemView from '@/custom_comps/itemView.vue'
+import Dialog from 'primevue/dialog';
 import pageNav from '@/custom_comps/pageNav.vue';
 import resetPassword from '@/custom_comps/resetPassword.vue';
 import axios from 'axios';
-
 export default{
     data(){
         return{
             myListings: null,
+            visible: false,
         }
     },
     components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
@@ -34,7 +35,6 @@ export default{
         axios.get(`http://localhost:8000/products/user_listings/${moodleID}`)
         .then(response => {
             this.myListings = response.data
-            console.log(response.data[5].image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(","))
         })
         .catch(error => console.log(error))
     }
