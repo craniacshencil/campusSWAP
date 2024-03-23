@@ -97,7 +97,8 @@ export default{
                         'moodleID': response.data.moodleID,
                         'email': response.data.email,
                         'first_name': response.data.first_name,
-                        'last_name': response.data.last_name
+                        'last_name': response.data.last_name,
+                        'superuser_status': response.data.issuperuser,
                     }
                     this.$store.commit('assignUser', user)
                     this.$store.commit('toggleIsAuthenticated', true)

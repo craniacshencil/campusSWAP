@@ -74,7 +74,7 @@ import Message from 'primevue/message';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button'
-import PrimaryNav from '@/custom_comps/Primarynav.vue'
+import PrimaryNav from '@/custom_comps/PrimaryNav.vue'
 import Password from 'primevue/password';
 import axios from 'axios'
 
@@ -150,8 +150,8 @@ export default{
 <style scoped>
 .void{
     background-color: #09090b;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
 
     display: flex; 
     justify-content: center;
