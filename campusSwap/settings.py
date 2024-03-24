@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "apis",
     "products",
+    "admin_actions"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
