@@ -22,6 +22,7 @@ import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
 import ListingDetails from './pages/ListingDetails.vue'
 import AdminDash from './pages/AdminDash.vue'
+import ApproveListing from './pages/ApproveListing.vue'
 
 
 const routes = [
@@ -44,6 +45,10 @@ const routes = [
         authenticationRequired: true
     }},
     { path: '/admindash', component: AdminDash, name: "Admin Dashboard", meta: {
+        authenticationRequired: true,
+        adminRequired: true,
+    }},
+    { path: '/approvelisting', component: ApproveListing, name: "Approve Listing", meta: {
         authenticationRequired: true,
         adminRequired: true,
     }},
@@ -70,7 +75,6 @@ router.beforeEach(async (to, from) => {
 router.beforeEach(async (to, from) => {
     if(to.meta.adminRequired){
         const adminStatus= JSON.parse(sessionStorage.getItem('user')).user.superuser_status
-        console.log(adminStatus)
         if(!(adminStatus)){ //this state is reflected after one successful login in the session
             return { name: "Home" }
         }

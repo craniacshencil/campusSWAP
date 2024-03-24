@@ -5,12 +5,17 @@ from products.models import Prouduct_listing
 # Create your views here.
 def get_unapproved_listings_and_resources(request):
     if request.method == "GET":
-        products = Prouduct_listing.objects.filter(admin_approval = 'false').values()
-        unapproved_listings = len(products) 
-        unapproved_resources = 0
+        unapproved_listings = Prouduct_listing.objects.filter(admin_approval = 'false').values()
+        indexed_unapproved_listings = {}
+        for index, item in enumerate(unapproved_listings):
+            indexed_unapproved_listings[index] = item
+        unapproved_listings_count = len(unapproved_listings) 
+
+        unapproved_resources_count = 0 #edit later 
         return JsonResponse({
-                'listings' : unapproved_listings,
-                'resources' : unapproved_resources,
+                'listings': indexed_unapproved_listings,
+                'listings_count' : unapproved_listings_count,
+                'resources_count' : unapproved_resources_count,
             })
     return JsonResponse({'error': 'No Get request received'})
 

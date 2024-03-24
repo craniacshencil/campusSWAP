@@ -5,7 +5,8 @@
         <h1 class = "text-7xl text-center">Welcome <span class = "text-cyan-400">{{ first_name }}!</span></h1>
         <div class = "main-wrapper w-9 h-25rem flex justify-content-between gap-3">
             <div class="vertical-wrapper w-7 flex flex-column align-items-center justify-content-between gap-3">
-                <div class="listings-wrapper w-full h-16rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between">
+                <div class="listings-wrapper w-full h-16rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between"
+                @click = "this.$router.push({name: 'Approve Listing'})">
                     <span>You have <span class = "inner-number">{{ unapprovedListings }}</span> unapproved listings!</span>
                     <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
                 </div>
@@ -39,9 +40,8 @@ export default{
         this.first_name = JSON.parse(sessionStorage.user).user.first_name 
         axios.get("http://localhost:8000/admin_actions/get_unapproved_listings_and_resources")
         .then((response) => {
-            console.log(response)
-            this.unapprovedListings = response.data.listings
-            this.unapprovedResources = response.data.resources
+            this.unapprovedListings = response.data.listings_count
+            this.unapprovedResources = response.data.resources_count
         })
         .catch( error => console.log(error))
     }
