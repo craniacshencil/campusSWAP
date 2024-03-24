@@ -2,12 +2,14 @@
 <div class="void">
     <pageHeader />
     <pageNav />
-        <Panel collapsed = true class = "reset-pass-panel" header = "Reset Password" toggleable>
-            <resetPassword class = "card-items" />
-        </Panel>
-        <Panel collapsed = true class = "reset-pass-panel" header = "My Listings" toggleable>
-                <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
-        </Panel>
+    <div class="settings-main-wrapper">
+            <Panel collapsed = true class = "reset-pass-panel" header = "Reset Password" toggleable>
+                <resetPassword class = "card-items" />
+            </Panel>
+            <Panel collapsed = true class = "reset-pass-panel" header = "My Listings" toggleable>
+                    <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
+            </Panel>
+    </div>
 </div>
 </template>
 
@@ -40,11 +42,11 @@ export default{
 </script>
 
 <style>
-.void{
+.settings-main-wrapper{
     background-color: #09090b;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
+    justify-content: center; 
     align-items: center;
 }
 
