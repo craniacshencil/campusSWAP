@@ -9,6 +9,7 @@
             <Button @click = "hitSearch" icon = "pi pi-search" />
         </InputGroup>
         <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
+            <Button v-if = "this.isAdmin == true" text raised outlined class = "dash-button" @click = "this.$router.push({ name : 'Admin Dashboard'})" icon = "pi pi-home" />
             <Button text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
             <Button text raised outlined class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" />
         </div>
@@ -35,7 +36,8 @@ export default{
     data(){
         return{
             searchTerm: "",
-            isLoggedIn: false, //will be used later when programming for toasts on redirect to login-restricted pages without login
+            isLoggedIn: false,
+            isAdmin: false,
         }
     },
     methods: {
@@ -72,10 +74,11 @@ export default{
             }
         }
     },
-    mounted(){
+    created(){
         if(sessionStorage.isAuthenticated){
             const loggedInfo = JSON.parse(sessionStorage.isAuthenticated)
             this.isLoggedIn = loggedInfo.authState;
+            this.isAdmin = JSON.parse(sessionStorage.user).user.superuser_status
         }
     }
 }
@@ -102,7 +105,8 @@ h1{
 }
 
 .logout-button, 
-.settings-button{
+.settings-button,
+.dash-button{
     font-size: 2rem;
     border-radius: 50%;
     height: 3rem;
@@ -110,16 +114,11 @@ h1{
     border: 0.1rem solid #22d3ee;
     
 }
-.logout-button:hover{
+.logout-button:hover,
+.settings-button:hover,
+.dash-button:hover{
     transform: scale(1.3);
-    transition: 500ms;
-    color: black;
-    background-color: #22d3ee;
-    cursor: pointer;
-}
-.settings-button:hover{
-    transform: scale(1.3);
-    transition: 500ms;
+    transition: all 200ms ease-in;
     color: black;
     background-color: #22d3ee;
     cursor: pointer;
