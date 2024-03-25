@@ -7,7 +7,7 @@ import json
 # Create your views here.
 def get_unapproved_listings_and_resources(request):
     if request.method == "GET":
-        unapproved_listings = Prouduct_listing.objects.filter(admin_approval = 'false').values()
+        unapproved_listings = Prouduct_listing.objects.filter(admin_approval= False).values()
         indexed_unapproved_listings = {}
         for index, item in enumerate(unapproved_listings):
             indexed_unapproved_listings[index] = item

@@ -62,17 +62,19 @@ export default {
             const image_url =  this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(",")
             const sessionInfo = JSON.parse(sessionStorage.user)
             this.$router.push({ name: "Listing details", params: {
-                moodleID: sessionInfo.user.moodleID,
-                title: this.product.title,
-                category: this.product.category,
-                price: this.product.price,
-                selectedYear: this.product.selectedYear,
-                selectedBranch: this.product.selectedBranch,
-                selectedItemType: this.product.selectedItemType,
-                selectedCondition: this.product.selectedCondition,
-                productDesc: this.product.productDesc,
-                image_urls: image_url, 
-                adminApproval: false,
+                product: JSON.stringify({
+                    moodleID: sessionInfo.user.moodleID,
+                    title: this.product.title,
+                    category: this.product.category,
+                    price: this.product.price,
+                    selectedYear: this.product.selected_year,
+                    selectedBranch: this.product.selected_branch,
+                    selectedItemType: this.product.selected_item_type,
+                    selectedCondition: this.product.selected_condition,
+                    productDesc: this.product.product_description,
+                    image_urls: image_url, 
+                    adminApproval: false,
+                }),
                 fromMyListing: true,
             }})
         },

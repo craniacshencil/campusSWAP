@@ -3,7 +3,7 @@
 <div class="void">
     <pageHeader />
     <pageNav />
-    <div v-if = "infoReached" class="product-basics flex justify-content-between">
+    <div v-if = "infoReached" class="product-basics flex justify-content-between flex-wrap">
         <Galleria :value="images" :numVisible="5" containerStyle="max-width: 640px"
         :showThumbnails="false" :showIndicators="true" :changeItemOnIndicatorHover="true" :showIndicatorsOnItem="inside"
         :circular="true" :showItemNavigators="true">
@@ -71,6 +71,7 @@ export default{
     },
     components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
     methods: {
+        //This function will be activated on 'Listing preview' when user first lists their product
         confirmListing(){
             axios.post("http://localhost:8000/products/sell_form", this.productInfo) 
             .then(response => {
@@ -80,6 +81,7 @@ export default{
             .catch(error => console.log("Form data could not be sent"))
         },
 
+        //This function is activated on 'Inspect Listing' by admin if they have no problem with the listing
         grantApproval(){
             console.log(this.productInfo)
             const productIdJSON = {
@@ -93,7 +95,11 @@ export default{
         },
     },
     created(){
+        //storing product info in local variable
         this.productInfo = JSON.parse(this.$route.params.product)
+        console.log(this.$route.params)
+        console.log(this.productInfo)
+        //Galleria requires a list of JSONs to display images, therefore creating this
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})
         //To Not dispaly 'Confirm Listing' button when you are coming here from the 'MyListings' panel from 'Settings page'

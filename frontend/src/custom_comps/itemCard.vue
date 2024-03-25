@@ -71,12 +71,13 @@ import Card from 'primevue/card'
 <style>
 div.p-card-body{
     flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 div.p-card-content{
     flex: 1;
     align-items: flex-end;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>
