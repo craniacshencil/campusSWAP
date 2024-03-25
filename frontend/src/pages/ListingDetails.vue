@@ -26,6 +26,17 @@
             </div>
             <Button icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
             <Button icon = "pi pi-heart" label= "Wishlist" severity = "secondary" raised />
+
+            <Button v-if = "!fromMyListings && !fromAdmin" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
+            <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
+            <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" class = "confirm-btn" raised />
+            <div class="feedback-denied-section" v-if = "showFeedbackTextArea">
+                <FloatLabel>
+                    <Textarea autoResize rows = "8" class = "feedback-text-area" v-model="denialFeedback" required/>
+                    <label for="feedback-text-area">Feedback for Denial</label>
+                </FloatLabel>
+                <Button @click = "sendFeedback" label = "Submit Feedback" class = "confirm-btn" raised/>
+            </div>
         </div>
     </div>
     <!-- Temporary fix for if you try to access url without filling sell form -->
@@ -44,9 +55,6 @@
             </div>
         </div>
     </div>
-    <Button v-if = "!fromMyListings && !fromAdmin" @click = "confirmListing" label = "Confirm Listing" class = "contrast confirm-btn" raised />
-    <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "contrast confirm-btn" raised />
-    <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" class = "contrast confirm-btn" raised />
     <!-- <Button v-if = "productListed" @click = "this.$router.push({name: 'Settings'})" label = "Redirect" class = "contrast confirm-btn" raised /> -->
 </div>
 
@@ -59,6 +67,8 @@ import pageHeader from '@/custom_comps/pageHeader.vue';
 import Galleria from 'primevue/galleria';
 import Skeleton from 'primevue/skeleton';
 import axios from 'axios'
+import Textarea from 'primevue/textarea';
+import FloatLabel from 'primevue/floatlabel';
 export default{
     data(){
         return{
@@ -67,9 +77,11 @@ export default{
             images: [],
             fromMyListings: false,
             fromAdmin: false,
+            showFeedbackTextArea: false,
+            denialFeedback: '',
         }
     },
-    components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
+    components: { Textarea, FloatLabel, Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
     methods: {
         //This function will be activated on 'Listing preview' when user first lists their product
         confirmListing(){
@@ -88,17 +100,35 @@ export default{
                productId: this.$route.params.productId
             }
             axios.post("http://localhost:8000/admin_actions/grant_approval", productIdJSON)
+            .then(response => {
+                this.$toast.add({ severity: 'success', summary: 'Admin Approval Granted!', detail: 'Redirecting to dashboard', life: 3000 })
+                setTimeout(() => {this.$router.push({'name': 'Admin Dashboard'})}, 3000)
+            }
+                )
+            .catch(error => console.log(error))
+        },
+
+        denyApproval(){
+            this.showFeedbackTextArea = true
+        },
+
+        sendFeedback(){
+            console.log(this.denialFeedback)
+            const feedbackJSON = {
+                productId: this.$route.params.productId,
+                feedback: this.denialFeedback,
+            }
+            console.log(feedbackJSON)
+            axios.post("http://localhost:8000/admin_actions/send_negative_feedback", feedbackJSON)
             .then(response => console.log(response))
             .catch(error => console.log(error))
-            this.$toast.add({ severity: 'success', summary: 'Admin Approval Granted!', detail: 'Redirecting to dashboard', life: 3000 })
-            setTimeout(() => {this.$router.push({'name': 'Admin Dashboard'})}, 3000)
-        },
+        }
+
     },
     created(){
         //storing product info in local variable
-        this.productInfo = JSON.parse(this.$route.params.product)
         console.log(this.$route.params)
-        console.log(this.productInfo)
+        this.productInfo = JSON.parse(this.$route.params.product)
         //Galleria requires a list of JSONs to display images, therefore creating this
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})
@@ -113,7 +143,7 @@ export default{
 }
 </script>
 
-<style scoped>
+<style>
 .void{
     background-color: #09090b;
     height: 100%;
@@ -125,7 +155,7 @@ export default{
     flex-direction: column;
 }
 
-.product-basics{
+.product-details .product-basics{
     width: 90%;
 }
 
@@ -133,19 +163,23 @@ export default{
     width: 40%;
 }
 
-.product-title{
+.product-details .product-title{
     margin: 0;
 }
 
-.price{
+.product-details .price{
     margin: 0;
 }
 
-.confirm-btn{
+.product-details .confirm-btn{
     border-radius: 0;
 }
 
-.btn-section{
+.product-details .btn-section{
     margin-top: 5rem;
+}
+
+.product-details .p-inputtextarea.p-inputtext{
+    width: 80%;
 }
 </style>

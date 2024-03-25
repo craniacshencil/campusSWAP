@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from products.models import Prouduct_listing 
 from django.views.decorators.csrf import csrf_exempt
+from .models import AdminApprovalFeedback
 import json
 
 # Create your views here.
@@ -30,6 +31,17 @@ def grant_approval(request):
         product.admin_approval = True
         product.save()
         return JsonResponse({'Success' : "Sucessfully Registered Changes"})
-    return JsonResponse({'error': 'No Get request received'})
+    return JsonResponse({'error': 'No Post request received'})
+
+@csrf_exempt
+def send_negative_feedback(request):
+    if request.method == "POST":
+        feedbackJSON = json.loads(request.body)
+        AdminApprovalFeedback.objects.create(
+            product_id = feedbackJSON['productId'],
+            feedback = feedbackJSON['feedback'],
+        )
+        return JsonResponse({'message': 'Sent Feedback'})
+    return JsonResponse({'error': 'No Post request received'})
     
 
