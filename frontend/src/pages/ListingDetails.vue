@@ -16,7 +16,14 @@
             <h1 class = "product-title">{{ productInfo.title }}</h1>
             <h2 class = "price">₹{{ productInfo.price }}</h2>
             <p>Condition of the item: {{ productInfo.selectedCondition }}</p>
-            <p>Product description {{ productInfo.productDesc }}</p>
+            <p>Product Description: {{ productInfo.productDesc }}</p>
+            <div v-if = "fromAdmin">
+                <p>category: {{ productInfo.category}}</p>
+                <p>Selected Year: {{ productInfo.selectedYear }}</p>
+                <p>Selected Branch: {{ productInfo.selectedBranch }}</p>
+                <p>Selected Item Type: {{ productInfo.selectedItemType }}</p>
+                <p>Selected Conditon: {{ productInfo.selectedCondition }}</p>
+            </div>
             <Button icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
             <Button icon = "pi pi-heart" label= "Wishlist" severity = "secondary" raised />
         </div>
@@ -37,7 +44,9 @@
             </div>
         </div>
     </div>
-    <Button v-if = "!fromMyListings" @click = "confirmListing" label = "Confirm Listing" class = "contrast confirm-btn" raised />
+    <Button v-if = "!fromMyListings && !fromAdmin" @click = "confirmListing" label = "Confirm Listing" class = "contrast confirm-btn" raised />
+    <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "contrast confirm-btn" raised />
+    <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" class = "contrast confirm-btn" raised />
     <!-- <Button v-if = "productListed" @click = "this.$router.push({name: 'Settings'})" label = "Redirect" class = "contrast confirm-btn" raised /> -->
 </div>
 
@@ -54,9 +63,10 @@ export default{
     data(){
         return{
             infoReached: false,
-            productInfo: {},
+            prouductInfo: null,
             images: [],
             fromMyListings: false,
+            fromAdmin: false,
         }
     },
     components: { Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
@@ -64,21 +74,35 @@ export default{
         confirmListing(){
             axios.post("http://localhost:8000/products/sell_form", this.productInfo) 
             .then(response => {
-                console.log("Form data has been sent")
                 this.$toast.add({ severity: 'success', summary: 'Successfully Listed', detail: `Redirecting...`, life: 3000 })
                 setTimeout(() => {this.$router.push({'name': 'Settings'})}, 3000)
             })
             .catch(error => console.log("Form data could not be sent"))
-        }
+        },
+
+        grantApproval(){
+            console.log(this.productInfo)
+            const productIdJSON = {
+               productId: this.$route.params.productId
+            }
+            axios.post("http://localhost:8000/admin_actions/grant_approval", productIdJSON)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+            this.$toast.add({ severity: 'success', summary: 'Admin Approval Granted!', detail: 'Redirecting to dashboard', life: 3000 })
+            setTimeout(() => {this.$router.push({'name': 'Admin Dashboard'})}, 3000)
+        },
     },
     created(){
-        this.productInfo = this.$route.params
+        this.productInfo = JSON.parse(this.$route.params.product)
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})
-        this.infoReached = true
         //To Not dispaly 'Confirm Listing' button when you are coming here from the 'MyListings' panel from 'Settings page'
-        if(this.productInfo.fromMyListing)
+        if(this.$route.params.fromMyListing)
             this.fromMyListings = true
+        //To display specific thing that will only be seen on admin page
+        if(this.$route.params.fromAdmin)
+            this.fromAdmin = true
+        this.infoReached = true
     }
 }
 </script>

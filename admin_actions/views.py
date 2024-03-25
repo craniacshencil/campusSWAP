@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from products.models import Prouduct_listing 
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 def get_unapproved_listings_and_resources(request):
@@ -18,4 +20,16 @@ def get_unapproved_listings_and_resources(request):
                 'resources_count' : unapproved_resources_count,
             })
     return JsonResponse({'error': 'No Get request received'})
+
+@csrf_exempt
+def grant_approval(request):
+    if request.method == "POST":
+        product_id = int(json.loads(request.body)['productId'])
+        # print(f"Product id: {product_id} {type(product_id)}")
+        product = Prouduct_listing.objects.get(id = product_id)
+        product.admin_approval = True
+        product.save()
+        return JsonResponse({'Success' : "Sucessfully Registered Changes"})
+    return JsonResponse({'error': 'No Get request received'})
+    
 

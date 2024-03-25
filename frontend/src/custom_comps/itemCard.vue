@@ -1,7 +1,7 @@
 <template>
     <Card style="width: 25rem; overflow: hidden; margin-bottom: 60px; min-height: 550px">
     <template #header>
-        <img alt="user header" :src="image_url" style="width: 400px; height: auto;" />
+        <img alt="user header" :src="image_urls[0]" style="width: 400px; height: auto;" />
     </template>
     <template #title>{{ product.title }}</template>
     <template #subtitle>{{ product.moodleID }}</template>
@@ -11,7 +11,7 @@
     <template #footer>
         <div class="button-wrapper flex justify-content-between gap-2">
             <Button class = "w-3" icon = "pi pi-heart" severity = "danger" />
-            <Button class = "check-details-btn flex-1" icon = "pi pi-chevron-right" @click = "visible = true" severity = "contrast" :label = "this.main_action" />
+            <Button @click = "triggerAction" class = "main-action-btn flex-1" icon = "pi pi-chevron-right" severity = "contrast" :label = "this.main_action" />
         </div>
     </template>
 </Card>
@@ -23,7 +23,7 @@ import Card from 'primevue/card'
     export default{
         data(){
             return{
-                image_url: this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(","),
+                image_urls: this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(","),
             }
         },
         props: { 
@@ -32,9 +32,39 @@ import Card from 'primevue/card'
         },
         name: "itemCard",
         components: { Card, Button },
-        created(){
-            
-        }
+        methods: {
+            triggerAction(){
+                if(this.$route.name = "Approve Listing")
+                    this.inspectListing()
+                else
+                    this.toListing()
+            },
+
+            inspectListing(){
+                const sessionInfo = JSON.parse(sessionStorage.user)
+                this.$router.push({ name: "Listing details", params: {
+                product : JSON.stringify({
+                    moodleID:sessionInfo.user.moodleID,
+                    title:this.product.title,
+                    category:this.product.category,
+                    price:this.product.price,
+                    selectedYear:this.product.selected_year,
+                    selectedBranch:this.product.selected_branch,
+                    selectedItemType:this.product.selected_item_type,
+                    selectedCondition:this.product.selected_condition,
+                    productDesc:this.product.product_description,
+                    image_urls:this.image_urls,
+                    adminApproval: false,
+                }),
+                fromAdmin: true,
+                productId: this.product.id,
+                }})
+            },
+
+            toListing(){
+                //Write code to send user to detailed listing page after 'buy.vue' if they click on the product
+            }
+        },
     }
 </script>
 

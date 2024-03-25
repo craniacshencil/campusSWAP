@@ -140,19 +140,22 @@ export default{
         submitForm(){
             const sessionInfo = JSON.parse(sessionStorage.user)
             this.$router.push({ name: "Listing details", params: {
-                moodleID: sessionInfo.user.moodleID,
-                title: this.title,
-                category: this.category,
-                price: this.price,
-                selectedYear: this.selectedYear,
-                selectedBranch: this.selectedBranch,
-                selectedItemType: this.selectedItemType,
-                selectedCondition: this.selectedCondition,
-                productDesc: this.productDesc,
-                image_urls: this.image_urls,
+            product : JSON.stringify({
+                moodleID:sessionInfo.user.moodleID,
+                title:this.title,
+                category:this.category,
+                price:this.price,
+                selectedYear:this.selected_year,
+                selectedBranch:this.selected_branch,
+                selectedItemType:this.selected_item_type,
+                selectedCondition:this.selected_condition,
+                productDesc:this.product_description,
+                image_urls:this.image_urls,
                 adminApproval: false,
+            }),
+            fromMyListing: true,
             }})
-        }
+        },
     },
 }
 </script>
