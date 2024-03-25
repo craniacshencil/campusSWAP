@@ -41,7 +41,16 @@ def send_negative_feedback(request):
             product_id = feedbackJSON['productId'],
             feedback = feedbackJSON['feedback'],
         )
+        product = ProductListing.objects.get(id = feedbackJSON['productId'])
+        product.admin_approval = 'Deny'
+        product.save()
         return JsonResponse({'message': 'Sent Feedback'})
     return JsonResponse({'error': 'No Post request received'})
     
-
+def get_negative_feedback(request, product_id):
+    if request.method == "GET":
+       product_feedback = AdminApprovalFeedback.objects.get(product_id = product_id)
+       return JsonResponse({
+           'feedback': product_feedback.feedback,
+       })
+    return JsonResponse({'error': 'No Get request received'})
