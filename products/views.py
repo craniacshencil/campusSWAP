@@ -2,7 +2,7 @@ from django.http import JsonResponse
 import os
 import requests
 from django.views.decorators.csrf import csrf_exempt
-from .models import Prouduct_listing 
+from .models import ProductListing 
 import base64
 import json
 
@@ -35,7 +35,7 @@ def generate_image_url(request):
 def sell_form(request):
     if request.method == "POST":
         sell_form_data = json.loads(request.body)
-        Prouduct_listing.objects.create(
+        ProductListing.objects.create(
             moodleID = int(sell_form_data['moodleID']),
             title = sell_form_data['title'],
             category = sell_form_data['category'],
@@ -54,7 +54,7 @@ def sell_form(request):
 @csrf_exempt
 def user_listings(request, moodleID):
     if request.method == "GET":
-        my_listings = Prouduct_listing.objects.filter(moodleID = moodleID).values()
+        my_listings = ProductListing.objects.filter(moodleID = moodleID).values()
         indexed_listings = {}
         for index, item in enumerate(my_listings):
             indexed_listings[index] = item

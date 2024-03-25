@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
-from .models import collegeStudent, studentMetaInfo
+from .models import CollegeStudent, StudentMetaInfo
 # Create your views here.
 @csrf_exempt
 def register(request):
@@ -14,8 +14,8 @@ def register(request):
         "register_error" : register_error_message
         }
         try:
-            is_valid_moodleID = collegeStudent.objects.get(moodleID = data['moodleID']).email
-        except collegeStudent.DoesNotExist:
+            is_valid_moodleID = CollegeStudent.objects.get(moodleID = data['moodleID']).email
+        except CollegeStudent.DoesNotExist:
             is_valid_moodleID = False
             register_error_message = "Entered MoodleID is non-existent"
             register_error_message_json = {
@@ -42,7 +42,7 @@ def register(request):
         if is_valid_moodleID and (not is_existing_account) and (data['email'] == is_valid_moodleID) and (data['password'] == data['confirmPassword']) and (data['passwordStrength'] == 'strong'):
             user = User.objects.create_user(username = data['moodleID'], email = data['email'], password = data['password'], first_name = data['firstName'], last_name = data['lastName'])
             user.save()
-            studentMetaInfo.objects.create(moodleID = user, phonenumber = data['phonenumber'])
+            StudentMetaInfo.objects.create(moodleID = user, phonenumber = data['phonenumber'])
 
         else:
             if data['email'] != is_valid_moodleID:
@@ -74,9 +74,9 @@ def login_page(request):
                 login_error = "Incorrect password"
             except User.DoesNotExist:
                 try:
-                    is_valid_moodleID = collegeStudent.objects.get(moodleID = login_data['moodleID'])
+                    is_valid_moodleID = CollegeStudent.objects.get(moodleID = login_data['moodleID'])
                     login_error = "Account does not exist for entered MoodleID"
-                except collegeStudent.DoesNotExist:
+                except CollegeStudent.DoesNotExist:
                     login_error = "Invalid MoodleID"
         if(login_error == "No Error"):
             return JsonResponse({
