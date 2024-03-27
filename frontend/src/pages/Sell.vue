@@ -3,54 +3,11 @@
         <pageHeader />
         <pageNav />
         <h1>Sell your items, help a student</h1>
-        <form @submit.prevent = "submitForm">
-            <FloatLabel>
-                <InputText id="Title of listing" v-model="title" class = "form-field" required/>
-                <label for="Title of listing">Title of listing</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <InputText id="Category" v-model="category" class = "form-field" required/>
-                <label for="Category">Category</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <InputText type = number id="Price" v-model="price" class = "form-field" required/>
-                <label for="Price">Price</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <MultiSelect :showToggleAll="false" id="year" v-model="selectedYear" display = "chip" :options = "engineeringYears" 
-                class = "form-field" />
-                <label for="year">Which year students need this item?</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <MultiSelect :showToggleAll="false" id="Branch" v-model="selectedBranch" display = "chip" :options = "engineeringBranch" 
-                class = "form-field" />
-                <label for="Branch">Which branch students would need this item?</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <MultiSelect :showToggleAll="false" id="ItemType" v-model="selectedItemType" display = "chip" :options = "itemType" 
-                class = "form-field" />
-                <label for="ItemType">Item type</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <Dropdown id="Condition" v-model="selectedCondition" display = "chip" 
-                :options = "condition" class = "form-field" required/>
-                <label for="Condition">Condition of Item</label>
-            </FloatLabel>
-
-            <FloatLabel>
-                <Textarea class = "desc" v-model="productDesc" required/>
-                <label for="Product Description">Product Description</label>
-            </FloatLabel>
+        <form>
+            <ProductFormFields @receiveForm = "storeFormValues" />
             <div class = "image-uploader">
                 <label for = "uploader" class = "uploader-label">Upload Images</label>
                 <Toast />
-            
                 <FileUpload name="image" url = "http://localhost:8000/products/image_url_gen" @upload="onAdvancedUpload($event)" 
                 :auto= "true" filelimit = 15 accept="image/*" :maxFileSize="32e7">
                     <template #empty>
@@ -66,16 +23,10 @@
 <script>
 import pageNav from '@/custom_comps/pageNav.vue';
 import pageHeader from '@/custom_comps/pageHeader.vue';
-import Textarea from 'primevue/textarea';
-import InputText from 'primevue/inputtext';
-import FloatLabel from 'primevue/floatlabel'
-import MultiSelect from 'primevue/multiselect';
-import Dropdown from 'primevue/dropdown';
-import Message from 'primevue/message';
+import ProductFormFields from '@/custom_comps/ProductFormFields.vue'
 import FileUpload from 'primevue/fileupload';
 import Toast from 'primevue/toast';
 import Button from 'primevue/button'
-import axios from 'axios';
 
 export default{
     data(){
@@ -86,7 +37,7 @@ export default{
             condition: ["Brand New", "Used-Good Condition", "Used-Fair Condition", "Needs Repair" ],
             title: "",
             category: "",
-            price: null,
+            price: "",
             selectedYear: [],
             selectedBranch: [],
             selectedItemType: [],
@@ -95,11 +46,22 @@ export default{
             image_urls: [],
         }
     },
-    components:{ Dropdown, Button, pageNav, pageHeader, InputText, FloatLabel, MultiSelect, Message, FileUpload, Toast, Textarea },
+    components:{ Button, pageNav, pageHeader, ProductFormFields, FileUpload, Toast },
     methods:{
         onAdvancedUpload(event) {
             this.image_urls.push(JSON.parse(event.xhr.responseText)['image_url'])
             this.$toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 })
+        },
+
+        storeFormValues(values){
+            this.title = values.title
+            this.category = values.category
+            this.price = values.price
+            this.productDesc = values.productDesc
+            this.selectedYear = values.selectedYear
+            this.selectedBranch = values.selectedBranch
+            this.selectedItemType = values.selectedItemType
+            this.selectedCondition = values.selectedCondition
         },
 
         validateForm(){
@@ -117,7 +79,6 @@ export default{
                 {'Price' : this.price},
                 {'Product Description' : this.productDesc},
             ]
-            
 
             for(let field of textFields){
                 if(!(Object.values(field)[0])){
@@ -125,7 +86,6 @@ export default{
                     validFlag = 0 
                 }
             }
-            console.log(validFlag)
 
             for(let field of selectFields){
                 if(Object.values(field)[0].length == 0){
