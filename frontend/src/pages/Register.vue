@@ -59,9 +59,9 @@
             <!-- Adding type = submit breaks all the django form validation -->
             <!-- But when type = submit is not present then all the fields are note required -->
             </form>
-            <div class = "successful-registration" v-if = "errorMessage == noError">
-                <Message severity = "success">Registration successful</Message>
-                <router-link class = "login-redirect" to = "login">Redirect to Login</router-link>
+            <div class = "successful-registration mt-5 w-9" v-if = "errorMessage == noError">
+                <ProgressBar class = "w-full" mode = "indeterminate" style = "height: 0.5rem"></ProgressBar>
+                <p>Redirecting to Login...</p>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
 <script>
 import Toast from 'primevue/toast';
 import InputGroup from 'primevue/inputgroup';
-import Message from 'primevue/message';
+import ProgressBar from 'primevue/progressbar';
 import InputGroupAddon from 'primevue/inputgroupaddon';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button'
@@ -99,7 +99,7 @@ export default{
             noError: "No Error"
         }
     },
-    components: { Toast, Message, PrimaryNav, InputGroup, InputGroupAddon, InputText, Button, Password },
+    components: { ProgressBar, Toast, PrimaryNav, InputGroup, InputGroupAddon, InputText, Button, Password },
     methods: {
         validateForm(){
             let isValidated = true 
@@ -137,7 +137,10 @@ export default{
             axios.post('http://127.0.0.1:8000/apis/register', formData)
             .then(response => {
                 this.errorMessage = response.data.register_error
-                console.log(this.errorMessage)
+                if(this.errorMessage == "No Error"){
+                    this.$toast.add({ severity: 'success', summary: 'Registration Successful', detail: `Redirecting to login...`, life: 3000 })
+                    setTimeout(() => {this.$router.push('/login')}, 1500)
+                }
             }).catch(error => {
                 console.log("error when registering: ", error);
             });

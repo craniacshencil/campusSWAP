@@ -8,16 +8,17 @@
             <InputText ref = "searchField" v-model = "searchTerm" placeholder = "Search" />
             <Button @click = "hitSearch" icon = "pi pi-search" />
         </InputGroup>
-        <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
+        <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-3">
             <Button v-if = "this.isAdmin == true" text raised outlined class = "dash-button" @click = "this.$router.push({ name : 'Admin Dashboard'})" icon = "pi pi-home" />
             <Button text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
             <Button text raised outlined class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" />
         </div>
 
-        <div v-else class = "flex flex-row gap-2">
+        <div v-else class = "flex flex-row gap-3">
             <Button class = "register-btn nav-btn" @click = "this.$router.push({name: 'Register'})">Register</Button>
             <Button v-if = "!this.isLoggedIn" class = "nav-btn" @click = "this.$router.push({ name: 'Login'})">Login</Button>
             <Button v-else text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
+            <Button v-if = "this.isLoggedIn" text raised outlined class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" />
         </div>
     </header>
 </template>
@@ -78,8 +79,9 @@ export default{
         if(sessionStorage.isAuthenticated){
             const loggedInfo = JSON.parse(sessionStorage.isAuthenticated)
             this.isLoggedIn = loggedInfo.authState;
-            this.isAdmin = JSON.parse(sessionStorage.user).user.superuser_status
         }
+        if(sessionStorage.user)
+            this.isAdmin = JSON.parse(sessionStorage.user).user.superuser_status
     }
 }
 </script>
@@ -124,7 +126,4 @@ h1{
     cursor: pointer;
 }
 
-.register-btn{
-    margin-right: 0.5rem;
-}
 </style>

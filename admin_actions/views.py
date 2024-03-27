@@ -26,7 +26,12 @@ def get_unapproved_listings_and_resources(request):
 def grant_approval(request):
     if request.method == "POST":
         product_id = int(json.loads(request.body)['productId'])
-        # print(f"Product id: {product_id} {type(product_id)}")
+
+        # code for when editing of a listing is allowed
+        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = productId)
+        # if(previous_feedback):
+        #     previous_feedback.delete()
+
         product = ProductListing.objects.get(id = product_id)
         product.admin_approval = True
         product.save()
@@ -37,6 +42,12 @@ def grant_approval(request):
 def send_negative_feedback(request):
     if request.method == "POST":
         feedbackJSON = json.loads(request.body)
+
+        # code for when editing of a listing is allowed
+        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = feedbackJSON['productId'])
+        # if(previous_feedback):
+        #     previous_feedback.delete()
+
         AdminApprovalFeedback.objects.create(
             product_id = feedbackJSON['productId'],
             feedback = feedbackJSON['feedback'],

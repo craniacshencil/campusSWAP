@@ -29,9 +29,8 @@
                     </div>
                 </div>
             </form>
-            <div class="login-successful" v-if = "loginError == noError">
-                <Message severity = "success">Login successful</Message>
-                <ProgressBar mode = "indeterminate" style = "height: 0.5rem"></ProgressBar>
+            <div class="login-successful mt-5 w-9" v-if = "loginError == noError">
+                <ProgressBar class = "w-full" mode = "indeterminate" style = "height: 0.5rem"></ProgressBar>
                 <p>Redirecting to home...</p>
             </div>
         </div>
@@ -102,10 +101,12 @@ export default{
                     }
                     this.$store.commit('assignUser', user)
                     this.$store.commit('toggleIsAuthenticated', true)
+                    this.$toast.add({ severity: 'success', summary: 'Login Successful', detail: `Welcome ${user.first_name}`, life: 3000 })
                     if(user.superuser_status == false)
-                        setTimeout(() => {this.$router.push('/')}, 750)
+                        setTimeout(() => {this.$router.push('/')}, 1500)
                     else 
-                        setTimeout(() => {this.$router.push('/admindash')}, 750)
+                        setTimeout(() => {this.$router.push('/admindash')}, 1500)
+                    
 
                 }
             }).catch(error => {
