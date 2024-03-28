@@ -28,6 +28,7 @@
             <Button icon = "pi pi-heart" label= "Wishlist" severity = "secondary" raised />
 
             <Button v-if = "!fromMyListings && !fromAdmin" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
+            <Button label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
             <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
             <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" class = "confirm-btn" raised />
             <div class="feedback-denied-section" v-if = "showFeedbackTextArea">
@@ -93,9 +94,25 @@ export default{
             .catch(error => console.log("Form data could not be sent"))
         },
 
+        editListing(){
+            this.$router.push({name: 'Sell', params: {
+                filledValues: JSON.stringify({
+                    title: this.productInfo.title,
+                    category: this.productInfo.category,
+                    price: this.productInfo.price,
+                    productDesc: this.productInfo.productDesc,
+                    selectedYear: this.productInfo.selectedYear,
+                    selectedBranch: this.productInfo.selectedBranch,
+                    selectedItemType: this.productInfo.selectedItemType,
+                    selectedCondition: this.productInfo.selectedCondition,
+                    image_urls: this.productInfo.image_urls,
+                }),
+                toEditListing: true,
+            }
+            })
+        },
         //This function is activated on 'Inspect Listing' by admin if they have no problem with the listing
         grantApproval(){
-            console.log(this.productInfo)
             const productIdJSON = {
                productId: this.$route.params.productId
             }
@@ -113,12 +130,10 @@ export default{
         },
 
         sendFeedback(){
-            console.log(this.denialFeedback)
             const feedbackJSON = {
                 productId: this.$route.params.productId,
                 feedback: this.denialFeedback,
             }
-            console.log(feedbackJSON)
             axios.post("http://localhost:8000/admin_actions/send_negative_feedback", feedbackJSON)
             .then(response => {
                 this.$toast.add({ severity: 'warning', summary: 'Admin Approval Denied!', detail: 'Redirecting to dashboard', life: 3000 })
@@ -130,8 +145,8 @@ export default{
     },
     created(){
         //storing product info in local variable
-        console.log(this.$route.params)
         this.productInfo = JSON.parse(this.$route.params.product)
+        console.log(this.productInfo)
         //Galleria requires a list of JSONs to display images, therefore creating this
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})

@@ -2,9 +2,51 @@
     <div class="void">
         <pageHeader />
         <pageNav />
-        <h1>Sell your items, help a student</h1>
+        <h1>{{ h1Title }}</h1>
         <form>
-            <ProductFormFields @receiveForm = "storeFormValues" />
+                <FloatLabel>
+                    <InputText id="Title of listing" v-model="title" class = "form-field" @input = "sendValues" required/>
+                    <label for="Title of listing">Title of listing</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <InputText id="Category" v-model="category" class = "form-field" @input = "sendValues" required/>
+                    <label for="Category">Category</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <InputText type = number id="Price" v-model="price" class = "form-field" @input= "sendValues" required/>
+                    <label for="Price">Price</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <MultiSelect :showToggleAll="false" id="year" v-model="selectedYear" display = "chip" @change= "sendValues" :options = "engineeringYears" 
+                    class = "form-field" />
+                    <label for="year">Which year students need this item?</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <MultiSelect :showToggleAll="false" id="Branch" v-model="selectedBranch" display = "chip" @change= "sendValues" :options = "engineeringBranch" 
+                    class = "form-field" />
+                    <label for="Branch">Which branch students would need this item?</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <MultiSelect :showToggleAll="false" id="ItemType" v-model="selectedItemType" display = "chip" @change= "sendValues" :options = "itemType" 
+                    class = "form-field" />
+                    <label for="ItemType">Item type</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <Dropdown id="Condition" v-model="selectedCondition" display = "chip"  @change= "sendValues"
+                    :options = "condition" class = "form-field" required/>
+                    <label for="Condition">Condition of Item</label>
+                </FloatLabel>
+
+                <FloatLabel>
+                    <Textarea class = "desc" v-model="productDesc" @input = "sendValues" required/>
+                    <label for="Product Description">Product Description</label>
+                </FloatLabel>
             <div class = "image-uploader">
                 <label for = "uploader" class = "uploader-label">Upload Images</label>
                 <Toast />
@@ -15,6 +57,10 @@
                     </template>
                 </FileUpload>
             </div>
+            <!-- <div class = "image-deleter">
+                {/* <img alt="user header" :src="image_urls[0]" style="width: 100px; height: auto;" /> */}
+                <Button label = "Delete" severity = "contrast" raised />
+            </div> -->
             <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" @click = "validateForm" />
         </form>
     </div>
@@ -23,10 +69,15 @@
 <script>
 import pageNav from '@/custom_comps/pageNav.vue';
 import pageHeader from '@/custom_comps/pageHeader.vue';
-import ProductFormFields from '@/custom_comps/ProductFormFields.vue'
 import FileUpload from 'primevue/fileupload';
 import Toast from 'primevue/toast';
 import Button from 'primevue/button'
+import Textarea from 'primevue/textarea';
+import InputText from 'primevue/inputtext';
+import FloatLabel from 'primevue/floatlabel'
+import MultiSelect from 'primevue/multiselect';
+import Dropdown from 'primevue/dropdown';
+import Message from 'primevue/message';
 
 export default{
     data(){
@@ -38,30 +89,20 @@ export default{
             title: "",
             category: "",
             price: "",
+            productDesc: "",
             selectedYear: [],
             selectedBranch: [],
             selectedItemType: [],
             selectedCondition: [],
-            productDesc: "",
             image_urls: [],
+            h1Title: "Sell your items, help a student"
         }
     },
-    components:{ Button, pageNav, pageHeader, ProductFormFields, FileUpload, Toast },
+    components:{ Textarea, InputText, FloatLabel, MultiSelect, Dropdown, Message, Button, pageNav, pageHeader, FileUpload, Toast },
     methods:{
         onAdvancedUpload(event) {
             this.image_urls.push(JSON.parse(event.xhr.responseText)['image_url'])
             this.$toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 })
-        },
-
-        storeFormValues(values){
-            this.title = values.title
-            this.category = values.category
-            this.price = values.price
-            this.productDesc = values.productDesc
-            this.selectedYear = values.selectedYear
-            this.selectedBranch = values.selectedBranch
-            this.selectedItemType = values.selectedItemType
-            this.selectedCondition = values.selectedCondition
         },
 
         validateForm(){
@@ -116,6 +157,26 @@ export default{
             }})
         },
     },
+    created(){
+        //When sell.vue is used to edit the listing
+        if(this.$route.params.filledValues){
+            this.h1Title = "Edit Listing"
+            const filledVal = JSON.parse(this.$route.params.filledValues)
+            const selectedYear = filledVal.selectedYear.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedBranch = filledVal.selectedBranch.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedItemType = filledVal.selectedItemType.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedCondition = filledVal.selectedCondition.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "")
+            this.title = filledVal.title
+            this.category = filledVal.category
+            this.price = filledVal.price
+            this.productDesc= filledVal.productDesc
+            this.selectedYear= selectedYear
+            this.selectedBranch= selectedBranch
+            this.selectedItemType= selectedItemType 
+            this.selectedCondition= selectedCondition
+            this.image_urls = filledVal.image_urls
+        }
+    },
 }
 </script>
 
@@ -135,11 +196,6 @@ h1{
     margin-bottom: 2rem;
 }
 
-label{
-    text-transform: uppercase;
-    letter-spacing: 0.1rem;
-}
-
 form{
     display: flex;
     gap: 1.75rem;
@@ -148,19 +204,20 @@ form{
     width: 100%;
 }
 
+label{
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+}
+
 .uploader-label{
     color: #AAA;
 }
+
 .form-field{
     width: 50vw;
     line-height: 2rem;
 }
 
-.image-uploader{
-    margin-top: 1rem;
-    width: 50vw;
-    background: #09090b;
-}
 .desc{
     align-self: flex-start;
     background-color: #09090b;
@@ -173,6 +230,13 @@ form{
 .desc:focus{
     border: 1px solid teal;
     outline: 1px solid teal;
+}
+
+
+.image-uploader{
+    margin-top: 1rem;
+    width: 50vw;
+    background: #09090b;
 }
 
 .preview-listing-btn{
