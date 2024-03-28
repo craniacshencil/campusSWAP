@@ -86,7 +86,11 @@ export default {
 
         toListingPreview(){
             //WatchMojo: Top 10 reasons why you should learn regex
-            const image_url =  this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(",")
+            const image_url =  this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedYear = this.product.selected_year.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedBranch = this.product.selected_branch.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedItemType = this.product.selected_item_type.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedCondition = this.product.selected_condition.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "")
             const sessionInfo = JSON.parse(sessionStorage.user)
             this.$router.push({ name: "Listing details", params: {
                 product: JSON.stringify({
@@ -94,15 +98,14 @@ export default {
                     title: this.product.title,
                     category: this.product.category,
                     price: this.product.price,
-                    selectedYear: this.product.selected_year,
-                    selectedBranch: this.product.selected_branch,
-                    selectedItemType: this.product.selected_item_type,
-                    selectedCondition: this.product.selected_condition,
                     productDesc: this.product.product_description,
+                    selectedYear: selectedYear,
+                    selectedBranch: selectedBranch,
+                    selectedItemType: selectedItemType,
+                    selectedCondition: selectedCondition,
                     image_urls: image_url, 
-                    adminApproval: false,
                 }),
-                fromMyListing: true,
+                adminStatus:this.items[1].status,
             }})
         },
     },

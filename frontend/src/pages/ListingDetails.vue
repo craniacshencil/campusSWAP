@@ -17,7 +17,7 @@
             <h2 class = "price">₹{{ productInfo.price }}</h2>
             <p>Condition of the item: {{ productInfo.selectedCondition }}</p>
             <p>Product Description: {{ productInfo.productDesc }}</p>
-            <div v-if = "fromAdmin">
+            <div v-if = "fromAdmin || fromSell">
                 <p>category: {{ productInfo.category}}</p>
                 <p>Selected Year: {{ productInfo.selectedYear }}</p>
                 <p>Selected Branch: {{ productInfo.selectedBranch }}</p>
@@ -26,9 +26,8 @@
             </div>
             <Button icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
             <Button icon = "pi pi-heart" label= "Wishlist" severity = "secondary" raised />
-
-            <Button v-if = "!fromMyListings && !fromAdmin" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
-            <Button label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
+            <Button v-if = "fromSell" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
+            <Button v-if = "fromDeniedApproval || fromSell" label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
             <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
             <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" class = "confirm-btn" raised />
             <div class="feedback-denied-section" v-if = "showFeedbackTextArea">
@@ -76,8 +75,11 @@ export default{
             infoReached: false,
             prouductInfo: null,
             images: [],
+            fromSell: false,
             fromMyListings: false,
             fromAdmin: false,
+            fromDeniedApproval: false,
+            fromMyListingNotDeniedApproval: false,
             showFeedbackTextArea: false,
             denialFeedback: '',
         }
@@ -146,17 +148,23 @@ export default{
     created(){
         //storing product info in local variable
         this.productInfo = JSON.parse(this.$route.params.product)
+        this.infoReached = true
         console.log(this.productInfo)
         //Galleria requires a list of JSONs to display images, therefore creating this
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})
-        //To Not dispaly 'Confirm Listing' button when you are coming here from the 'MyListings' panel from 'Settings page'
-        if(this.$route.params.fromMyListing)
-            this.fromMyListings = true
-        //To display specific thing that will only be seen on admin page
+        //Redirect from Sell
+        if(this.$route.params.fromSell)
+            this.fromSell = true
+        //Redirect from Admin-Approval
         if(this.$route.params.fromAdmin)
             this.fromAdmin = true
-        this.infoReached = true
+        // Redirect from my-listings where admin has denied approval
+        if(this.$route.params.adminStatus == 'deny')
+            this.fromDeniedApproval = true
+        // Redirect from my-listings where admin hasn't seen the listing yet for approval
+        if(this.$route.params.adminStatus == false)
+            this.fromMyListingNotDeniedApproval= true
     }
 }
 </script>

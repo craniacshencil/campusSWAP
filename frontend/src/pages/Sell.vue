@@ -57,10 +57,16 @@
                     </template>
                 </FileUpload>
             </div>
-            <!-- <div class = "image-deleter">
-                {/* <img alt="user header" :src="image_urls[0]" style="width: 100px; height: auto;" /> */}
-                <Button label = "Delete" severity = "contrast" raised />
-            </div> -->
+            <div v-if = "isEditingListing" class="image-deleter-wrapper" flex justify-content-start>
+            <label for = "deleter">Delete Images</label>
+                <p>You currently have {{this.image_urls.length}} images uploaded</p>
+                <div class = "image-deleter-inner-wrapper flex justify-content-start gap-3">
+                    <div class = "image-deleter-element flex flex-column" v-for = "image_url in image_urls">
+                        <img alt="user header" :src="image_url" style="width: 150px; height: auto;" />
+                        <Button label = "Delete" severity = "danger" raised @click = "deleteImage(image_url)" />
+                    </div>
+                </div>
+            </div> 
             <Button rounded outlined label = "Preview Listing" class = "preview-listing-btn" @click = "validateForm" />
         </form>
     </div>
@@ -82,6 +88,7 @@ import Message from 'primevue/message';
 export default{
     data(){
         return{
+            isEditingListing: false,
             engineeringYears: ["F.E", "S.E", "T.E", "B.E"],
             engineeringBranch: ["CS", "AIML", "DS", "Civil", "Mech", "EXTC", "IT"],
             itemType: ["Textbooks", "Stationery", "Tools", "Gadgets", "Electrical Components" ],
@@ -153,28 +160,34 @@ export default{
                 productDesc:this.productDesc,
                 image_urls:this.image_urls,
                 adminApproval: false,
-            })
+            }),
+            fromSell: true
             }})
         },
+
+        //when in edit-listing mode
+         deleteImage(image_url){
+            const deleteIndex = this.image_urls.indexOf(image_url)
+            this.image_urls.splice(deleteIndex, 1)
+            console.log(this.image_urls)
+         },
     },
     created(){
         //When sell.vue is used to edit the listing
         if(this.$route.params.filledValues){
             this.h1Title = "Edit Listing"
             const filledVal = JSON.parse(this.$route.params.filledValues)
-            const selectedYear = filledVal.selectedYear.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
-            const selectedBranch = filledVal.selectedBranch.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
-            const selectedItemType = filledVal.selectedItemType.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
-            const selectedCondition = filledVal.selectedCondition.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "")
+            console.log(filledVal)
             this.title = filledVal.title
             this.category = filledVal.category
             this.price = filledVal.price
             this.productDesc= filledVal.productDesc
-            this.selectedYear= selectedYear
-            this.selectedBranch= selectedBranch
-            this.selectedItemType= selectedItemType 
-            this.selectedCondition= selectedCondition
+            this.selectedYear= filledVal.selectedYear
+            this.selectedBranch= filledVal.selectedBranch
+            this.selectedItemType= filledVal.selectedItemType 
+            this.selectedCondition= filledVal.selectedCondition
             this.image_urls = filledVal.image_urls
+            this.isEditingListing = true
         }
     },
 }
@@ -233,10 +246,15 @@ label{
 }
 
 
-.image-uploader{
+.image-uploader,
+.image-deleter-wrapper{
     margin-top: 1rem;
     width: 50vw;
     background: #09090b;
+}
+
+.image-deleter-element{
+    width: 150px;
 }
 
 .preview-listing-btn{
@@ -253,4 +271,5 @@ label{
     color: #09090b;
     transition: 200ms ease-in;
 }
+
 </style>
