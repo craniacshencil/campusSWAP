@@ -1,12 +1,11 @@
 <template>
-    <div class="void h-screen w-screen">
+    <div class="void h-full w-full">
         <pageHeader />
         <pageNav />
-        <ResourcesNav @sendDisplayInfo = "handleRequiredView" />
-        <div v-if = "showCreateResources" class="create-resources">
-            <p>Create resources section</p>
+        <ResourcesNav @sendDisplayInfo = "handleRequiredView" class = "mt-4" />
+        <div v-if = "showCreateResources" class="create-resources w-full flex flex-column justify-content-center">
+            <MarkdownEditor />
         </div>
-
         <div v-if = "showFindResources" class="find-resources">
             <p>Find resources section</p>
         </div>
@@ -17,6 +16,7 @@
 import pageHeader from "@/custom_comps/pageHeader.vue";
 import pageNav from "@/custom_comps/pageNav.vue";
 import ResourcesNav from "@/custom_comps/ResourcesNav.vue";
+import MarkdownEditor from "@/custom_comps/MarkdownEditor.vue"
 export default{
     data(){
         return{
@@ -24,10 +24,9 @@ export default{
             showCreateResources: false,
         }
     },
-    components: { pageHeader, pageNav, ResourcesNav },
+    components: { pageHeader, pageNav, ResourcesNav, MarkdownEditor },
     methods: {
         handleRequiredView(mode){
-            console.log(mode)
             if(mode == 'find resources'){
                 this.showFindResources = true
                 this.showCreateResources = false
