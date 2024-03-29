@@ -3,7 +3,7 @@
 <div class="void">
     <pageHeader />
     <pageNav />
-    <div v-if = "infoReached" class="product-basics flex justify-content-between flex-wrap">
+    <div v-if = "infoReached" class="product-basics pl-8 pt-5 flex flex-wrap justify-content-start gap-8 align-self-start w-full">
         <Galleria :value="images" :numVisible="5" containerStyle="max-width: 640px"
         :showThumbnails="false" :showIndicators="true" :changeItemOnIndicatorHover="true" :showIndicatorsOnItem="inside"
         :circular="true" :showItemNavigators="true">
@@ -12,30 +12,32 @@
             </template>
         </Galleria>
 
-        <div class="product-details">
+        <div class="product-details flex-1 pr-8">
             <h1 class = "product-title">{{ productInfo.title }}</h1>
             <h2 class = "price">₹{{ productInfo.price }}</h2>
-            <p>Condition of the item: {{ productInfo.selectedCondition }}</p>
-            <p>Product Description: {{ productInfo.productDesc }}</p>
-            <div v-if = "fromAdmin || fromSell">
-                <p>category: {{ productInfo.category}}</p>
-                <p>Selected Year: {{ productInfo.selectedYear }}</p>
-                <p>Selected Branch: {{ productInfo.selectedBranch }}</p>
-                <p>Selected Item Type: {{ productInfo.selectedItemType }}</p>
-                <p>Selected Conditon: {{ productInfo.selectedCondition }}</p>
+            <p class = "product-description">{{ productInfo.productDesc }}</p>
+            <p class = "product-text-detail">- Condition of the item: {{ productInfo.selectedCondition }}</p>
+            <p class = "product-text-detail">- Category: {{ productInfo.category}}</p>
+            <p class = "chip-items">- Category of Item:</p>
+            <Chip v-for="itemType in productInfo.selectedItemType" :key = "itemType" :label = "itemType" class = "m-0 mr-2" />
+            <p class = "chip-items">- Useful for Year:</p>
+            <Chip v-for="year in productInfo.selectedYear" :key = "year" :label = "year" class = "m-0 mr-2" />
+            <p class = "chip-items">- Useful for Branch:</p>
+            <Chip v-for="branch in productInfo.selectedBranch" :key = "branch" :label = "branch" class = "m-0 mr-2 mb-4" />
+            <div class = "btn-section flex gap-2 mb-5 pt-4 border-top-1 border-400 justify-content-center">
+                <Button v-if = "fromBuy" icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
+                <Button v-if = "fromBuy" class = "text-white" icon = "pi pi-heart" label= "Wishlist" severity = "danger" raised />
+                <Button v-if = "fromSell" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
+                <Button v-if = "fromDeniedApproval || fromSell" label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
+                <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
+                <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" severity = "danger" class = "confirm-btn text-white" raised />
             </div>
-            <Button icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
-            <Button icon = "pi pi-heart" label= "Wishlist" severity = "secondary" raised />
-            <Button v-if = "fromSell" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
-            <Button v-if = "fromDeniedApproval || fromSell" label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
-            <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
-            <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" class = "confirm-btn" raised />
             <div class="feedback-denied-section" v-if = "showFeedbackTextArea">
                 <FloatLabel>
-                    <Textarea autoResize rows = "8" class = "feedback-text-area" v-model="denialFeedback" required/>
+                    <Textarea autoResize rows = "8" class = "feedback-text-area w-full" v-model="denialFeedback" required/>
                     <label for="feedback-text-area">Feedback for Denial</label>
                 </FloatLabel>
-                <Button @click = "sendFeedback" label = "Submit Feedback" class = "confirm-btn" raised/>
+                <Button @click = "sendFeedback" label = "Submit Feedback" class = "confirm-btn mt-3  mb-5 w-full" raised/>
             </div>
         </div>
     </div>
@@ -69,6 +71,7 @@ import Skeleton from 'primevue/skeleton';
 import axios from 'axios'
 import Textarea from 'primevue/textarea';
 import FloatLabel from 'primevue/floatlabel';
+import Chip from 'primevue/chip'
 export default{
     data(){
         return{
@@ -76,6 +79,7 @@ export default{
             prouductInfo: null,
             images: [],
             fromSell: false,
+            fromBuy: false,
             fromMyListings: false,
             fromAdmin: false,
             fromDeniedApproval: false,
@@ -84,7 +88,7 @@ export default{
             denialFeedback: '',
         }
     },
-    components: { Textarea, FloatLabel, Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
+    components: { Textarea, FloatLabel, Chip, Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
     methods: {
         //This function will be activated on 'Listing preview' when user first lists their product
         confirmListing(){
@@ -181,28 +185,31 @@ export default{
     flex-direction: column;
 }
 
-.product-details .product-basics{
-    width: 90%;
-}
-
-.product-details{
-    width: 40%;
-}
-
 .product-details .product-title{
     margin: 0;
+    font-size: 2.5rem;
+    margin-bottom: .5rem;
 }
 
 .product-details .price{
     margin: 0;
+    font-size: 2rem;
+    margin-bottom: .3rem;
+}
+
+.product-details .product-description{
+    color: #aaa;
+}
+
+.product-details .chip-items,
+.product-text-detail{
+    margin: 0.8rem;
+    margin-left: 0;
+    font-size: 1.2rem
 }
 
 .product-details .confirm-btn{
     border-radius: 0;
-}
-
-.product-details .btn-section{
-    margin-top: 5rem;
 }
 
 .product-details .p-inputtextarea.p-inputtext{
