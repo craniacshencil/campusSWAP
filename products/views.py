@@ -2,7 +2,7 @@ from django.http import JsonResponse
 import os
 import requests
 from django.views.decorators.csrf import csrf_exempt
-from .models import ProductListing 
+from .models import ProductListing, ResourceListing
 import base64
 import json
 
@@ -66,9 +66,19 @@ def all_listings(request):
     if request.method == "GET":
         all_listings = ProductListing.objects.filter(admin_approval = True).values()
         indexed_listings = {}
-        
         for index, item in enumerate(all_listings):
             indexed_listings[index] = item
         
         return JsonResponse({"allListings" : indexed_listings})
     return JsonResponse({"error" : "Couldn't get listings"})
+
+@csrf_exempt
+def upload_resource(request):
+    if request.method == "POST":
+        resource_json = json.loads(request.body)
+        ResourceListing.objects.create(
+            moodleID = int(resource_json['moodleId']),
+            resource = resource_json['resource'],
+        )
+        return JsonResponse({'message': 'Successfully listed resource!'})
+    return JsonResponse({'error': 'Post request not received'})
