@@ -17,7 +17,7 @@ import Home from "./pages/Home.vue"
 import Login from "./pages/Login.vue"
 import Register from "./pages/Register.vue"
 import Buy from "./pages/Buy.vue"
-import Wishlist from "./pages/Wishlist.vue"
+import Resources from "./pages/Resources.vue"
 import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
 import ListingDetails from './pages/ListingDetails.vue'
@@ -32,7 +32,7 @@ const routes = [
     { path: '/buy', component: Buy, name: "Buy", meta: {
         authenticationRequired: true
     }},
-    { path: '/wishlist', component: Wishlist, name: "Wishlist", meta: {
+    { path: '/resources', component: Resources , name: "Resources", meta: {
         authenticationRequired: true
     } },
     { path: '/sell', component: Sell, name: "Sell", meta: {

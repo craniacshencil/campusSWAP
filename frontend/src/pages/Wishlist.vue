@@ -1,3 +1,0 @@
-<template>
-    Little Goober
-</template>
