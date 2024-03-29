@@ -60,3 +60,16 @@ def user_listings(request, moodleID):
             indexed_listings[index] = item
         return JsonResponse(indexed_listings)
     return JsonResponse({"error" : "Couldn't get user's listings"})
+
+@csrf_exempt
+def all_listings(request):
+    if request.method == "GET":
+        all_listings = Prouduct_listing.objects.values()
+        indexed_listings = {}
+        
+        for index, item in enumerate(all_listings):
+            indexed_listings[index] = item
+        
+        
+        return JsonResponse({"allListings" : indexed_listings})
+    return JsonResponse({"error" : "Couldn't get listings"})
