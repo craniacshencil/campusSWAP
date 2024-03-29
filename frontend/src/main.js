@@ -17,11 +17,12 @@ import Home from "./pages/Home.vue"
 import Login from "./pages/Login.vue"
 import Register from "./pages/Register.vue"
 import Buy from "./pages/Buy.vue"
-import Wishlist from "./pages/Wishlist.vue"
+import Resources from "./pages/Resources.vue"
 import Sell from "./pages/Sell.vue"
 import Settings from "./pages/Settings.vue"
 import ListingDetails from './pages/ListingDetails.vue'
 import AdminDash from './pages/AdminDash.vue'
+import ApproveListing from './pages/ApproveListing.vue'
 
 
 const routes = [
@@ -31,7 +32,7 @@ const routes = [
     { path: '/buy', component: Buy, name: "Buy", meta: {
         authenticationRequired: true
     }},
-    { path: '/wishlist', component: Wishlist, name: "Wishlist", meta: {
+    { path: '/resources', component: Resources , name: "Resources", meta: {
         authenticationRequired: true
     } },
     { path: '/sell', component: Sell, name: "Sell", meta: {
@@ -44,6 +45,10 @@ const routes = [
         authenticationRequired: true
     }},
     { path: '/admindash', component: AdminDash, name: "Admin Dashboard", meta: {
+        authenticationRequired: true,
+        adminRequired: true,
+    }},
+    { path: '/approvelisting', component: ApproveListing, name: "Approve Listing", meta: {
         authenticationRequired: true,
         adminRequired: true,
     }},
@@ -70,7 +75,6 @@ router.beforeEach(async (to, from) => {
 router.beforeEach(async (to, from) => {
     if(to.meta.adminRequired){
         const adminStatus= JSON.parse(sessionStorage.getItem('user')).user.superuser_status
-        console.log(adminStatus)
         if(!(adminStatus)){ //this state is reflected after one successful login in the session
             return { name: "Home" }
         }

@@ -162,7 +162,7 @@ npm run build
 - #### To see if register is working as intended, you can check the `auth_user` table.
 - #### You don't need to keep the psql shell open for the DB operations to work.
 - #### If tables for certain apps are not being created:
-  ##### Current apps include: apis, products.
+  ##### Current apps include: apis, products, admin_actions.
   ``` sh
   python manage.py makemigrations <app_name>
   ```

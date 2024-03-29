@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Prouduct_listing(models.Model):
+class ProductListing(models.Model):
     moodleID = models.IntegerField()
     title = models.CharField(max_length = 255)
     category = models.CharField(max_length = 255)
@@ -13,6 +13,8 @@ class Prouduct_listing(models.Model):
     product_description = models.TextField()
     image_urls = models.TextField()
     admin_approval = models.CharField(max_length = 5)
+    class Meta:
+        db_table = "product_listings"
     
 
 

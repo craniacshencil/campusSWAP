@@ -5,8 +5,9 @@
         <h1 class = "text-7xl text-center">Welcome <span class = "text-cyan-400">{{ first_name }}!</span></h1>
         <div class = "main-wrapper w-9 h-25rem flex justify-content-between gap-3">
             <div class="vertical-wrapper w-7 flex flex-column align-items-center justify-content-between gap-3">
-                <div class="listings-wrapper w-full h-16rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between">
-                    You have {{ unapprovedListings }} unapproved listings!
+                <div class="listings-wrapper w-full h-16rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between"
+                @click = "this.$router.push({name: 'Approve Listing'})">
+                    <span>You have <span class = "inner-number">{{ unapprovedListings }}</span> unapproved listings!</span>
                     <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
                 </div>
                 <div class = "ban-user-wrapper w-full h-9rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between">
@@ -15,7 +16,7 @@
                 </div>
             </div>
             <div class = "resources-wrapper w-5 text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between">
-                You have {{ unapprovedResources }} unapproved listings!
+                <span>You have <span class = "inner-number">{{ unapprovedResources }}</span> unapproved resources!</span>
                 <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
             </div>
         </div>
@@ -39,9 +40,8 @@ export default{
         this.first_name = JSON.parse(sessionStorage.user).user.first_name 
         axios.get("http://localhost:8000/admin_actions/get_unapproved_listings_and_resources")
         .then((response) => {
-            console.log(response)
-            this.unapprovedListings = response.data.listings
-            this.unapprovedResources = response.data.resources
+            this.unapprovedListings = response.data.listings_count
+            this.unapprovedResources = response.data.resources_count
         })
         .catch( error => console.log(error))
     }
@@ -58,6 +58,25 @@ export default{
 .ban-user-wrapper,
 .resources-wrapper{
     background-color: rgb(50, 50, 50)
+}
+
+.inner-number{
+    color: rgba(255, 0, 0, .8)
+}
+
+.listings-wrapper:hover span span,
+.resources-wrapper:hover span span{
+    transition: all ease-in-out 300ms;
+    color: black;
+}
+
+.listings-wrapper:hover icon,
+.resources-wrapper:hover icon,
+.ban-user-wrapper:hover icon{
+    transition: all ease-in-out 300ms;
+    transform: translateX(.8rem) scale(1.2);
+    color: black;
+    font-weight: 900;
 }
 .listings-wrapper{
     border-top-left-radius: 1.5rem;

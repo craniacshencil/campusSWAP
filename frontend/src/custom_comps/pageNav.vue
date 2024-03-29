@@ -4,7 +4,7 @@
             <router-link to = "/" class = "nav-part home">HOME</router-link>
             <router-link to = "/buy" class = "nav-part buy">BUY</router-link>
             <router-link to = "/sell" class = "nav-part sell">SELL</router-link>
-            <router-link to = "/wishlist" class = "nav-part wishlist">WISHLIST</router-link>
+            <router-link to = "/resources" class = "nav-part resources">RESOURCES</router-link>
         </div>
     </div>
 </template>
@@ -50,9 +50,10 @@ export default{
 .router-link-active{
     background-color: #28d4ec;
     color: black;
+    font-weight: 500;
 }
 
 .router-link-active:hover{
-    border-bottom: none;
+    border-bottom: black;
 }
 </style>

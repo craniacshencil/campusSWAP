@@ -8,15 +8,17 @@
             <InputText ref = "searchField" v-model = "searchTerm" placeholder = "Search" />
             <Button @click = "hitSearch" icon = "pi pi-search" />
         </InputGroup>
-        <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-4">
+        <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-3">
+            <Button v-if = "this.isAdmin == true" text raised outlined class = "dash-button" @click = "this.$router.push({ name : 'Admin Dashboard'})" icon = "pi pi-home" />
             <Button text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
             <Button text raised outlined class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" />
         </div>
 
-        <div v-else class = "flex flex-row gap-2">
+        <div v-else class = "flex flex-row gap-3">
             <Button class = "register-btn nav-btn" @click = "this.$router.push({name: 'Register'})">Register</Button>
             <Button v-if = "!this.isLoggedIn" class = "nav-btn" @click = "this.$router.push({ name: 'Login'})">Login</Button>
             <Button v-else text raised outlined class = "logout-button" @click = "confirm1($event)" icon = "pi pi-power-off" />
+            <Button v-if = "this.isLoggedIn" text raised outlined class = "settings-button" @click = "this.$router.push({ name : 'Settings'})" icon = "pi pi-user" />
         </div>
     </header>
 </template>
@@ -35,7 +37,8 @@ export default{
     data(){
         return{
             searchTerm: "",
-            isLoggedIn: false, //will be used later when programming for toasts on redirect to login-restricted pages without login
+            isLoggedIn: false,
+            isAdmin: false,
         }
     },
     methods: {
@@ -72,11 +75,13 @@ export default{
             }
         }
     },
-    mounted(){
+    created(){
         if(sessionStorage.isAuthenticated){
             const loggedInfo = JSON.parse(sessionStorage.isAuthenticated)
             this.isLoggedIn = loggedInfo.authState;
         }
+        if(sessionStorage.user)
+            this.isAdmin = JSON.parse(sessionStorage.user).user.superuser_status
     }
 }
 </script>
@@ -102,7 +107,8 @@ h1{
 }
 
 .logout-button, 
-.settings-button{
+.settings-button,
+.dash-button{
     font-size: 2rem;
     border-radius: 50%;
     height: 3rem;
@@ -110,22 +116,14 @@ h1{
     border: 0.1rem solid #22d3ee;
     
 }
-.logout-button:hover{
+.logout-button:hover,
+.settings-button:hover,
+.dash-button:hover{
     transform: scale(1.3);
-    transition: 500ms;
-    color: black;
-    background-color: #22d3ee;
-    cursor: pointer;
-}
-.settings-button:hover{
-    transform: scale(1.3);
-    transition: 500ms;
+    transition: all 200ms ease-in;
     color: black;
     background-color: #22d3ee;
     cursor: pointer;
 }
 
-.register-btn{
-    margin-right: 0.5rem;
-}
 </style>
