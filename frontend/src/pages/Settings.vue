@@ -10,6 +10,7 @@
                 <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "My Resources" toggleable>
+                <ResourceCard v-for = "resource in myResources" :key = "resource.id" :article = "resource" />
             </Panel>
 
     </div>
@@ -26,18 +27,21 @@ import itemView from '@/custom_comps/itemView.vue'
 import pageNav from '@/custom_comps/pageNav.vue';
 import resetPassword from '@/custom_comps/resetPassword.vue';
 import axios from 'axios';
+import ResourceCard from '@/custom_comps/ResourceCard.vue';
 export default{
     data(){
         return{
             myListings: null,
+            myResources: null,
         }
     },
-    components: { resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
+    components: { ResourceCard, resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
     created(){
         const moodleID = Number(JSON.parse(sessionStorage.user).user.moodleID)
-        axios.get(`http://localhost:8000/products/user_listings/${moodleID}`)
+        axios.get(`http://localhost:8000/products/user_listings_and_resources/${moodleID}`)
         .then(response => {
-            this.myListings = response.data
+            this.myListings = response.data.listings
+            this.myResources = response.data.resources
         })
         .catch(error => console.log(error))
     }
