@@ -73,12 +73,6 @@
     import pageHeader from '@/custom_comps/pageHeader.vue';
     export default{
         components:{ pageNav, pageHeader, InputText, InputGroup },
-        data(){
-            return{
-
-            }
-        },
-
         methods: {
             gotoLogin(){
                 this.$router.push("/login")

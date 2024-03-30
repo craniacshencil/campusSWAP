@@ -80,8 +80,10 @@ export default{
             const loggedInfo = JSON.parse(sessionStorage.isAuthenticated)
             this.isLoggedIn = loggedInfo.authState;
         }
-        if(sessionStorage.user)
-            this.isAdmin = JSON.parse(sessionStorage.user).user.superuser_status
+        if(sessionStorage.user){ //check when site is freshly opened
+            if(JSON.parse(sessionStorage.user).user) //check when user has logged in and logged out
+                this.isAdmin = JSON.parse(sessionStorage.user).user.superuser_status
+        }
     }
 }
 </script>

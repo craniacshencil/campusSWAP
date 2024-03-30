@@ -8,7 +8,8 @@
 export default{
     data(){
         resource: {
-            'title'
+            title: "Golang: Zero to Hero"
+            author: "Prathamesh Mhatre"
         }
     }
 }
