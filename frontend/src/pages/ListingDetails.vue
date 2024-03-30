@@ -167,7 +167,7 @@ export default{
         if(this.$route.params.adminStatus == 'deny')
             this.fromDeniedApproval = true
         // Redirect from my-listings where admin hasn't seen the listing yet for approval
-        else
+        if((this.$route.params.adminStatus == 'true') || (this.$route.params.adminStatus == false))
             this.fromMyListingNotDeniedApproval= true
         if(this.$route.params.fromBuy)
             this.fromBuy = true
@@ -185,6 +185,10 @@ export default{
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+}
+
+.product-basics{
+    min-width: 640px;
 }
 
 .product-details .product-title{

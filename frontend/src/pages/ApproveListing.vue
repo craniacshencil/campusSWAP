@@ -20,7 +20,7 @@ export default{
     created(){
         axios.get("http://localhost:8000/admin_actions/get_unapproved_listings_and_resources")
         .then(response => {
-            this.listings = response.data.listings
+            this.listings = response.data.unapproved_listings
         })
         .catch(error => console.log(error))
     }

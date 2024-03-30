@@ -24,6 +24,7 @@ import ListingDetails from './pages/ListingDetails.vue'
 import AdminDash from './pages/AdminDash.vue'
 import ApproveListing from './pages/ApproveListing.vue'
 import ApproveResource from './pages/ApproveResource.vue'
+import ResourceDetails from './pages/ResourceDetails.vue'
 
 
 const routes = [
@@ -56,6 +57,9 @@ const routes = [
     { path: '/approveresource', component: ApproveResource, name: "Approve Resource", meta: {
         authenticationRequired: true,
         adminRequired: true,
+    }},
+    { path: '/resourcedetails', component: ResourceDetails, name: "Resource Details", meta: {
+        authenticationRequired: true
     }},
 ]
 

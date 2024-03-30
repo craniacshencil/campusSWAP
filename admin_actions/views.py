@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from products.models import ProductListing, ResourceListing
 from django.views.decorators.csrf import csrf_exempt
-from .models import AdminApprovalFeedback
+from .models import AdminApprovalFeedback, AdminApprovalFeedbackResource
 import json
 
 # Create your views here.
@@ -69,5 +69,50 @@ def get_negative_feedback(request, product_id):
        product_feedback = AdminApprovalFeedback.objects.get(product_id = product_id)
        return JsonResponse({
            'feedback': product_feedback.feedback,
+       })
+    return JsonResponse({'error': 'No Get request received'})
+
+@csrf_exempt
+def grant_approval_resource(request):
+    if request.method == "POST":
+        resource_id = int(json.loads(request.body)['resourceId'])
+
+        # code for when editing of a listing is allowed
+        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = productId)
+        # if(previous_feedback):
+        #     previous_feedback.delete()
+
+        resource = ResourceListing.objects.get(id = resource_id)
+        resource.admin_approval = True
+        resource.save()
+        return JsonResponse({'Success' : "Sucessfully Registered Changes"})
+    return JsonResponse({'error': 'No Post request received'})
+
+@csrf_exempt
+def send_negative_feedback_resource(request):
+    if request.method == "POST":
+        feedbackJSON = json.loads(request.body)
+        print(feedbackJSON)
+        # code for when editing of a listing is allowed
+        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = feedbackJSON['productId'])
+        # if(previous_feedback):
+        #     previous_feedback.delete()
+
+        AdminApprovalFeedbackResource.objects.create(
+            resource_id = feedbackJSON['resourceId'],
+            feedback = feedbackJSON['feedback'],
+        )
+        print(feedbackJSON)
+        resource = ResourceListing.objects.get(id = feedbackJSON['resourceId'])
+        resource.admin_approval = 'Deny'
+        resource.save()
+        return JsonResponse({'message': 'Sent Feedback'})
+    return JsonResponse({'error': 'No Post request received'})
+    
+def get_negative_feedback_resource(request, resource_id):
+    if request.method == "GET":
+       resource_feedback = AdminApprovalFeedbackResource.objects.get(resource_id = resource_id)
+       return JsonResponse({
+           'feedback': resource_feedback.feedback,
        })
     return JsonResponse({'error': 'No Get request received'})

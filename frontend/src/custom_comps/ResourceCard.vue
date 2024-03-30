@@ -6,7 +6,7 @@
         </div>
         <div class="button-side align-self-end">
             <Button icon = "pi pi-star" severity = "warning" outlined />
-            <Button class = "check-details-btn ml-1" icon = "pi pi-chevron-right" @click = "visible = true" severity = "contrast" label = "Check details" />
+            <Button class = "check-details-btn ml-1" icon = "pi pi-chevron-right" @click = "decideAction" severity = "contrast" label = "Check details" />
         </div>
     </div>    
     <Dialog v-model:visible="visible" modal header="Track Resource Status" :style="{ width: '70vw', height: '40vh' }">
@@ -27,12 +27,29 @@ export default{
         }
     },
     components: { Dialog, Button, ProgressSteps },
+    methods: {
+        decideAction(){
+            if(this.$route.name == "Settings")
+                this.visible = true
+            else if(this.$route.name == "Approve Resource"){
+                this.$router.push({ name: "Resource Details", params : { 
+                    articleDetails : JSON.stringify({
+                        id: this.article.id,
+                        admin_approval: this.article.admin_approval,
+                        resource: this.article.resource,
+                        })
+                    }
+                })
+            }
+        }
+    },
     created(){
         //To Extract the title out of the entire article
         const fullArticle = this.article.resource
         const titleEndIndex = fullArticle.indexOf('\n')
         this.title = fullArticle.substring(2, titleEndIndex)
-    }
+        console.log(this.$route.name)
+    },
 }
 </script>
 
