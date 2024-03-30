@@ -9,9 +9,9 @@
         </Steps>
         <div class="step-titles flex justify-content-around">
             <div class = "step-title-box flex flex-column align-items-center">
-                Listing Uploaded 
+                {{ this.entity }} Uploaded 
                 <small>{{ items[0].small }}</small>
-                <Button text raised class = "step-btn" v-if = "!items[2].status" @click = "toListingPreview">Preview Listing</Button>
+                <Button text raised class = "step-btn" v-if = "!items[2].status" @click = "toPreview">Preview {{ this.entity }}</Button>
             </div>
 
             <div class = "step-title-box flex flex-column align-items-center">
@@ -26,9 +26,9 @@
             </Dialog>
 
             <div class = "step-title-box flex flex-column align-items-center">
-                Listing Finalized
+                {{ this.entity }} Finalized
                 <small :class = "{'text-yellow-600' : items[2].status == false}">{{ items[2].small }}</small>
-                <Button class = "step-btn" text raised v-if = "items[2].status" @click = "toListingDetails">Listing Details</Button>
+                <Button class = "step-btn" text raised v-if = "items[2].status" @click = "toDetails">{{ this.entity }} Details</Button>
             </div> 
         </div>
     </div>
@@ -40,7 +40,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import axios from 'axios'
 export default {
-    props: {product: Object, adminApproval: String, productId: String },
+    props: {product: Object, adminApproval: String, productId: String, entity: String },
     components: { Dialog, Steps, Button },
     data(){
         return {
@@ -70,7 +70,29 @@ export default {
     },
 
     methods:{
+        toPreview(){
+            if(this.entity == "Listing")
+                this.toListingPreview()
+            else
+                this.toResourcePreview()
+        },
+
+        toDetails(){
+            if(this.entity == "Listing")
+                this.toListingDetails()
+            else
+                this.toResourceDetails()
+        },
+
         displayFeedback(){
+            if(this.entity == "Listing")
+                this.listingFeedback()
+            else
+                this.resourceFeedback()
+        },
+
+
+        listingFeedback(){
             axios.get(`http://localhost:8000/admin_actions/get_negative_feedback/${this.productId}`)
             .then(response => {
                 console.log(response)
@@ -107,6 +129,14 @@ export default {
                 }),
                 adminStatus:this.items[1].status,
             }})
+        },
+
+        toResourceDetails(){
+
+        },
+
+        toResourcePreview(){
+
         },
     },
 }

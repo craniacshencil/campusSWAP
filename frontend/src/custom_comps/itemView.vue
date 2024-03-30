@@ -18,14 +18,14 @@
         </div>
     </div>
     <Dialog v-model:visible="visible" modal header="Track Listing Status" :style="{ width: '70vw', height: '40vh' }">
-        <ListingProgressSteps :adminApproval = "adminApproval" :product = "productCopy" :productId = "productId" />
+        <ProgressSteps :adminApproval = "adminApproval" :product = "productCopy" :productId = "productId" entity = "Listing" />
     </Dialog>
 
 </template>
 <script>
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
-import ListingProgressSteps from '@/custom_comps/ListingProgressSteps.vue';
+import ProgressSteps from '@/custom_comps/ProgressSteps.vue';
 export default{
     props: {product: Object},
     data(){
@@ -38,7 +38,7 @@ export default{
                 productCopy: this.product,
         }
     },
-    components: { Dialog, Button, ListingProgressSteps },
+    components: { Dialog, Button, ProgressSteps },
 }
 </script>
 <style>

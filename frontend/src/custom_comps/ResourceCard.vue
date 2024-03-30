@@ -9,18 +9,24 @@
             <Button class = "check-details-btn ml-1" icon = "pi pi-chevron-right" @click = "visible = true" severity = "contrast" label = "Check details" />
         </div>
     </div>    
+    <Dialog v-model:visible="visible" modal header="Track Resource Status" :style="{ width: '70vw', height: '40vh' }">
+        <ProgressSteps :adminApproval = "article.admin_approval" :product = "article" :productId = "article.id" entity = "Resource" />
+    </Dialog>
 </template>
 
 <script>
 import Button from 'primevue/button';
+import ProgressSteps from '@/custom_comps/ProgressSteps.vue';
+import Dialog from 'primevue/dialog';
 export default{
     props: { article: Object },
     data(){
         return{
             title: "",
+            visible: false,
         }
     },
-    components: { Button, },
+    components: { Dialog, Button, ProgressSteps },
     created(){
         //To Extract the title out of the entire article
         const fullArticle = this.article.resource
