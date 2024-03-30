@@ -91,16 +91,23 @@ export default {
                 this.resourceFeedback()
         },
 
-
         listingFeedback(){
             axios.get(`http://localhost:8000/admin_actions/get_negative_feedback/${this.productId}`)
             .then(response => {
-                console.log(response)
                 this.feedbackText = response.data.feedback
             })
             .catch(error => console.log(error))
             this.feedbackDialogVisible = true
-            console.log(this.feedbackDialogVisible)
+        },
+
+        resourceFeedback(){
+            //yes resource id is stored in productId
+            axios.get(`http://localhost:8000/admin_actions/get_negative_feedback_resource/${this.productId}`)
+            .then(response => {
+                this.feedbackText = response.data.feedback
+            })
+            .catch(error => console.log(error))
+            this.feedbackDialogVisible = true
         },
 
         toListingDetails(){
