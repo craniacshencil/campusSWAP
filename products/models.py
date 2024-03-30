@@ -19,6 +19,7 @@ class ProductListing(models.Model):
 class ResourceListing(models.Model):
     moodleID = models.IntegerField()
     resource = models.TextField()
+    admin_approval = models.CharField(max_length = 5)
     class Meta:
         db_table = "resource_listings"
     

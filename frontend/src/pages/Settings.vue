@@ -3,12 +3,15 @@
     <pageHeader />
     <pageNav />
     <div class="settings-main-wrapper">
-            <Panel collapsed = true class = "reset-pass-panel" header = "Reset Password" toggleable>
+            <Panel collapsed = true class = "feature-panel" header = "Reset Password" toggleable>
                 <resetPassword class = "card-items" />
             </Panel>
-            <Panel collapsed = true class = "reset-pass-panel" header = "My Listings" toggleable>
-                    <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
+            <Panel collapsed = true class = "feature-panel" header = "My Listings" toggleable>
+                <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
             </Panel>
+            <Panel collapsed = true class = "feature-panel" header = "My Resources" toggleable>
+            </Panel>
+
     </div>
 </div>
 </template>
@@ -50,7 +53,7 @@ export default{
     align-items: center;
 }
 
-.p-panel.reset-pass-panel{
+.p-panel.feature-panel{
     width: 70vw;
     background: #090909;
     border: .05rem solid #999;

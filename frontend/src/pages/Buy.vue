@@ -10,15 +10,7 @@
         </div>
         <div class = "search-summary" v-if = "searchTerm !== ''">Showing results for "{{ searchTerm }}"</div>
         <main class="item-card-container">
-            <itemCard />
-            <itemCard />
-            <itemCard />
-            <itemCard />
-            <itemCard />
-            <itemCard />
-            <itemCard />
-            <itemCard />
-            <itemCard />
+            <itemCard v-for="listing in listings" :key="listing.id" :product="listing" main_action = "Check Out" />
         </main>
     </div>
 </template>
@@ -34,6 +26,7 @@ export default {
         return{
             searchTerm: '',
             filters: [],
+            listings: null,
         }
     },
     components: { Filters, itemCard , pageHeader, pageNav },
@@ -63,10 +56,17 @@ export default {
             .catch(error => console.log(error))
         }
     },
-    // when coming to buy page from another page
+    // when coming to buy page from another page, bringing the search term to the buy page 
     mounted(){
         if(this.$route.params.searchTerm)
             this.storeSearchTerm(this.$route.params.searchTerm)
+    },
+    created(){
+        axios.get("http://localhost:8000/products/all_approved_listings")
+        .then(response => {
+            this.listings = response.data.allApprovedListings
+        })
+        .catch(error => console.log(error))
     }
 }
 </script>

@@ -62,14 +62,14 @@ def user_listings(request, moodleID):
     return JsonResponse({"error" : "Couldn't get user's listings"})
 
 @csrf_exempt
-def all_listings(request):
+def all_approved_listings(request):
     if request.method == "GET":
         all_listings = ProductListing.objects.filter(admin_approval = True).values()
         indexed_listings = {}
         for index, item in enumerate(all_listings):
             indexed_listings[index] = item
         
-        return JsonResponse({"allListings" : indexed_listings})
+        return JsonResponse({"allApprovedListings" : indexed_listings})
     return JsonResponse({"error" : "Couldn't get listings"})
 
 @csrf_exempt
@@ -79,6 +79,7 @@ def upload_resource(request):
         ResourceListing.objects.create(
             moodleID = int(resource_json['moodleId']),
             resource = resource_json['resource'],
+            admin_approval = False,
         )
         return JsonResponse({'message': 'Successfully listed resource!'})
     return JsonResponse({'error': 'Post request not received'})
