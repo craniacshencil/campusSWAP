@@ -1,5 +1,5 @@
 <template>
-    <div class="resource-card-wrapper flex justify-content-between border-bottom-1 border-200 pb-4">
+    <div class="resource-card-wrapper flex justify-content-between border-bottom-1 border-200 pb-4 w-full">
         <div class="text-side">
             <h2 class = "mb-1 border-bottom-1 border-300 inline-block pr-3 pt-2">{{ this.title }}</h2>
             <h4 class = "mt-2">- {{ this.article.moodleID }}</h4>

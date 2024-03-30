@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from products.models import ProductListing 
+from products.models import ProductListing, ResourceListing
 from django.views.decorators.csrf import csrf_exempt
 from .models import AdminApprovalFeedback
 import json
@@ -14,9 +14,15 @@ def get_unapproved_listings_and_resources(request):
             indexed_unapproved_listings[index] = item
         unapproved_listings_count = len(unapproved_listings) 
 
-        unapproved_resources_count = 0 #edit later 
+        unapproved_resources = ResourceListing.objects.filter(admin_approval= False).values()
+        indexed_unapproved_resources = {}
+        for index, item in enumerate(unapproved_resources):
+            indexed_unapproved_resources[index] = item
+        unapproved_resources_count = len(unapproved_resources) 
+
         return JsonResponse({
-                'listings': indexed_unapproved_listings,
+                'unapproved_listings': indexed_unapproved_listings,
+                'unapproved_resources': indexed_unapproved_resources,
                 'listings_count' : unapproved_listings_count,
                 'resources_count' : unapproved_resources_count,
             })

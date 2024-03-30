@@ -10,12 +10,14 @@
                     <span>You have <span class = "inner-number">{{ unapprovedListings }}</span> unapproved listings!</span>
                     <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
                 </div>
-                <div class = "ban-user-wrapper w-full h-9rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between">
+                <div class = "ban-user-wrapper w-full h-9rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between"
+                >
                     Ban Users
                     <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
                 </div>
             </div>
-            <div class = "resources-wrapper w-5 text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between">
+            <div class = "resources-wrapper w-5 text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between"
+            @click = "this.$router.push({name: 'Approve Resource'})">
                 <span>You have <span class = "inner-number">{{ unapprovedResources }}</span> unapproved resources!</span>
                 <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
             </div>
