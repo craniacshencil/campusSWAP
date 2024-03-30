@@ -11,7 +11,7 @@
             <div class = "step-title-box flex flex-column align-items-center">
                 {{ this.entity }} Uploaded 
                 <small>{{ items[0].small }}</small>
-                <Button text raised class = "step-btn" v-if = "!items[2].status" @click = "toPreview">Preview {{ this.entity }}</Button>
+                <Button text raised class = "step-btn" v-if = "!items[2].status" @click = "toDetails">Preview {{ this.entity }}</Button>
             </div>
 
             <div class = "step-title-box flex flex-column align-items-center">
@@ -72,7 +72,7 @@ export default {
     methods:{
         toPreview(){
             if(this.entity == "Listing")
-                this.toListingPreview()
+                this.toListingDetails()
             else
                 this.toResourcePreview()
         },
@@ -104,9 +104,6 @@ export default {
         },
 
         toListingDetails(){
-        },
-
-        toListingPreview(){
             //WatchMojo: Top 10 reasons why you should learn regex
             const image_url =  this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
             const selectedYear = this.product.selected_year.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")

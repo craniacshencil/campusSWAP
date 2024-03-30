@@ -25,8 +25,8 @@
             <p class = "chip-items">- Useful for Branch:</p>
             <Chip v-for="branch in productInfo.selectedBranch" :key = "branch" :label = "branch" class = "m-0 mr-2 mb-4" />
             <div class = "btn-section flex gap-2 mb-5 pt-4 border-top-1 border-400 justify-content-center">
-                <Button v-if = "fromBuy" icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
-                <Button v-if = "fromBuy" class = "text-white" icon = "pi pi-heart" label= "Wishlist" severity = "danger" raised />
+                <Button v-if = "fromBuy || fromMyListingNotDeniedApproval" icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
+                <Button v-if = "fromBuy || fromMyListingNotDeniedApproval" class = "text-white" icon = "pi pi-heart" label= "Wishlist" severity = "danger" raised />
                 <Button v-if = "fromSell" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
                 <Button v-if = "fromDeniedApproval || fromSell" label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
                 <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
@@ -167,7 +167,7 @@ export default{
         if(this.$route.params.adminStatus == 'deny')
             this.fromDeniedApproval = true
         // Redirect from my-listings where admin hasn't seen the listing yet for approval
-        if(this.$route.params.adminStatus == false)
+        else
             this.fromMyListingNotDeniedApproval= true
         if(this.$route.params.fromBuy)
             this.fromBuy = true
