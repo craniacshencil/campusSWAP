@@ -24,6 +24,11 @@ import Card from 'primevue/card'
         data(){
             return{
                 image_urls: this.product.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(","),
+                sessionInfo : JSON.parse(sessionStorage.user),
+                selectedYear : this.product.selected_year.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", "),
+                selectedBranch : this.product.selected_branch.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", "),
+                selectedItemType : this.product.selected_item_type.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", "),
+                selectedCondition : this.product.selected_condition.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', ""),
             }
         },
         props: { 
@@ -34,31 +39,25 @@ import Card from 'primevue/card'
         components: { Card, Button },
         methods: {
             triggerAction(){
-                if(this.$route.name = "Approve Listing")
+                if(this.$route.name == "Approve Listing")
                     this.inspectListing()
                 else
                     this.toListing()
             },
 
             inspectListing(){
-                const sessionInfo = JSON.parse(sessionStorage.user)
-                const selectedYear = this.product.selected_year.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
-                const selectedBranch = this.product.selected_branch.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
-                const selectedItemType = this.product.selected_item_type.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
-                const selectedCondition = this.product.selected_condition.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "")
                 this.$router.push({ name: "Listing details", params: {
                 product : JSON.stringify({
-                    moodleID:sessionInfo.user.moodleID,
+                    moodleID:this.sessionInfo.user.moodleID,
                     title:this.product.title,
                     category:this.product.category,
                     price:this.product.price,
                     productDesc:this.product.product_description,
-                    selectedYear:selectedYear,
-                    selectedBranch:selectedBranch,
-                    selectedItemType:selectedItemType,
-                    selectedCondition:selectedCondition,
+                    selectedYear:this.selectedYear,
+                    selectedBranch:this.selectedBranch,
+                    selectedItemType:this.selectedItemType,
+                    selectedCondition:this.selectedCondition,
                     image_urls:this.image_urls,
-                    adminApproval: false,
                 }),
                 fromAdmin: true,
                 productId: this.product.id,
@@ -66,7 +65,22 @@ import Card from 'primevue/card'
             },
 
             toListing(){
-                //Write code to send user to detailed listing page after 'buy.vue' if they click on the product
+                this.$router.push({ name: "Listing details", params: {
+                product : JSON.stringify({
+                    moodleID:this.sessionInfo.user.moodleID,
+                    title:this.product.title,
+                    category:this.product.category,
+                    price:this.product.price,
+                    productDesc:this.product.product_description,
+                    selectedYear:this.selectedYear,
+                    selectedBranch:this.selectedBranch,
+                    selectedItemType:this.selectedItemType,
+                    selectedCondition:this.selectedCondition,
+                    image_urls:this.image_urls,
+                }),
+                fromBuy: true,
+                productId: this.product.id,
+                }})
             }
         },
     }

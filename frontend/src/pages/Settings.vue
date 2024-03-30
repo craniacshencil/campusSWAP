@@ -60,7 +60,7 @@ export default{
     padding: 1.5rem 1rem;
 }
 
-.reset-pass-panel .p-panel-title{
+.feature-panel .p-panel-title{
     letter-spacing: -.1rem;
     font-size: 1.5rem;
     text-transform: uppercase;

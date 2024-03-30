@@ -169,6 +169,8 @@ export default{
         // Redirect from my-listings where admin hasn't seen the listing yet for approval
         if(this.$route.params.adminStatus == false)
             this.fromMyListingNotDeniedApproval= true
+        if(this.$route.params.fromBuy)
+            this.fromBuy = true
     }
 }
 </script>
