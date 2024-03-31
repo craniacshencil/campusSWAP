@@ -74,7 +74,7 @@ export default {
             if(this.entity == "Listing")
                 this.toListingDetails()
             else
-                this.toResourcePreview()
+                this.toResourceDetails()
         },
 
         toDetails(){
@@ -136,11 +136,10 @@ export default {
         },
 
         toResourceDetails(){
-
-        },
-
-        toResourcePreview(){
-
+            this.$router.push({ name: "Resource Details", params: {
+                resourceId: this.productId,
+                adminStatus: this.items[1].status
+            }})
         },
     },
 }

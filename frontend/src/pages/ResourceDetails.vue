@@ -4,9 +4,11 @@
     <pageHeader />
     <article class = "resource-rendered markdown-body mt-5" v-html = "rendered"></article>
     <div class="admin-resource-actions-wrapper flex flex-column align-items-center">
-        <div class="btn-section mt-4 flex justify-content-center gap-2">
-            <Button @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
-            <Button @click = "denyApproval" label = "Deny Approval" severity = "danger" class = "confirm-btn text-white" raised />
+        <div class="btn-section mt-4 mb-5 flex justify-content-center gap-2">
+            <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
+            <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" severity = "danger" class = "confirm-btn text-white" raised />
+            <Button v-if = "fromDeniedAdminStatus" @click = "toEditResource" label = "Edit Resource" severity = "warn" class = "confirm-btn" raised />
+            <Button v-if = "!fromAdmin" @click = "addStar" icon = "pi pi-star" severity = "warning" outlined />
         </div>
         <div class="resource-feedback-denied-section mt-5 w-6 flex flex-column" v-if = "showFeedbackTextArea">
             <FloatLabel class>
@@ -36,6 +38,9 @@ export default{
             denialFeedback: "",
             resourceId: this.$route.params.resourceId,
             resourceJSON: null,
+            fromDeniedAdminStatus: null,
+            fromNotDeniedAdminStatus: null,
+            fromAdmin: false,
         }
     },
     components: { pageHeader, Toast, Button, Textarea, FloatLabel },
@@ -67,11 +72,18 @@ export default{
                 setTimeout(() => {this.$router.push({'name': 'Admin Dashboard'})}, 3000)
             })
             .catch(error => console.log(error))
-        }
+        },
+
+        toEditResource(){
+
+        },
+
+        addStar(){
+
+        },
 
     },
     created(){
-        console.log(this.resourceId)
         axios.get(`http://localhost:8000/products/get_resource/${this.resourceId}`)
         .then(response => {
             this.resourceJSON = response.data
@@ -80,7 +92,12 @@ export default{
             this.rendered = md.render(articleMarkdown)
         })
         .catch(error => console.log(error))
-
+        if(this.$route.params.adminStatus == 'deny')
+            this.fromDeniedAdminStatus = true
+        if((this.$route.params.adminStatus == 'true') || (this.$route.params.adminStatus == false))
+            this.fromNotDeniedAdminStatus= true
+        if(this.$route.params.fromAdmin)
+            this.fromAdmin = true
     },
 }
 </script>
