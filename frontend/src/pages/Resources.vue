@@ -4,7 +4,7 @@
         <pageNav />
         <ResourcesNav @sendDisplayInfo = "handleRequiredView" class = "mt-4" />
         <div v-if = "showCreateResources" class="create-resources w-full flex flex-column justify-content-center">
-            <MarkdownEditor />
+            <MarkdownEditor :previousArticle = "previousArticle" />
         </div>
         <div v-if = "showFindResources" class="find-resources">
             <p>Find resources section</p>
@@ -22,6 +22,7 @@ export default{
         return{
             showFindResources: true,
             showCreateResources: false,
+            previousArticle: null,
         }
     },
     components: { pageHeader, pageNav, ResourcesNav, MarkdownEditor },
@@ -37,6 +38,15 @@ export default{
                 this.showFindResources = false
             }
         },
+    },
+
+    created(){
+        if(this.$route.params.article){
+            this.showCreateResources = true
+            this.showFindResources = false
+            this.previousArticle = this.$route.params.article
+        }
+
     },
 }
 </script>

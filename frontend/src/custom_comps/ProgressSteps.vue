@@ -70,13 +70,6 @@ export default {
     },
 
     methods:{
-        toPreview(){
-            if(this.entity == "Listing")
-                this.toListingDetails()
-            else
-                this.toResourceDetails()
-        },
-
         toDetails(){
             if(this.entity == "Listing")
                 this.toListingDetails()

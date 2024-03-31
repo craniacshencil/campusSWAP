@@ -3,7 +3,7 @@
     <div class="resource-form-wrapper w-full flex flex-column justify-content-center align-items-center mt-7">
         <h1 class = "resources-page-title uppercase font-light text-5xl text-center mt-9">{{ h1Title }}</h1>
         <div class = "mde-wrapper w-9 flex flex-column justify-content-center">
-          <textarea ref="editor"></textarea>
+          <textarea ref="editor" v-model = "initialValue"></textarea>
         </div>
         <Button label = "Submit Resource" @click = "submitResource" class = " mb-5" />
     </div>
@@ -15,17 +15,24 @@ import Button from 'primevue/button'
 import Toast from 'primevue/toast'
 import axios from 'axios'
 export default {
+    props: { previousArticle: String },
     components: { Button },
     data(){
         return{
             h1Title: "Create a Resources Catalogue",
-            content: "",
+            boilerplate: "# Enter title here\nThis is very important, the title mentioned above is what the other users see. Click the **question mark** in the nav-bar to learn about markdown",
+            initialValue: "# Enter title here\nThis is very important, the title mentioned above is what the other users see. Click the **question mark** in the nav-bar to learn about markdown",
+            //v-model does not keep track of value throughout, i.e why it is only used to initialize first value
+            //i.e boilerplate or previousArticle(when coming from my-resources)
+            //this.editor.value is keeping track of the live-value(provided by easyMDE)
         }
     },
     mounted() {
         this.editor = new EasyMDE({
         element: this.$refs.editor,
         });
+        if(this.previousArticle)
+            this.initialValue = this.previousArticle
     },
     beforeDestroy() {
         if (this.editor) {
@@ -34,7 +41,7 @@ export default {
     },
     methods: {
         submitResource(){
-            if(this.editor.value()){
+            if(this.editor.value() !== this.boilerplate){
                 const resourceJSON = {
                     "moodleId": JSON.parse(sessionStorage.user).user.moodleID,
                     "resource": this.editor.value(),
@@ -48,10 +55,10 @@ export default {
             }
 
             else{
-                this.$toast.add({ severity: 'error', summary: 'Empty Resource Section', detail: "You haven't filled in anything", group: 'br', life: 3000 });
+                this.$toast.add({ severity: 'error', summary: 'Empty Resource Section', detail: "You are submitting our boilerplate...", group: 'br', life: 3000 });
             }
         }
-    }
+    },
 };
 </script>
 

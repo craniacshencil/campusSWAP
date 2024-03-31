@@ -2,6 +2,7 @@
 <div>
     <Toast />
     <pageHeader />
+    <pageNav />
     <article class = "resource-rendered markdown-body mt-5" v-html = "rendered"></article>
     <div class="admin-resource-actions-wrapper flex flex-column align-items-center">
         <div class="btn-section mt-4 mb-5 flex justify-content-center gap-2">
@@ -24,6 +25,7 @@
 <script>
 import markdownit from 'markdown-it'
 import pageHeader from '@/custom_comps/pageHeader.vue'
+import pageNav from '@/custom_comps/pageNav.vue'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import FloatLabel from 'primevue/floatlabel'
@@ -43,7 +45,7 @@ export default{
             fromAdmin: false,
         }
     },
-    components: { pageHeader, Toast, Button, Textarea, FloatLabel },
+    components: { pageHeader, Toast, Button, pageNav, Textarea, FloatLabel },
     methods: {
         grantApproval(){
             const resourceIdJSON = {
@@ -75,7 +77,9 @@ export default{
         },
 
         toEditResource(){
-
+            this.$router.push({ name: "Resources", params: {
+                article: this.resourceJSON.resource
+            }})
         },
 
         addStar(){
