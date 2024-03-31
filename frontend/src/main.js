@@ -58,7 +58,7 @@ const routes = [
         authenticationRequired: true,
         adminRequired: true,
     }},
-    { path: '/resourcedetails', component: ResourceDetails, name: "Resource Details", meta: {
+    { path: '/resourcedetails/:resourceId', component: ResourceDetails, name: "Resource Details", meta: {
         authenticationRequired: true
     }},
 ]

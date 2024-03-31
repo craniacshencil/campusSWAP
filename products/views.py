@@ -51,6 +51,17 @@ def sell_form(request):
         return JsonResponse({'message' : "Succesfully received"})
     return JsonResponse({'error' : 'No post request received'})
 
+def get_resource(request, resourceId):
+    if request.method == "GET":
+        resourceEntry = ResourceListing.objects.get(id = resourceId)
+        return JsonResponse({
+            "id": resourceEntry.id,
+            "admin_approval": resourceEntry.admin_approval,
+            "resource": resourceEntry.resource,
+            "moodleID": resourceEntry.moodleID
+        })
+    return JsonResponse({'error' : 'No post request received'})
+
 @csrf_exempt
 def user_listings_and_resources(request, moodleID):
     if request.method == "GET":

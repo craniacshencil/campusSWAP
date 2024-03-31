@@ -34,7 +34,8 @@ export default{
             rendered: null,
             showFeedbackTextArea: false,
             denialFeedback: "",
-            resourceId: JSON.parse(this.$route.params.articleDetails).id,
+            resourceId: this.$route.params.resourceId,
+            resourceJSON: null,
         }
     },
     components: { pageHeader, Toast, Button, Textarea, FloatLabel },
@@ -70,9 +71,16 @@ export default{
 
     },
     created(){
-        const articleMarkdown = JSON.parse(this.$route.params.articleDetails).resource
-        const md = markdownit()
-        this.rendered = md.render(articleMarkdown)
+        console.log(this.resourceId)
+        axios.get(`http://localhost:8000/products/get_resource/${this.resourceId}`)
+        .then(response => {
+            this.resourceJSON = response.data
+            const articleMarkdown = this.resourceJSON['resource']
+            const md = markdownit()
+            this.rendered = md.render(articleMarkdown)
+        })
+        .catch(error => console.log(error))
+
     },
 }
 </script>

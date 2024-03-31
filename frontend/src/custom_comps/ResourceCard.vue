@@ -31,16 +31,8 @@ export default{
         decideAction(){
             if(this.$route.name == "Settings")
                 this.visible = true
-            else if(this.$route.name == "Approve Resource"){
-                this.$router.push({ name: "Resource Details", params : { 
-                    articleDetails : JSON.stringify({
-                        id: this.article.id,
-                        admin_approval: this.article.admin_approval,
-                        resource: this.article.resource,
-                        })
-                    }
-                })
-            }
+            else if(this.$route.name == "Approve Resource")
+                this.$router.push(`/resourcedetails/${this.article.id}`)
         }
     },
     created(){
@@ -48,7 +40,6 @@ export default{
         const fullArticle = this.article.resource
         const titleEndIndex = fullArticle.indexOf('\n')
         this.title = fullArticle.substring(2, titleEndIndex)
-        console.log(this.$route.name)
     },
 }
 </script>
