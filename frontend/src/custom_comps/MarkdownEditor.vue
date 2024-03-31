@@ -5,7 +5,7 @@
         <div class = "mde-wrapper w-9 flex flex-column justify-content-center">
           <textarea ref="editor" v-model = "initialValue"></textarea>
         </div>
-        <Button label = "Submit Resource" @click = "submitResource" class = " mb-5" />
+        <Button label = "Submit Resource" @click = "sumbitOrUpdate" class = " mb-5" />
     </div>
 </template>
 
@@ -15,7 +15,7 @@ import Button from 'primevue/button'
 import Toast from 'primevue/toast'
 import axios from 'axios'
 export default {
-    props: { previousArticle: String },
+    props: { previousArticle: String, id: String },
     components: { Button },
     data(){
         return{
@@ -27,20 +27,29 @@ export default {
             //this.editor.value is keeping track of the live-value(provided by easyMDE)
         }
     },
-    mounted() {
-        this.editor = new EasyMDE({
-        element: this.$refs.editor,
-        });
+    created(){
         if(this.previousArticle)
             this.initialValue = this.previousArticle
     },
+    mounted() {
+        this.editor = new EasyMDE({
+            element: this.$refs.editor,
+        });
+    },
     beforeDestroy() {
         if (this.editor) {
-        this.editor.toTextArea();
+            this.editor.toTextArea();
         }
     },
     methods: {
+        sumbitOrUpdate(){
+            if(this.id)
+                this.updateResource()
+            else
+                this.submitResource()
+        },
         submitResource(){
+            console.log("submit attempt")
             if(this.editor.value() !== this.boilerplate){
                 const resourceJSON = {
                     "moodleId": JSON.parse(sessionStorage.user).user.moodleID,
@@ -56,6 +65,27 @@ export default {
 
             else{
                 this.$toast.add({ severity: 'error', summary: 'Empty Resource Section', detail: "You are submitting our boilerplate...", group: 'br', life: 3000 });
+            }
+        },
+
+        updateResource(){
+            console.log("update attempt")
+            console.log(this.id)
+            if(this.editor.value() !== this.initialValue){
+                const resourceJSON = {
+                    "resource": this.editor.value(),
+                    "id": this.id,
+                }
+                axios.post("http://localhost:8000/products/update_resource", resourceJSON)
+                .then(response => {
+                this.$toast.add({ severity: 'success', summary: 'Successfully Updated Resource', detail: 'Redirecting to user-profile...', group: 'br', life: 3000 });
+                setTimeout(() => {this.$router.push({name: 'Settings'})}, 3000)
+                })
+                .catch(error => console.log(error))
+            }
+
+            else{
+                this.$toast.add({ severity: 'error', summary: 'No Changes Detected', detail: "Add something, this has been rejected already", group: 'br', life: 3000 });
             }
         }
     },
@@ -94,7 +124,7 @@ export default {
   color: white;
 }
 
-.CodeMirror-cursors, 
+.CodeMirror-cursors,
 .CodeMirror-cursor{
   color: white;
   border: white 0.01rem solid;
@@ -112,6 +142,6 @@ export default {
 }
 
 .CodeMirror-selectedtext{
-  color: black; 
+  color: black;
 }
 </style>

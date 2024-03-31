@@ -6,5 +6,6 @@ urlpatterns = [
     path("get_resource/<int:resourceId>", views.get_resource, name = "Get Resource"),
     path("user_listings_and_resources/<int:moodleID>", views.user_listings_and_resources, name = "user_listings_and_resources"),
     path("all_approved_listings", views.all_approved_listings, name = "all_approved_listings"),
-    path("upload_resource", views.upload_resource, name = "upload_resource")
+    path("upload_resource", views.upload_resource, name = "upload_resource"),
+    path("update_resource", views.update_resource, name = "Update resource")
 ] 

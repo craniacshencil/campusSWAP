@@ -78,7 +78,8 @@ export default{
 
         toEditResource(){
             this.$router.push({ name: "Resources", params: {
-                article: this.resourceJSON.resource
+                article: this.resourceJSON.resource,
+                resourceId: this.resourceJSON.id
             }})
         },
 

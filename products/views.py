@@ -104,3 +104,16 @@ def upload_resource(request):
         )
         return JsonResponse({'message': 'Successfully listed resource!'})
     return JsonResponse({'error': 'Post request not received'})
+
+@csrf_exempt
+def update_resource(request):
+    if request.method == "POST":
+        resource_json = json.loads(request.body)
+        print(resource_json)
+        print(resource_json['id'])
+        resource_to_be_updated = ResourceListing.objects.get(id = resource_json['id'])
+        resource_to_be_updated.admin_approval = False
+        resource_to_be_updated.resource = resource_json['resource']
+        resource_to_be_updated.save()
+        return JsonResponse({'message': 'Successfully updated resource!'})
+    return JsonResponse({'error': 'Post request not received'})

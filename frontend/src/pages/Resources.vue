@@ -4,7 +4,7 @@
         <pageNav />
         <ResourcesNav @sendDisplayInfo = "handleRequiredView" class = "mt-4" />
         <div v-if = "showCreateResources" class="create-resources w-full flex flex-column justify-content-center">
-            <MarkdownEditor :previousArticle = "previousArticle" />
+            <MarkdownEditor :previousArticle = "previousArticle" :id = "this.$route.params.resourceId" />
         </div>
         <div v-if = "showFindResources" class="find-resources">
             <p>Find resources section</p>
