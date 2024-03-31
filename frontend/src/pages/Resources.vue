@@ -6,8 +6,10 @@
         <div v-if = "showCreateResources" class="create-resources w-full flex flex-column justify-content-center">
             <MarkdownEditor :previousArticle = "previousArticle" :id = "this.$route.params.resourceId" />
         </div>
-        <div v-if = "showFindResources" class="find-resources">
-            <p>Find resources section</p>
+        <div v-if = "showFindResources" class="find-resources w-11 mt-5">
+            <div class="resources-wrapper">
+                <ResourceCard v-for = "resource in approvedResources" :key = "resource.id" :article = "resource" />
+            </div>
         </div>
     </div>
 </template>
@@ -17,15 +19,18 @@ import pageHeader from "@/custom_comps/pageHeader.vue";
 import pageNav from "@/custom_comps/pageNav.vue";
 import ResourcesNav from "@/custom_comps/ResourcesNav.vue";
 import MarkdownEditor from "@/custom_comps/MarkdownEditor.vue"
+import ResourceCard from "@/custom_comps/ResourceCard.vue";
+import axios from "axios";
 export default{
     data(){
         return{
             showFindResources: true,
             showCreateResources: false,
             previousArticle: null,
+            approvedResources: null,
         }
     },
-    components: { pageHeader, pageNav, ResourcesNav, MarkdownEditor },
+    components: { pageHeader, ResourceCard, pageNav, ResourcesNav, MarkdownEditor },
     methods: {
         handleRequiredView(mode){
             if(mode == 'find resources'){
@@ -46,6 +51,12 @@ export default{
             this.showFindResources = false
             this.previousArticle = this.$route.params.article
         }
+
+        axios.get("http://localhost:8000/products/all_approved_resources")
+        .then(response => {
+            this.approvedResources = response.data.allApprovedResources
+        })
+        .catch(error => console.log(error))
 
     },
 }

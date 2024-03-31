@@ -31,10 +31,18 @@ export default{
         decideAction(){
             if(this.$route.name == "Settings")
                 this.visible = true
+
             else if(this.$route.name == "Approve Resource"){
                 this.$router.push({ name: "Resource Details", params: {
                     resourceId: this.article.id,
                     fromAdmin : true 
+                }})
+            }
+
+            else if(this.$route.name == "Resources"){
+                this.$router.push({ name: "Resource Details", params: {
+                    resourceId: this.article.id,
+                    fromFindResources: true 
                 }})
             }
         }

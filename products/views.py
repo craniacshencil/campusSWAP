@@ -115,6 +115,17 @@ def all_approved_listings(request):
     return JsonResponse({"error" : "Couldn't get listings"})
 
 @csrf_exempt
+def all_approved_resources(request):
+    if request.method == "GET":
+        all_resources = ResourceListing.objects.filter(admin_approval = True).values()
+        indexed_resources = {}
+        for index, item in enumerate(all_resources):
+            indexed_resources[index] = item
+
+        return JsonResponse({"allApprovedResources" : indexed_resources})
+    return JsonResponse({"error" : "Couldn't get resources"})
+
+@csrf_exempt
 def upload_resource(request):
     if request.method == "POST":
         resource_json = json.loads(request.body)
