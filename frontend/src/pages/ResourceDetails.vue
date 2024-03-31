@@ -70,7 +70,7 @@ export default{
             }
             axios.post("http://localhost:8000/admin_actions/send_negative_feedback_resource", feedbackJSON)
             .then(response => {
-                this.$toast.add({ severity: 'warning', summary: 'Admin Approval Denied!', detail: 'Redirecting to dashboard', life: 3000 })
+                this.$toast.add({ severity: 'error', summary: 'Admin Approval Denied!', detail: 'Redirecting to dashboard', life: 3000 })
                 setTimeout(() => {this.$router.push({'name': 'Admin Dashboard'})}, 3000)
             })
             .catch(error => console.log(error))

@@ -86,21 +86,41 @@ export default{
             fromMyListingNotDeniedApproval: false,
             showFeedbackTextArea: false,
             denialFeedback: '',
+            existingProductId: null,
         }
     },
     components: { Textarea, FloatLabel, Chip, Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
     methods: {
         //This function will be activated on 'Listing preview' when user first lists their product
         confirmListing(){
-            axios.post("http://localhost:8000/products/sell_form", this.productInfo) 
+            if(this.existingProductId)
+                this.updateListing()
+            else
+                this.uploadListing()
+        },
+
+        uploadListing(){
+            axios.post("http://localhost:8000/products/upload_listing", this.productInfo) 
             .then(response => {
                 this.$toast.add({ severity: 'success', summary: 'Successfully Listed', detail: `Redirecting...`, life: 3000 })
                 setTimeout(() => {this.$router.push({'name': 'Settings'})}, 3000)
             })
             .catch(error => console.log("Form data could not be sent"))
+
+        },
+
+        updateListing(){
+            axios.post("http://localhost:8000/products/update_listing", this.productInfo)
+            .then(response => {
+                this.$toast.add({ severity: 'success', summary: 'Successfully Updated', detail: `Redirecting...`, life: 3000 })
+                setTimeout(() => {this.$router.push({'name': 'Settings'})}, 3000)
+            })
+            .catch(error => console.log(error))
         },
 
         editListing(){
+            console.log("value of id when in details: ")
+            console.log(this.existingProductId)
             this.$router.push({name: 'Sell', params: {
                 filledValues: JSON.stringify({
                     title: this.productInfo.title,
@@ -114,6 +134,7 @@ export default{
                     image_urls: this.productInfo.image_urls,
                 }),
                 toEditListing: true,
+                id: this.existingProductId,
             }
             })
         },
@@ -151,6 +172,8 @@ export default{
     },
     created(){
         //storing product info in local variable
+        if(this.$route.params.id)
+            this.existingProductId = this.$route.params.id
         this.productInfo = JSON.parse(this.$route.params.product)
         this.infoReached = true
         console.log(this.productInfo)

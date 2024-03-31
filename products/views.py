@@ -32,7 +32,7 @@ def generate_image_url(request):
     return JsonResponse({'error': 'just an error'})
 
 @csrf_exempt
-def sell_form(request):
+def upload_listing(request):
     if request.method == "POST":
         sell_form_data = json.loads(request.body)
         ProductListing.objects.create(
@@ -46,10 +46,31 @@ def sell_form(request):
             selected_condition = sell_form_data['selectedCondition'],
             product_description = sell_form_data['productDesc'],
             image_urls = sell_form_data['image_urls'],
-            admin_approval = sell_form_data['adminApproval'],
+            admin_approval = False,
         )
         return JsonResponse({'message' : "Succesfully received"})
     return JsonResponse({'error' : 'No post request received'})
+
+@csrf_exempt
+def update_listing(request):
+    if request.method == "POST":
+        listing_json = json.loads(request.body)
+        listing_to_be_updated = ProductListing.objects.get(id = listing_json['id'])
+        listing_to_be_updated.title = listing_json['title']
+        listing_to_be_updated.category = listing_json['category']
+        listing_to_be_updated.price = listing_json['price']
+        listing_to_be_updated.product_description = listing_json['productDesc']
+        listing_to_be_updated.selected_year = listing_json['selectedYear']
+        listing_to_be_updated.selected_branch = listing_json['selectedBranch']
+        listing_to_be_updated.selected_item_type = listing_json['selectedItemType']
+        listing_to_be_updated.selected_condition = listing_json['selectedCondition']
+        listing_to_be_updated.image_urls= listing_json['image_urls']
+        listing_to_be_updated.admin_approval = False
+        listing_to_be_updated.save()
+        return JsonResponse({'message' : "Succesfully updated"})
+    return JsonResponse({'error' : 'No post request received'})
+
+
 
 def get_resource(request, resourceId):
     if request.method == "GET":
@@ -109,8 +130,6 @@ def upload_resource(request):
 def update_resource(request):
     if request.method == "POST":
         resource_json = json.loads(request.body)
-        print(resource_json)
-        print(resource_json['id'])
         resource_to_be_updated = ResourceListing.objects.get(id = resource_json['id'])
         resource_to_be_updated.admin_approval = False
         resource_to_be_updated.resource = resource_json['resource']

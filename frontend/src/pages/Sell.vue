@@ -102,7 +102,8 @@ export default{
             selectedItemType: [],
             selectedCondition: [],
             image_urls: [],
-            h1Title: "Sell your items, help a student"
+            h1Title: "Sell your items, help a student",
+            existingProductId: null,
         }
     },
     components:{ Textarea, InputText, FloatLabel, MultiSelect, Dropdown, Message, Button, pageNav, pageHeader, FileUpload, Toast },
@@ -146,7 +147,35 @@ export default{
         },
 
         submitForm(){
+            if(this.existingProductId)
+                this.updateListing()
+            else{
+                console.log("new listing")
+                console.log(this.existingProductId)
+                const sessionInfo = JSON.parse(sessionStorage.user)
+                this.$router.push({ name: "Listing details", params: {
+                product : JSON.stringify({
+                    moodleID:sessionInfo.user.moodleID,
+                    title:this.title,
+                    category:this.category,
+                    price:this.price,
+                    selectedYear: this.selectedYear,
+                    selectedBranch: this.selectedBranch,
+                    selectedItemType:this.selectedItemType,
+                    selectedCondition:this.selectedCondition,
+                    productDesc:this.productDesc,
+                    image_urls:this.image_urls,
+                    adminApproval: false,
+                }),
+                fromSell: true
+                }})
+            }
+        },
+
+        updateListing(){
             const sessionInfo = JSON.parse(sessionStorage.user)
+            console.log("update listing")
+            console.log(this.existingProductId)
             this.$router.push({ name: "Listing details", params: {
             product : JSON.stringify({
                 moodleID:sessionInfo.user.moodleID,
@@ -160,8 +189,10 @@ export default{
                 productDesc:this.productDesc,
                 image_urls:this.image_urls,
                 adminApproval: false,
+                id: this.existingProductId,
             }),
-            fromSell: true
+            fromSell: true,
+            id: this.existingProductId ,
             }})
         },
 
@@ -169,11 +200,12 @@ export default{
          deleteImage(image_url){
             const deleteIndex = this.image_urls.indexOf(image_url)
             this.image_urls.splice(deleteIndex, 1)
-            console.log(this.image_urls)
          },
     },
     created(){
         //When sell.vue is used to edit the listing
+        if(this.$route.params.id)
+            this.existingProductId = this.$route.params.id
         if(this.$route.params.filledValues){
             this.h1Title = "Edit Listing"
             const filledVal = JSON.parse(this.$route.params.filledValues)

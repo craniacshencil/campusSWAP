@@ -125,6 +125,7 @@ export default {
                     image_urls: image_url, 
                 }),
                 adminStatus:this.items[1].status,
+                id: this.productId,
             }})
         },
 
