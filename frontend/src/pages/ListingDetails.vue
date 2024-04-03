@@ -27,6 +27,7 @@
             <div class = "btn-section flex gap-2 mb-5 pt-4 border-top-1 border-400 justify-content-center">
                 <Button v-if = "fromBuy || fromMyListingNotDeniedApproval" icon = "pi pi-phone" label = "Contact Seller" severity = "contrast" raised />
                 <Button v-if = "fromBuy || fromMyListingNotDeniedApproval" class = "text-white" icon = "pi pi-heart" label= "Wishlist" severity = "danger" raised />
+                <Button v-if = "fromBuy" label= "Buy Now!" @click = "createOrder" raised />
                 <Button v-if = "fromSell" @click = "confirmListing" label = "Confirm Listing" class = "confirm-btn" raised />
                 <Button v-if = "fromDeniedApproval || fromSell" label = "Edit Listing" class = "confirm-btn" @click = "editListing" />
                 <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
@@ -167,16 +168,31 @@ export default{
                 setTimeout(() => {this.$router.push({'name': 'Admin Dashboard'})}, 3000)
             })
             .catch(error => console.log(error))
-        }
+        },
+
+        createOrder(){
+            const currentUser= JSON.parse(sessionStorage.user).user.moodleID
+            if(this.productInfo.moodleID == currentUser)
+                this.$toast.add({severity : "error", summary: 'Invalid attempt', detail : "This is your listing", life : 3000 })
+            else{
+                const productIdJSON = {
+                    productId: this.$route.params.productId
+                }
+                axios.post("http://localhost:8000/payments/create_order", productIdJSON)
+                .then(response => console.log(response))
+                .catch(error => console.log(error))
+                console.log("order made")
+            }
+        },
 
     },
+
     created(){
         //storing product info in local variable
         if(this.$route.params.id)
             this.existingProductId = this.$route.params.id
         this.productInfo = JSON.parse(this.$route.params.product)
         this.infoReached = true
-        console.log(this.productInfo)
         //Galleria requires a list of JSONs to display images, therefore creating this
         for(let url of this.productInfo.image_urls)
             this.images.push({itemImageSrc: url, alt: "No Image Available"})

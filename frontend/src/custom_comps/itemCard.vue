@@ -48,7 +48,7 @@ import Card from 'primevue/card'
             inspectListing(){
                 this.$router.push({ name: "Listing details", params: {
                 product : JSON.stringify({
-                    moodleID:this.sessionInfo.user.moodleID,
+                    moodleID:this.product.moodleID,
                     title:this.product.title,
                     category:this.product.category,
                     price:this.product.price,
@@ -67,7 +67,7 @@ import Card from 'primevue/card'
             toListing(){
                 this.$router.push({ name: "Listing details", params: {
                 product : JSON.stringify({
-                    moodleID:this.sessionInfo.user.moodleID,
+                    moodleID:this.product.moodleID,
                     title:this.product.title,
                     category:this.product.category,
                     price:this.product.price,

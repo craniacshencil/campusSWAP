@@ -3,3 +3,4 @@ django-cors-headers==4.3.1
 psycopg[binary]
 requests == 2.31.0
 python-dotenv == 1.0.1
+razorpay == 1.4.2

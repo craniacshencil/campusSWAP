@@ -16,6 +16,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY') 
+RZP_ID = os.getenv('RZP_ID')
+RZP_SECRET= os.getenv('RZP_SECRET')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +48,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "apis",
     "products",
-    "admin_actions"
+    "admin_actions",
+    "payments",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
