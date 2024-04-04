@@ -7,10 +7,12 @@
                 <resetPassword class = "card-items" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "My Listings" toggleable>
-                <itemView v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
+                <h1 v-if = "noListings" class ="empty-section">You have 0 listings</h1>
+                <itemView v-else v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "My Resources" toggleable>
-                <ResourceCard v-for = "resource in myResources" :key = "resource.id" :article = "resource" />
+                <h1 v-if = "noResources" class ="empty-section">You have 0 resources</h1>
+                <ResourceCard v-else v-for = "resource in myResources" :key = "resource.id" :article = "resource" />
             </Panel>
 
     </div>
@@ -33,6 +35,8 @@ export default{
         return{
             myListings: null,
             myResources: null,
+            noResources: false,
+            noListings: false,
         }
     },
     components: { ResourceCard, resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
@@ -42,6 +46,11 @@ export default{
         .then(response => {
             this.myListings = response.data.listings
             this.myResources = response.data.resources
+            if(Object.keys(this.myListings).length === 0)
+                this.noListings = true
+            if(Object.keys(this.myResources).length === 0)
+                this.noResources= true
+
         })
         .catch(error => console.log(error))
     }
@@ -64,10 +73,16 @@ export default{
     padding: 1.5rem 1rem;
 }
 
-.feature-panel .p-panel-title{
+.feature-panel .p-panel-title,
+.empty-section{
     letter-spacing: -.1rem;
     font-size: 1.5rem;
     text-transform: uppercase;
     font-weight: 300;
+}
+
+.empty-section{
+    font-size: 3rem;
+    color: #999;
 }
 </style>
