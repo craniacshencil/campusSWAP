@@ -2,7 +2,7 @@ from django.http import JsonResponse
 import os
 import requests
 from django.views.decorators.csrf import csrf_exempt
-from .models import ProductListing, ResourceListing
+from .models import ProductListing, ResourceListing, StarredResources
 import base64
 import json
 
@@ -147,3 +147,36 @@ def update_resource(request):
         resource_to_be_updated.save()
         return JsonResponse({'message': 'Successfully updated resource!'})
     return JsonResponse({'error': 'Post request not received'})
+
+@csrf_exempt
+def user_starred_resources(request, moodleID):
+    if request.method == "GET":
+        return JsonResponse({'message': 'Successfully updated resource!'})
+    return JsonResponse({'error': 'Post request not received'})
+
+@csrf_exempt
+def add_star(request):
+    if request.method == "POST":
+        resourceJSON = json.loads(request.body)
+        starred_resource = ResourceListing.objects.get(id = resourceJSON['resourceID'])
+        try:  #case when already starred resources is clicked to star, so remove stars
+            already_existing_star = StarredResources.objects.get(
+                moodleID = resourceJSON['moodleID'],
+                resourceID = resourceJSON['resourceID']
+            )
+            already_existing_star.delete()
+            starred_resource.stars = starred_resource.stars - 1;
+
+        except StarredResources.DoesNotExist: #Add starred resource to both tables
+            StarredResources.objects.create(
+                moodleID = resourceJSON['moodleID'],
+                resourceID = resourceJSON['resourceID']
+            )
+            starred_resource.stars = starred_resource.stars + 1;
+
+        starred_resource.save()
+
+        return JsonResponse({'message': 'Successfully updated resource!'})
+    return JsonResponse({'error': 'Post request not received'})
+
+

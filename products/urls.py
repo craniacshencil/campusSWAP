@@ -9,5 +9,8 @@ urlpatterns = [
     path("all_approved_listings", views.all_approved_listings, name = "all_approved_listings"),
     path("all_approved_resources", views.all_approved_resources, name = "all_approved_resources"),
     path("upload_resource", views.upload_resource, name = "upload_resource"),
-    path("update_resource", views.update_resource, name = "Update resource")
+    path("update_resource", views.update_resource, name = "Update resource"),
+    path("add_star", views.add_star, name = "Add Star"),
+    path("user_starred_resources/<int:moodleID>", views.user_starred_resources, name = "User starred resources"),
+    
 ] 

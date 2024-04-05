@@ -9,7 +9,7 @@
             <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
             <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" severity = "danger" class = "confirm-btn text-white" raised />
             <Button v-if = "fromDeniedAdminStatus" @click = "toEditResource" label = "Edit Resource" severity = "warn" class = "confirm-btn" raised />
-            <Button v-if = "!fromAdmin" @click = "addStar" icon = "pi pi-star" severity = "warning" outlined />
+            <Button v-if = "!fromAdmin" @click = "addStar" icon = "pi pi-star" :label = "resourceJSON.stars" severity = "warning" outlined />
         </div>
         <div class="resource-feedback-denied-section mt-5 w-6 flex flex-column" v-if = "showFeedbackTextArea">
             <FloatLabel class>
@@ -43,6 +43,7 @@ export default{
             fromDeniedAdminStatus: null,
             fromNotDeniedAdminStatus: null,
             fromAdmin: false,
+            usersMoodleID: JSON.parse(sessionStorage.user).user.moodleID,
         }
     },
     components: { pageHeader, Toast, Button, pageNav, Textarea, FloatLabel },
@@ -84,7 +85,15 @@ export default{
         },
 
         addStar(){
-
+            const addStarJSON = {
+                moodleID: this.usersMoodleID,
+                resourceID: this.resourceId,
+            }
+            axios.post("http://localhost:8000/products/add_star", addStarJSON)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => console.log(error))
         },
 
     },
@@ -97,6 +106,13 @@ export default{
             this.rendered = md.render(articleMarkdown)
         })
         .catch(error => console.log(error))
+
+        axios.get(`http://localhost:8000/products/user_starred_resources/${this.usersMoodleID}`)
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => console.log(error))
+
         if(this.$route.params.adminStatus == 'deny')
             this.fromDeniedAdminStatus = true
         if((this.$route.params.adminStatus == 'true') || (this.$route.params.adminStatus == false))

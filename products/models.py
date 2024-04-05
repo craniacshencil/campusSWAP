@@ -20,9 +20,15 @@ class ResourceListing(models.Model):
     moodleID = models.IntegerField()
     resource = models.TextField()
     admin_approval = models.CharField(max_length = 5)
+    stars = models.IntegerField(default=0)
     class Meta:
         db_table = "resource_listings"
-    
+
+class StarredResources(models.Model):
+    moodleID = models.IntegerField()
+    resourceID = models.IntegerField()
+    class Meta:
+        db_table = "starred_resources"
 
 
 
