@@ -79,7 +79,8 @@ def get_resource(request, resourceId):
             "id": resourceEntry.id,
             "admin_approval": resourceEntry.admin_approval,
             "resource": resourceEntry.resource,
-            "moodleID": resourceEntry.moodleID
+            "moodleID": resourceEntry.moodleID,
+            "stars": resourceEntry.stars,
         })
     return JsonResponse({'error' : 'No post request received'})
 
@@ -151,7 +152,15 @@ def update_resource(request):
 @csrf_exempt
 def user_starred_resources(request, moodleID):
     if request.method == "GET":
-        return JsonResponse({'message': 'Successfully updated resource!'})
+        starred_resources_ids = StarredResources.objects.filter(moodleID = moodleID).values_list('resourceID')
+        starred_resources_list = list(map(lambda x: x[0], starred_resources_ids))
+
+        starred_resources= ResourceListing.objects.filter(id__in = starred_resources_list).values()
+        indexed_starred_resources= {}
+        for index, item in enumerate(starred_resources):
+            indexed_starred_resources[index] = item
+        return JsonResponse({"starred_resources_id" : starred_resources_list, 
+                             "starred_resources": indexed_starred_resources})
     return JsonResponse({'error': 'Post request not received'})
 
 @csrf_exempt

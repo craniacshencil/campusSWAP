@@ -5,7 +5,6 @@
             <h4 class = "mt-2">- {{ this.article.moodleID }}</h4>
         </div>
         <div class="button-side align-self-end">
-            <Button icon = "pi pi-star" severity = "warning" outlined />
             <Button class = "check-details-btn ml-1" icon = "pi pi-chevron-right" @click = "decideAction" severity = "contrast" label = "Check details" />
         </div>
     </div>    
@@ -19,7 +18,8 @@ import Button from 'primevue/button';
 import ProgressSteps from '@/custom_comps/ProgressSteps.vue';
 import Dialog from 'primevue/dialog';
 export default{
-    props: { article: Object },
+    props: { article: Object, from: String},
+    //from param is optional and is only used when i am coming from Starred resources
     data(){
         return{
             title: "",
@@ -29,7 +29,14 @@ export default{
     components: { Dialog, Button, ProgressSteps },
     methods: {
         decideAction(){
-            if(this.$route.name == "Settings")
+            if(this.$route.name == "Resources" || this.from === "Starred Resources"){
+                this.$router.push({ name: "Resource Details", params: {
+                    resourceId: this.article.id,
+                    fromFindResources: true 
+                }})
+            }
+
+            else if(this.$route.name == "Settings")
                 this.visible = true
 
             else if(this.$route.name == "Approve Resource"){
@@ -39,12 +46,6 @@ export default{
                 }})
             }
 
-            else if(this.$route.name == "Resources"){
-                this.$router.push({ name: "Resource Details", params: {
-                    resourceId: this.article.id,
-                    fromFindResources: true 
-                }})
-            }
         }
     },
     created(){

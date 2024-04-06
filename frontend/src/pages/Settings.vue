@@ -14,6 +14,10 @@
                 <h1 v-if = "noResources" class ="empty-section">You have 0 resources</h1>
                 <ResourceCard v-else v-for = "resource in myResources" :key = "resource.id" :article = "resource" />
             </Panel>
+            <Panel collapsed = true class = "feature-panel" header = "Starred Resources" toggleable>
+                <h1 v-if = "noStarredResources" class ="empty-section">You haven't starred any resources</h1>
+                <ResourceCard v-else v-for = "resource in myStarredResources" :key = "resource.id" :article = "resource" from = "Starred Resources" />
+            </Panel>
 
     </div>
 </div>
@@ -35,8 +39,10 @@ export default{
         return{
             myListings: null,
             myResources: null,
+            myStarredResources: null,
             noResources: false,
             noListings: false,
+            noStarredResources: false,
         }
     },
     components: { ResourceCard, resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
@@ -51,6 +57,14 @@ export default{
             if(Object.keys(this.myResources).length === 0)
                 this.noResources= true
 
+        })
+        .catch(error => console.log(error))
+
+        axios.get(`http://localhost:8000/products/user_starred_resources/${moodleID}`)
+        .then(response => {
+            this.myStarredResources = response.data.starred_resources
+            if(Object.keys(this.myStarredResources).length === 0)
+                this.noStarredResources = true
         })
         .catch(error => console.log(error))
     }

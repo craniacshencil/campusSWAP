@@ -4,12 +4,13 @@
     <pageHeader />
     <pageNav />
     <article class = "resource-rendered markdown-body mt-5" v-html = "rendered"></article>
-    <div class="admin-resource-actions-wrapper flex flex-column align-items-center">
+    <div class="button-actions-wrapper flex flex-column align-items-center">
         <div class="btn-section mt-4 mb-5 flex justify-content-center gap-2">
             <Button v-if = "fromAdmin" @click = "grantApproval" label = "Grant Approval" class = "confirm-btn" raised />
             <Button v-if = "fromAdmin" @click = "denyApproval" label = "Deny Approval" severity = "danger" class = "confirm-btn text-white" raised />
             <Button v-if = "fromDeniedAdminStatus" @click = "toEditResource" label = "Edit Resource" severity = "warn" class = "confirm-btn" raised />
-            <Button v-if = "!fromAdmin" @click = "addStar" icon = "pi pi-star" :label = "resourceJSON.stars" severity = "warning" outlined />
+            <ToggleButton v-if = "!fromAdmin" @click = "addStar" v-model="checked" :onLabel="resourceJSON.stars + 1" :offLabel="resourceJSON.stars + 0" onIcon="pi pi-star-fill" 
+            offIcon="pi pi-star" aria-label="Do you confirm" />
         </div>
         <div class="resource-feedback-denied-section mt-5 w-6 flex flex-column" v-if = "showFeedbackTextArea">
             <FloatLabel class>
@@ -27,6 +28,7 @@ import markdownit from 'markdown-it'
 import pageHeader from '@/custom_comps/pageHeader.vue'
 import pageNav from '@/custom_comps/pageNav.vue'
 import Button from 'primevue/button'
+import ToggleButton from 'primevue/togglebutton'
 import Textarea from 'primevue/textarea'
 import FloatLabel from 'primevue/floatlabel'
 import Toast from 'primevue/toast'
@@ -44,9 +46,10 @@ export default{
             fromNotDeniedAdminStatus: null,
             fromAdmin: false,
             usersMoodleID: JSON.parse(sessionStorage.user).user.moodleID,
+            checked: false,
         }
     },
-    components: { pageHeader, Toast, Button, pageNav, Textarea, FloatLabel },
+    components: { pageHeader, Toast, Button, ToggleButton, pageNav, Textarea, FloatLabel },
     methods: {
         grantApproval(){
             const resourceIdJSON = {
@@ -104,12 +107,18 @@ export default{
             const articleMarkdown = this.resourceJSON['resource']
             const md = markdownit()
             this.rendered = md.render(articleMarkdown)
+            console.log(this.resourceJSON)
         })
         .catch(error => console.log(error))
 
         axios.get(`http://localhost:8000/products/user_starred_resources/${this.usersMoodleID}`)
         .then(response => {
-            console.log(response)
+            this.usersStars = response.data.starred_resources_id
+            console.log(this.usersStars)
+            console.log(this.resourceId)
+            if(this.usersStars.includes(Number(this.resourceId)))
+                this.checked = true
+            console.log(this.checked)
         })
         .catch(error => console.log(error))
 
@@ -139,5 +148,9 @@ article.resource-rendered.markdown-body {
     .markdown-body {
         padding: 15px;
     }
+}
+
+.button-actions-wrapper .p-togglebutton .p-button-icon{
+    color: #f7ca00;
 }
 </style>
