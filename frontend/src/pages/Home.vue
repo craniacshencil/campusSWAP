@@ -98,7 +98,7 @@
     color: white;
     padding: 0 20px;
     text-align: center;
-    height: 175px;
+    height: 250px;
 }
   
 .categories {
@@ -130,7 +130,7 @@
 }
 
 .the-text{
-    /* padding: 20px; */
+    padding: 30px;
     color: black;
     font-size: 1.5rem;
     margin-bottom: 0;
