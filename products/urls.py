@@ -12,5 +12,6 @@ urlpatterns = [
     path("update_resource", views.update_resource, name = "Update resource"),
     path("add_star", views.add_star, name = "Add Star"),
     path("user_starred_resources/<int:moodleID>", views.user_starred_resources, name = "User starred resources"),
+    path('simple_search', views.simple_search, name='simple_search'),
     
 ] 

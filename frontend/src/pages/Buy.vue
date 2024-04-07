@@ -12,6 +12,7 @@
         <main class="item-card-container">
             <itemCard v-for="listing in listings" :key="listing.id" :product="listing" main_action = "Check Out" />
         </main>
+        <div v-if="listings && listings.length === 0">No results found.</div>
     </div>
 </template>
 
@@ -42,11 +43,21 @@ export default {
             this.filteredSearch(this.filters)
         },
 
-        simpleSearch(searchTerm){
-            console.log(searchTerm)
-            axios.post("http://localhost:8000/products/simple_search", searchTerm)
-            .then(response => console.log(response))
-            .catch(error => console.log(error))
+        simpleSearch(searchTerm) {
+            axios.get("http://localhost:8000/products/simple_search", {
+                params: {
+                    searchTerm: searchTerm
+                }
+            })
+            .then(response => {
+                if (response.data && response.data.filteredProducts) {
+                    this.listings = response.data.filteredProducts;
+                } else {
+                    this.listings = []; // Handle case when no products are returned
+                }
+                console.log(this.listings);
+            })
+            .catch(error => console.log(error));
         },
 
         filteredSearch(filtersJSON){
@@ -54,20 +65,24 @@ export default {
             axios.post("http://localhost:8000/products/filtered_search", filtersJSON)
             .then(response => console.log(response))
             .catch(error => console.log(error))
+        },
+        fetchListings(){
+            axios.get("http://localhost:8000/products/all_approved_listings")
+            .then(response => {
+                this.listings = response.data.allApprovedListings
+            })
+            .catch(error => console.log(error))
         }
     },
+       
     // when coming to buy page from another page, bringing the search term to the buy page 
     mounted(){
-        if(this.$route.params.searchTerm)
+        if (this.$route.params.searchTerm) {
             this.storeSearchTerm(this.$route.params.searchTerm)
+        } else {
+            this.fetchListings();
+        }
     },
-    created(){
-        axios.get("http://localhost:8000/products/all_approved_listings")
-        .then(response => {
-            this.listings = response.data.allApprovedListings
-        })
-        .catch(error => console.log(error))
-    }
 }
 </script>
 
