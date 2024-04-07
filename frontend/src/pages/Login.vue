@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="form-field">
-                    <Password v-model = passText placeholder = "Password" :feedback = false toggleMask inputStyle = "width: 30vw" required @keyup.enter="validateForm"</Password>/>
+                    <Password v-model = passText placeholder = "Password" :feedback = false toggleMask inputStyle = "width: 30vw" required @keyup.enter="validateForm" />
                     <small v-if = "loginError == incorrectPassword">{{ incorrectPassword }}</small>
                 </div>
 

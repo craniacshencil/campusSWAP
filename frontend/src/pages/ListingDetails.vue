@@ -89,6 +89,9 @@ export default{
             showFeedbackTextArea: false,
             denialFeedback: '',
             existingProductId: null,
+            rzp_payment_id: null,
+            rzp_order_id: null,
+            rzp_signature: null,
         }
     },
     components: { Textarea, FloatLabel, Chip, Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
@@ -183,28 +186,42 @@ export default{
                 }
                 axios.post("http://localhost:8000/payments/create_order", productJSON)
                 .then(response => {
+                    const order_data = response.data.current_order
                     var options = {
-                        "key": `import.meta.env.VITE_RZP_ID`, // Enter the Key ID generated from the Dashboard
-                        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "key": import.meta.env.VITE_RZP_ID, // Enter the Key ID generated from the Dashboard
+                        "amount": `${order_data.amount}`, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                         "currency": "INR",
                         "name": "CampusSwap", //your business name
-                        "description": "Order-title",
-                        "order_id": "order_NuDDBHODumVHAm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "description": `${this.productInfo.title}`,
+                        "order_id": `${order_data.id}`, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "handler": function (response){
+                            this.rzp_order_id = response.razorpay_order_id
+                            this.rzp_payment_id= response.razorpay_payment_id
+                            this.rzp_signature = response.razorpay_signature
+                            const payment_response = {
+                                rzp_order_id: this.rzp_order_id,
+                                rzp_payment_id: this.rzp_payment_id,
+                                rzp_signature: this.rzp_signature,
+                                buyer: currentUser,
+                            }
+                            axios.post("http://localhost:8000/payments/record_payment", payment_response) 
+                            .then(response => console.log(response))
+                            .catch(error => console.log(error))
+                        },
                         "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
-                            "name": "Gaurav Kumar", //your customer's name
-                            "email": "gaurav.kumar@example.com", 
+                            "name": `${currentUser}`, //your customer's name
+                            "email": `${JSON.parse(sessionStorage.user).user.email}`, 
                             "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
                         },
                         "theme": {
                             "color": "#3399cc",
                             "backdrop_color": "#000000" 
-                        }
+                        },
                     };
-                    // const rzp1 = new Razorpay(options);
-                    // rzp1.open();
+                    const rzp1 = new Razorpay(options);
+                    rzp1.open();
                 })
                 .catch(error => console.log(error))
-                console.log("order made")
             }
         },
     },

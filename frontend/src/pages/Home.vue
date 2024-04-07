@@ -130,9 +130,8 @@
 }
 
 .the-text{
-    padding: 30px;
     color: black;
-    font-size: 1.5rem;
+    font-size: 4rem;
     margin-bottom: 0;
     text-transform: capitalize;
     font-weight: 700;
