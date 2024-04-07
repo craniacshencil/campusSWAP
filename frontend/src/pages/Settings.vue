@@ -81,9 +81,11 @@ export default{
 }
 
 .p-panel.feature-panel{
+    margin-top: 2rem;
     width: 70vw;
     background: #090909;
-    border: .05rem solid #999;
+    border: 0;
+    border-bottom: .05rem solid #999;
     padding: 1.5rem 1rem;
 }
 

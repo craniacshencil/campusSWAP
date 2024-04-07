@@ -107,6 +107,16 @@ export default{
 
 <style> 
 /* when i scope these styles the primevue api theming does not apply  */
+.filters *{
+    overflow: auto; /* Enable scrolling */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer */ 
+}
+
+.filters *::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Webkit browsers (e.g., Chrome, Safari) */
+}
+
 .filters{
     width: 50%;
 }

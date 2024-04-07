@@ -15,4 +15,27 @@ body{
     height: 100%;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #090909;
+
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #22d3ee #090909;
+  scrollbar-arrow-color: #090909;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #090909;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #22d3ee;
+  border-radius: 50px;
+  border: 3px solid #090909;
+
+
 }
