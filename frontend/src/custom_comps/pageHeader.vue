@@ -5,7 +5,7 @@
         <ConfirmPopup></ConfirmPopup>
         <h1>CampusSwap</h1>
         <InputGroup class = "search-bar">
-            <InputText ref = "searchField" v-model = "searchTerm" placeholder = "Search" />
+            <InputText ref = "searchField" v-model = "searchTerm" placeholder = "Search" @keyup.enter="hitSearch" />
             <Button @click = "hitSearch" icon = "pi pi-search" />
         </InputGroup>
         <div v-if = "this.$route.name !== 'Home'" class="user-icons flex flex-row gap-3">
