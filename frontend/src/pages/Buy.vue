@@ -12,7 +12,7 @@
         <main class="item-card-container">
             <itemCard v-for="listing in listings" :key="listing.id" :product="listing" main_action = "Check Out" />
         </main>
-        <div v-if="listings && listings.length === 0">No results found.</div>
+        <h1 v-if="listings && listings.length === 0">No results found.</h1>
     </div>
 </template>
 

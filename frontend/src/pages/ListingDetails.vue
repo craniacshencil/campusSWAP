@@ -63,6 +63,7 @@
 
 </template>
 <script>
+import 'https://checkout.razorpay.com/v1/checkout.js';
 import Button from 'primevue/button';
 import Toast from 'primevue/toast';
 import pageNav from '@/custom_comps/pageNav.vue';
@@ -175,19 +176,41 @@ export default{
             if(this.productInfo.moodleID == currentUser)
                 this.$toast.add({severity : "error", summary: 'Invalid attempt', detail : "This is your listing", life : 3000 })
             else{
-                const productIdJSON = {
-                    productId: this.$route.params.productId
+                const productJSON = {
+                    moodleID: currentUser,
+                    productId: this.$route.params.productId,
+                    product: this.productInfo
                 }
-                axios.post("http://localhost:8000/payments/create_order", productIdJSON)
-                .then(response => console.log(response))
+                axios.post("http://localhost:8000/payments/create_order", productJSON)
+                .then(response => {
+                    var options = {
+                        "key": `import.meta.env.VITE_RZP_ID`, // Enter the Key ID generated from the Dashboard
+                        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "currency": "INR",
+                        "name": "CampusSwap", //your business name
+                        "description": "Order-title",
+                        "order_id": "order_NuDDBHODumVHAm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
+                            "name": "Gaurav Kumar", //your customer's name
+                            "email": "gaurav.kumar@example.com", 
+                            "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+                        },
+                        "theme": {
+                            "color": "#3399cc",
+                            "backdrop_color": "#000000" 
+                        }
+                    };
+                    // const rzp1 = new Razorpay(options);
+                    // rzp1.open();
+                })
                 .catch(error => console.log(error))
                 console.log("order made")
             }
         },
-
     },
 
     created(){
+        console.log()
         //storing product info in local variable
         if(this.$route.params.id)
             this.existingProductId = this.$route.params.id

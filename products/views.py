@@ -194,7 +194,7 @@ def simple_search(request):
         search_term = request.GET.get('searchTerm', '')
         if search_term:
             # Perform the search filtering based on your model
-            products = ProductListing.objects.filter(title__icontains=search_term)
+            products = ProductListing.objects.filter(title__icontains=search_term, admin_approval = True)
             # Serialize the products to JSON or obtain necessary data
             serialized_products = [{'id': product.id, 'title': product.title, 'category': product.category,'price': product.price,'selected_year': product.selected_year,'selected_branch': product.selected_branch,'selected_item_type': product.selected_item_type,'selected_condition': product.selected_condition,'product_description': product.product_description, 'image_urls' : product.image_urls, 'admin_approval': product.admin_approval} for product in products]
             return JsonResponse({'filteredProducts': serialized_products})
