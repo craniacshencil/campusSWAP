@@ -11,8 +11,8 @@
           <div class="category"><img src="@/assets/engineering.jpeg" alt="electronics-logo"><span class="cat-text">Electronics</span></div>
           <div class="category"><img src="@/assets/books.jpeg" alt="book-logo"><span class="cat-text">Books</span></div>
           <div class="category"><img src="@/assets/notes.jpeg" alt="notes-logo"><span class="cat-text">Notes</span></div>
-          <div class="category"><img src="@/assets/color.jpeg" alt=""><span class="cat-text">Category 4</span></div>
-          <div class="category"><img src="@/assets/color.jpeg" alt=""><span class="cat-text">Category 5</span></div>
+          <div class="category"><img src="@/assets/tools.jpg" alt=""><span class="cat-text">Tools</span></div>
+          <div class="category"><img src="@/assets/printer.jpg" alt=""><span class="cat-text">Printers</span></div>
         </div>
       </div>
       <div class="main-body">
