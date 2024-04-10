@@ -3,6 +3,7 @@ import os
 import requests
 from django.views.decorators.csrf import csrf_exempt
 from .models import ProductListing, ResourceListing, StarredResources
+from admin_actions.models import AdminApprovalFeedback, AdminApprovalFeedbackResource
 import base64
 import json
 
@@ -67,6 +68,12 @@ def update_listing(request):
         listing_to_be_updated.image_urls= listing_json['image_urls']
         listing_to_be_updated.admin_approval = False
         listing_to_be_updated.save()
+
+        try:
+            feedback_to_delete = AdminApprovalFeedback.objects.get(product_id = listing_json['id'])
+            feedback_to_delete.delete()
+        except AdminApprovalFeedback.DoesNotExist:
+            pass
         return JsonResponse({'message' : "Succesfully updated"})
     return JsonResponse({'error' : 'No post request received'})
 
@@ -146,6 +153,13 @@ def update_resource(request):
         resource_to_be_updated.admin_approval = False
         resource_to_be_updated.resource = resource_json['resource']
         resource_to_be_updated.save()
+
+        try:
+            feedback_to_delete = AdminApprovalFeedbackResource.objects.get(resource_id = resource_json['id'])
+            feedback_to_delete.delete()
+        except AdminApprovalFeedbackResource.DoesNotExist:
+            pass
+
         return JsonResponse({'message': 'Successfully updated resource!'})
     return JsonResponse({'error': 'Post request not received'})
 
