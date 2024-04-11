@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from products.models import ProductListing, ResourceListing
+from products.models import ProductListing, ResourceListing, StarredResources
 from django.views.decorators.csrf import csrf_exempt
 from .models import AdminApprovalFeedback, AdminApprovalFeedbackResource
 import json
@@ -33,12 +33,6 @@ def get_unapproved_listings_and_resources(request):
 def grant_approval(request):
     if request.method == "POST":
         product_id = int(json.loads(request.body)['productId'])
-
-        # code for when editing of a listing is allowed
-        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = productId)
-        # if(previous_feedback):
-        #     previous_feedback.delete()
-
         product = ProductListing.objects.get(id = product_id)
         product.admin_approval = True
         product.save()
@@ -49,12 +43,6 @@ def grant_approval(request):
 def send_negative_feedback(request):
     if request.method == "POST":
         feedbackJSON = json.loads(request.body)
-
-        # code for when editing of a listing is allowed
-        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = feedbackJSON['productId'])
-        # if(previous_feedback):
-        #     previous_feedback.delete()
-
         AdminApprovalFeedback.objects.create(
             product_id = feedbackJSON['productId'],
             feedback = feedbackJSON['feedback'],
@@ -77,12 +65,6 @@ def get_negative_feedback(request, product_id):
 def grant_approval_resource(request):
     if request.method == "POST":
         resource_id = int(json.loads(request.body)['resourceId'])
-
-        # code for when editing of a listing is allowed
-        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = productId)
-        # if(previous_feedback):
-        #     previous_feedback.delete()
-
         resource = ResourceListing.objects.get(id = resource_id)
         resource.admin_approval = True
         resource.save()
@@ -93,12 +75,6 @@ def grant_approval_resource(request):
 def send_negative_feedback_resource(request):
     if request.method == "POST":
         feedbackJSON = json.loads(request.body)
-        print(feedbackJSON)
-        # code for when editing of a listing is allowed
-        # previous_feedback = AdminApprovalFeedback.objects.get(product_id = feedbackJSON['productId'])
-        # if(previous_feedback):
-        #     previous_feedback.delete()
-
         AdminApprovalFeedbackResource.objects.create(
             resource_id = feedbackJSON['resourceId'],
             feedback = feedbackJSON['feedback'],
@@ -141,4 +117,24 @@ def delete_user(request):
         banned_user.save()
         return JsonResponse({'message': 'random'})
     return JsonResponse({"error" : "No post request received"})
+
+def get_user_info(request, moodleID):
+    if request.method == "GET":
+        user_listings_count = user_resources_count = user_wishlist_count = user_stars_count = 0
+        print(moodleID)
+        user_listings = ProductListing.objects.filter(moodleID = moodleID).values()
+        user_listings_count = len(user_listings)
+        user_resources = ProductListing.objects.filter(moodleID = moodleID).values()
+        user_resources_count = len(user_resources)
+        user_stars = StarredResources.objects.filter(moodleID = moodleID).values()
+        user_stars_count = len(user_stars)
+        return JsonResponse({
+            "listings": user_listings_count,
+            "resources": user_resources_count,
+            "wishlist": user_wishlist_count,
+            "stars": user_stars_count,
+        })
+    return JsonResponse({'error': 'no request received'})
+
+        
     
