@@ -24,6 +24,7 @@ import ListingDetails from './pages/ListingDetails.vue'
 import AdminDash from './pages/AdminDash.vue'
 import ApproveListing from './pages/ApproveListing.vue'
 import ApproveResource from './pages/ApproveResource.vue'
+import BanUser from './pages/BanUser.vue'
 import ResourceDetails from './pages/ResourceDetails.vue'
 
 
@@ -55,6 +56,10 @@ const routes = [
         adminRequired: true,
     }},
     { path: '/approveresource', component: ApproveResource, name: "Approve Resource", meta: {
+        authenticationRequired: true,
+        adminRequired: true,
+    }},
+    { path: '/banuser', component: BanUser , name: "Ban User", meta: {
         authenticationRequired: true,
         adminRequired: true,
     }},

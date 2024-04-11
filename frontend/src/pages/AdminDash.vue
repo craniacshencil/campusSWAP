@@ -11,7 +11,7 @@
                     <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
                 </div>
                 <div class = "ban-user-wrapper w-full h-9rem text-6xl pl-5 pt-2 font-bold flex flex-column justify-content-between"
-                >
+                @click = "this.$router.push({name: 'Ban User'})">
                     Ban Users
                     <icon class = "pi pi-arrow-right text-4xl font-bold align-self-end pr-5 pb-5" />
                 </div>
