@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from products.models import ProductListing, ResourceListing
 from django.views.decorators.csrf import csrf_exempt
@@ -116,3 +117,17 @@ def get_negative_feedback_resource(request, resource_id):
            'feedback': resource_feedback.feedback,
        })
     return JsonResponse({'error': 'No Get request received'})
+
+def get_all_users(request):
+    if request.method == "GET":
+        users = User.objects.filter(is_superuser = False)
+        all_users = []
+        for user in users:
+            info = {
+               "username": user.username,
+               "first_name": user.first_name,
+               "last_name": user.last_name,
+            }
+            all_users.append(info)
+        return JsonResponse({'all_users':all_users})
+    return JsonResponse({"error" : "There was an error fetching all the users"})
