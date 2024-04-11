@@ -1,5 +1,6 @@
 <template>
     <div class="card-wrapper surface-0 w-25rem border-round-md border-1 border-200 p-4 py-6">
+        <Toast />
         <h1 class = "m-0 ml-2 mb-2">{{ this.firstName }} {{  this.lastName }}</h1>
         <h2 class = "m-0 ml-2 mb-4 text-300">{{ this.username }}</h2>
         <div class="user-fields text-xl">
@@ -28,12 +29,30 @@
                 <span class = "ml-auto">c1</span>
             </div>
         </div>
+        <Button @click = "banUser" class = "mt-3 w-full" severity = "danger" label = "BAN" raised />
     </div>
 </template>
 
 <script>
+import Button from 'primevue/button'
+import Toast from 'primevue/toast'
+import axios from 'axios'
 export default{
-    props: {username: String, firstName: String, lastName: String}
+    props: {username: String, firstName: String, lastName: String},
+    components: { Button, },
+    methods: {
+        banUser(){
+            const moodleIDJSON = {
+                moodleID: this.username
+            }
+            axios.post("http://localhost:8000/admin_actions/delete_user", moodleIDJSON)
+            .then(response => {
+                this.$toast.add({severity: "success", summary: "Deleted User Successfully!", life: 3000, })
+                setTimeout(() => {this.$router.push({name : 'Ban User'})}, 1500)
+            })
+            .catch(error => console.log(error))
+        },
+    },
 }
 </script>
 

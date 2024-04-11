@@ -120,7 +120,7 @@ def get_negative_feedback_resource(request, resource_id):
 
 def get_all_users(request):
     if request.method == "GET":
-        users = User.objects.filter(is_superuser = False)
+        users = User.objects.filter(is_superuser = False, is_active = True)
         all_users = []
         for user in users:
             info = {
@@ -131,3 +131,14 @@ def get_all_users(request):
             all_users.append(info)
         return JsonResponse({'all_users':all_users})
     return JsonResponse({"error" : "There was an error fetching all the users"})
+
+@csrf_exempt
+def delete_user(request):
+    if request.method == "POST":
+        moodleID = json.loads(request.body)['moodleID']
+        banned_user = User.objects.get(username = moodleID)
+        banned_user.is_active = False
+        banned_user.save()
+        return JsonResponse({'message': 'random'})
+    return JsonResponse({"error" : "No post request received"})
+    

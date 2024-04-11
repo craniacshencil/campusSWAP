@@ -1,5 +1,6 @@
 <template>
     <pageHeader />
+    <h1 class = "hello text-center text-7xl font-light uppercase">Ban Users</h1>
     <div class="user-cards-wrapper flex justify-content-around align-items-start flex-wrap">
         <UserCard class = "m-5" v-for = "user in allUsers" :username = "user.username" :firstName = "user.first_name" :lastName = "user.last_name" :key = "user" />
     </div>
