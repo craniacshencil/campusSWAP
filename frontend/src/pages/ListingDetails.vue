@@ -92,6 +92,8 @@ export default{
             rzp_payment_id: null,
             rzp_order_id: null,
             rzp_signature: null,
+            moodleID: JSON.parse(sessionStorage.user).user.moodleID,
+            phonenumber: null,
         }
     },
     components: { Textarea, FloatLabel, Chip, Toast, Skeleton, Button, pageNav, pageHeader, Galleria },
@@ -211,7 +213,7 @@ export default{
                         "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information, especially their phone number
                             "name": `${currentUser}`, //your customer's name
                             "email": `${JSON.parse(sessionStorage.user).user.email}`, 
-                            "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+                            "contact": `${this.phonenumber}`  //Provide the customer's phone number for better conversion rates 
                         },
                         "theme": {
                             "color": "#3399cc",
@@ -227,7 +229,12 @@ export default{
     },
 
     created(){
-        console.log()
+        //getting user's phone number
+        axios.get(`http://localhost:8000/apis/get_phone/${this.moodleID}`)
+        .then(response => {
+            this.phonenumber = response.data.phonenumber
+        })
+        .catch(error => console.log(error))
         //storing product info in local variable
         if(this.$route.params.id)
             this.existingProductId = this.$route.params.id

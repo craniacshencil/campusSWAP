@@ -120,3 +120,12 @@ def reset_password(request):
             user.save()
         return JsonResponse({'errorMessage' : new_pass_error})
     return JsonResponse({'error' : 'big error'})
+
+@csrf_exempt
+def get_phone(request, moodleID):
+    if request.method == "GET":
+        unique_user_id = User.objects.get(username = moodleID)
+        phonenumber = StudentMetaInfo.objects.get(moodleID = unique_user_id).phonenumber
+        return JsonResponse({'phonenumber' : f'{phonenumber}'})
+    return JsonResponse({'error' : 'big error'})
+        
