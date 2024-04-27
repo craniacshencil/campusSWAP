@@ -3,9 +3,6 @@
     <pageHeader />
     <pageNav />
     <div class="settings-main-wrapper">
-            <Panel collapsed = true class = "feature-panel" header = "Reset Password" toggleable>
-                <resetPassword class = "card-items" />
-            </Panel>
             <Panel collapsed = true class = "feature-panel" header = "My Listings" toggleable>
                 <h1 v-if = "noListings" class ="empty-section">You have 0 listings</h1>
                 <itemView v-else v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
@@ -18,7 +15,13 @@
                 <h1 v-if = "noStarredResources" class ="empty-section">You haven't starred any resources</h1>
                 <ResourceCard v-else v-for = "resource in myStarredResources" :key = "resource.id" :article = "resource" from = "Starred Resources" />
             </Panel>
-
+            <Panel collapsed = true class = "feature-panel" header = "Sold Listings" toggleable>
+                <h1 v-if = "noSoldListings" class ="empty-section">Your listings haven't been sold</h1>
+                <itemView v-else v-for = "listing in soldListings" :key = "listing.id" :product = "listing" from = "Sold Listings" />
+            </Panel>
+            <Panel collapsed = true class = "feature-panel" header = "Reset Password" toggleable>
+                <resetPassword class = "card-items" />
+            </Panel>
     </div>
 </div>
 </template>
@@ -40,9 +43,11 @@ export default{
             myListings: null,
             myResources: null,
             myStarredResources: null,
+            soldListings: [],
             noResources: false,
             noListings: false,
             noStarredResources: false,
+            noSoldListings: true,
         }
     },
     components: { ResourceCard, resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
@@ -52,11 +57,18 @@ export default{
         .then(response => {
             this.myListings = response.data.listings
             this.myResources = response.data.resources
+            console.log(this.myListings)
+            for(const listing_key of Object.keys(this.myListings)){
+                if(this.myListings[listing_key].admin_approval == "sold"){
+                    this.soldListings.push(this.myListings[listing_key])
+                    delete this.myListings[listing_key]
+                    this.noSoldListings = false 
+                }
+            }
             if(Object.keys(this.myListings).length === 0)
                 this.noListings = true
             if(Object.keys(this.myResources).length === 0)
                 this.noResources= true
-
         })
         .catch(error => console.log(error))
 
@@ -78,6 +90,7 @@ export default{
     flex-direction: column;
     justify-content: center; 
     align-items: center;
+    margin-bottom: 10rem;
 }
 
 .p-panel.feature-panel{

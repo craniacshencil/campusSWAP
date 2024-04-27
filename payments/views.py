@@ -51,6 +51,11 @@ def record_payment(request):
                 transaction_signature = payment_data['rzp_signature'],
                 seller_moodleID = seller_moodle_id
             )
+        bought_product = ProductListing.objects.get(id = productID)
+        bought_product.admin_approval = "sold"
+        bought_product.save() #change the status of object to sold so that it doesn't come up on buy page 
+        Orders.objects.filter(productID = productID).delete() #delete all orders for the bought product
+
         return JsonResponse({'verification_status' : isVerified})
     return JsonResponse({'error' : 'failed'})
 
