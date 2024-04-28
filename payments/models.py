@@ -9,6 +9,7 @@ class Orders(models.Model):
         db_table = "orders"
 
 class Payments(models.Model):
+    productID = models.IntegerField()
     buyer_moodleID = models.IntegerField()
     seller_moodleID = models.IntegerField()
     orderID = models.CharField(max_length = 100)

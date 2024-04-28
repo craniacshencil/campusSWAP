@@ -45,6 +45,7 @@ def record_payment(request):
         seller_moodle_id = ProductListing.objects.get(id = productID).moodleID
         if(isVerified):
             Payments.objects.create(
+                productID = productID,
                 buyer_moodleID = payment_data['buyer'],
                 orderID = payment_data['rzp_order_id'],
                 paymentID = payment_data['rzp_payment_id'],
@@ -59,3 +60,13 @@ def record_payment(request):
         return JsonResponse({'verification_status' : isVerified})
     return JsonResponse({'error' : 'failed'})
 
+def get_purchases(request, moodleID):
+    if request.method == "GET":
+        ids = Payments.objects.filter(buyer_moodleID = moodleID).values_list('productID')
+        purchased_products = ProductListing.objects.filter(id__in = ids).values()
+        indexed_purchased_products = {}
+        for index, item in enumerate(purchased_products):
+            indexed_purchased_products[index] = item
+
+        return JsonResponse({"purchasedProducts" : indexed_purchased_products})
+    return JsonResponse({"error" : "couldn't send any message sorry"})

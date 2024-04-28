@@ -17,7 +17,11 @@
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "Sold Listings" toggleable>
                 <h1 v-if = "noSoldListings" class ="empty-section">Your listings haven't been sold</h1>
-                <itemView v-else v-for = "listing in soldListings" :key = "listing.id" :product = "listing" from = "Sold Listings" />
+                <itemView v-else v-for = "listing in soldListings" :key = "listing.id" :product = "listing" />
+            </Panel>
+            <Panel collapsed = true class = "feature-panel" header = "My Purchases" toggleable>
+                <h1 v-if = "noPurchases" class ="empty-section">You haven't purchased anything</h1>
+                <itemView v-else v-for = "listing in myPurchases" :key = "listing.id" :product = "listing" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "Reset Password" toggleable>
                 <resetPassword class = "card-items" />
@@ -44,10 +48,12 @@ export default{
             myResources: null,
             myStarredResources: null,
             soldListings: [],
+            myPurchases: null,
             noResources: false,
             noListings: false,
             noStarredResources: false,
             noSoldListings: true,
+            noPurchases: false,
         }
     },
     components: { ResourceCard, resetPassword, Panel, pageHeader, itemView, pageNav, Button, Password, FloatLabel },
@@ -57,7 +63,6 @@ export default{
         .then(response => {
             this.myListings = response.data.listings
             this.myResources = response.data.resources
-            console.log(this.myListings)
             for(const listing_key of Object.keys(this.myListings)){
                 if(this.myListings[listing_key].admin_approval == "sold"){
                     this.soldListings.push(this.myListings[listing_key])
@@ -77,6 +82,16 @@ export default{
             this.myStarredResources = response.data.starred_resources
             if(Object.keys(this.myStarredResources).length === 0)
                 this.noStarredResources = true
+        })
+        .catch(error => console.log(error))
+
+        axios.get(`http://localhost:8000/payments/get_purchases/${moodleID}`)
+        .then(response => {
+            this.myPurchases = response.data.purchasedProducts
+            console.log(this.myPurchases)
+            console.log(Object.keys(this.myPurchases).length === 0)
+            if(Object.keys(this.myPurchases).length === 0)
+                this.noPurchases = true 
         })
         .catch(error => console.log(error))
     }
