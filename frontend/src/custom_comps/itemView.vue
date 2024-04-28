@@ -13,7 +13,7 @@
             <h1 class = "product-price">₹{{ product.price }}</h1>
             <div class = "flex gap-1">
                 <Button icon = "pi pi-heart" severity = "danger" outlined />
-                <Button class = "check-details-btn" icon = "pi pi-chevron-right" @click = "visible = true" severity = "contrast" label = "Check details" />
+                <Button class = "check-details-btn" icon = "pi pi-chevron-right" @click = "triggerAction" severity = "contrast" label = "Check details" />
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@ import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import ProgressSteps from '@/custom_comps/ProgressSteps.vue';
 export default{
-    props: {product: Object},
+    props: {product: Object, from: String},
     data(){
         return {
                 //WatchMojo: Top 10 reasons why you should learn regex
@@ -39,6 +39,37 @@ export default{
         }
     },
     components: { Dialog, Button, ProgressSteps },
+    methods: {
+        triggerAction(){
+            if(this.from === "My Listing")
+                this.visible = true
+            else{
+            //WatchMojo: Top 10 reasons why you should learn regex
+            const image_url =  this.productCopy.image_urls.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedYear = this.productCopy.selected_year.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedBranch = this.productCopy.selected_branch.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedItemType = this.productCopy.selected_item_type.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "").split(", ")
+            const selectedCondition = this.productCopy.selected_condition.replaceAll("'", "").replaceAll("[", "").replaceAll("]", "").replaceAll('"', "")
+            const sessionInfo = JSON.parse(sessionStorage.user)
+            this.$router.push({ name: "Listing details", params: {
+                product: JSON.stringify({
+                    moodleID: this.productCopy.moodleID,
+                    title: this.productCopy.title,
+                    category: this.productCopy.category,
+                    price: this.productCopy.price,
+                    productDesc: this.productCopy.product_description,
+                    selectedYear: selectedYear,
+                    selectedBranch: selectedBranch,
+                    selectedItemType: selectedItemType,
+                    selectedCondition: selectedCondition,
+                    image_urls: image_url, 
+                }),
+                id: this.productCopy.id,
+            }})
+
+            }
+        },
+    },
 }
 </script>
 <style>

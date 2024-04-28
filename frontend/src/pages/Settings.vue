@@ -5,7 +5,7 @@
     <div class="settings-main-wrapper">
             <Panel collapsed = true class = "feature-panel" header = "My Listings" toggleable>
                 <h1 v-if = "noListings" class ="empty-section">You have 0 listings</h1>
-                <itemView v-else v-for = "listing in myListings" :key = "listing.id" :product= "listing" />
+                <itemView v-else v-for = "listing in myListings" :key = "listing.id" :product= "listing" from = "My Listing" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "My Resources" toggleable>
                 <h1 v-if = "noResources" class ="empty-section">You have 0 resources</h1>
@@ -17,11 +17,11 @@
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "Sold Listings" toggleable>
                 <h1 v-if = "noSoldListings" class ="empty-section">Your listings haven't been sold</h1>
-                <itemView v-else v-for = "listing in soldListings" :key = "listing.id" :product = "listing" />
+                <itemView v-else v-for = "listing in soldListings" :key = "listing.id" :product = "listing" from = "Sold Listing" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "My Purchases" toggleable>
                 <h1 v-if = "noPurchases" class ="empty-section">You haven't purchased anything</h1>
-                <itemView v-else v-for = "listing in myPurchases" :key = "listing.id" :product = "listing" />
+                <itemView v-else v-for = "listing in myPurchases" :key = "listing.id" :product = "listing" from = "My Purchase" />
             </Panel>
             <Panel collapsed = true class = "feature-panel" header = "Reset Password" toggleable>
                 <resetPassword class = "card-items" />
@@ -88,8 +88,6 @@ export default{
         axios.get(`http://localhost:8000/payments/get_purchases/${moodleID}`)
         .then(response => {
             this.myPurchases = response.data.purchasedProducts
-            console.log(this.myPurchases)
-            console.log(Object.keys(this.myPurchases).length === 0)
             if(Object.keys(this.myPurchases).length === 0)
                 this.noPurchases = true 
         })
