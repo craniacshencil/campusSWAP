@@ -10,14 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
+
 load_dotenv()
 
-API_KEY = os.getenv('API_KEY') 
-RZP_ID = os.getenv('RZP_ID')
-RZP_SECRET= os.getenv('RZP_SECRET')
+API_KEY = os.getenv("API_KEY")
+RZP_ID = os.getenv("RZP_ID")
+RZP_SECRET = os.getenv("RZP_SECRET")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -65,9 +67,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173'
-]
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
 
 ROOT_URLCONF = "campusSwap.urls"
 
@@ -97,10 +97,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "campusswap",
-        "USER": "postgres",
-        "PASSWORD": "123456",
+        "USER": "raj",
+        "PASSWORD": "1234",
         "HOST": "localhost",
-        "PORT": "5432"
+        "PORT": "5432",
     }
 }
 

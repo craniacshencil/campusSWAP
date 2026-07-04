@@ -1,7 +1,5 @@
-campusSwap/__pycache__
-.vscode
-etc
-frontend/.vscode
-campusSwap/__pycache__
+*__pycache__
+*migrations*
+*.vscode
+*etc
 .env
-products/__pycache__
