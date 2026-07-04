@@ -1,213 +1,86 @@
 # CampusSwap
 
-An online marketplace for students to sell their used-goods to fellow students at a competitive price point. Made with Vue + Django.
+CampusSwap is a dynamic online marketplace built with Vue.js for the frontend and Django for the backend, designed to facilitate the buying and selling of used goods among students. It aims to provide a convenient and competitive platform for students to trade their items.
 
-## Prerequisite Downloads
+[![Vue Version](https://img.shields.io/badge/Vue-3.3.11-brightgreen)](https://vuejs.org/)
+[![Django Version](https://img.shields.io/badge/Django-5.0.1-orange)](https://www.djangoproject.com/)
 
-- [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.anaconda.com/free/miniconda/index.html) => For setting up python and javascript virtual environment (You can run node inside the conda environment)
-- [PostgreSQL](https://www.postgresql.org/download/) => or any other SQL database (make changes in settings.py)
+## Table of Contents
 
-## Recommended IDE Setup
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [API Reference](#api-reference)
 
-- [VSCode](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-- See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Features
+
+- **User Authentication:** Secure registration and login system for students.
+- **Product Listings:** Users can list items for sale with detailed descriptions, categories, pricing, and images.
+- **Resource Catalog:** A section for students to share and access academic resources, study materials, and notes.
+- **Admin Dashboard:** Dedicated interface for administrators to manage listings, resources, and users.
+- **Approval Workflow:** Listings and resources require admin approval before becoming visible to other users.
+- **User Management:** Admins can view user information and ban/deactivate users.
+- **Search and Filtering:** Users can search for items and filter results based on various criteria like year, branch, type, and condition.
+- **Payment Integration:** Integrated Razorpay for secure online transactions.
+- **User Profiles:** Personalized settings pages to view and manage listings, resources, starred items, and purchases.
+- **Image Uploads:** Seamless image uploading for product listings via ImgBB integration.
+- **Markdown Editor:** A rich text editor for creating and editing resource descriptions.
+
+## Tech Stack
+
+- **Frontend:** Vue.js, Vue Router, Vuex, PrimeVue, Axios, Vite
+- **Backend:** Django, Django-CORS-Headers, PostgreSQL
+- **Languages:** JavaScript, Python, HTML, CSS
+- **APIs:** ImgBB API, Razorpay API
 
 ## Setup
 
-### 1. Python setup
+- Check out SETUP.md
 
-#### 1.1. Setup conda environment with python version 3.11.5:
+### Key Actions
 
-```bash
-conda create -n <env-name> python=3.11.5
-```
+- **Register:** Create a new student account using your Moodle ID and email.
+- **Login:** Access your account with your Moodle ID and password.
+- **Buy:** Browse available listings, apply filters, and search for items.
+- **Sell:** List items for sale, including details, images, and pricing.
+- **Resources:** Access and contribute academic resources.
+- **Admin Dashboard:** Manage unapproved listings, resources, and users.
 
-#### 1.2. Activate the environment:
+## API Reference
 
-```bash
-conda activate <env-name>
-```
+- **Auth APIs (`apis/urls.py`):**
+  - `/apis/register`: Handles user registration.
+  - `/apis/login`: Handles user login.
+  - `/apis/logout`: Handles user logout.
+  - `/apis/reset_password`: Handles password reset.
+  - `/apis/get_phone/<int:moodleID>`: Retrieves user phone number.
 
-#### 1.3. Install the python dependencies:
+- **Product APIs (`products/urls.py`):**
+  - `/products/image_url_gen`: Uploads product images.
+  - `/products/upload_listing`: Creates a new product listing.
+  - `/products/update_listing`: Updates an existing product listing.
+  - `/products/get_resource/<int:resourceId>`: Retrieves a specific resource.
+  - `/products/user_listings_and_resources/<int:moodleID>`: Gets user's listings and resources.
+  - `/products/all_approved_listings`: Fetches all approved product listings.
+  - `/products/all_approved_resources`: Fetches all approved resources.
+  - `/products/upload_resource`: Creates a new resource listing.
+  - `/products/update_resource`: Updates an existing resource listing.
+  - `/products/add_star`: Adds/removes a star from a resource.
+  - `/products/user_starred_resources/<int:moodleID>`: Fetches resources starred by a user.
+  - `/products/simple_search`: Performs a basic search for listings.
 
-```bash
-pip install -r requirements.txt
-```
+- **Admin Action APIs (`admin_actions/urls.py`):**
+  - `/admin_actions/get_unapproved_listings_and_resources`: Fetches unapproved items.
+  - `/admin_actions/grant_approval`: Grants approval for a listing/resource.
+  - `/admin_actions/send_negative_feedback`: Sends feedback for denied items.
+  - `/admin_actions/get_negative_feedback/<int:product_id>`: Retrieves negative feedback for a product.
+  - `/admin_actions/grant_approval_resource`: Grants approval for a resource.
+  - `/admin_actions/send_negative_feedback_resource`: Sends feedback for denied resources.
+  - `/admin_actions/get_negative_feedback_resource/<int:resource_id>`: Retrieves negative feedback for a resource.
+  - `/admin_actions/get_all_users`: Fetches all active users.
+  - `/admin_actions/delete_user`: Deactivates/bans a user.
+  - `/admin_actions/get_user_info/<int:moodleID>`: Retrieves information about a user.
 
-#### 1.4. Install Nodejs(If you don't have it already installed):
-
-```bash
-conda install nodejs
-```
-
-### 2. Vue setup:
-
-#### 2.1. Go to the frontend folder:
-
-```bash
-cd frontend
-```
-
-#### 2.2. Install all javascript dependencies:
-
-```bash
-npm install
-```
-
-### 3. Third-party API Setup:
-
-#### 3.0. Get back to root directory:
-
-```sh
-cd ..
-```
-
-#### 3.1. In your root directory, create a ".env" file, file-tree should look like this:
-
-```
-.
-├── .vscode
-├── apis
-├── campusSwap
-├── frontend
-├── products
-├── .
-├── . (random folders that might be added to the repo in the future)
-├── .
-├── .gitignore
-├── manage.py
-├── README.md
-├── requirements.txt
-└── .env
-```
-
-#### 3.2. Go to [ImgBB's website to get your api key](https://imgbb.com/) (will take ~2 minutes)
-
-#### 3.3. Go to [Razorpay's website to get an rzp_secret and rzp_id](https://razorpay.com/) (will take ~10 minutes):
-
-#### 3.4. Add this in your .env file(**Do not change the names of the variables in the .env STRICTLY**):
-
-```.env
-RZP_SECRET=<your_rzp_secret>
-RZP_ID=<your_rzp_id>
-API_KEY=<your-imgbb-api-key>
-```
-
-In case you want to store anything secret, this is the place
-
-### 4. Create database in psql/pgAdmin:
-
-```sql
-CREATE DATABASE campusswap;
-```
-
-### 5. Django Setup:
-
-#### 5.1. Change password in your settings.py:
-
-```python
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "campusswap",
-        "USER": "postgres", #don't change this(unless you know what you are doing)
-        "PASSWORD": "YOUR_PASSWORD_HERE",
-        "HOST": "localhost",
-        "PORT": "5432"
-    }
-}
-```
-
-#### 5.2. Make migrations:
-
-```sh
-python manage.py makemigrations
-```
-
-#### 5.3. Migrate:
-
-```sh
-python manage.py migrate
-```
-
-#### 5.4. Create superuser(admin):
-
-```sh
-python manage.py createsuperuser --username 1234
-```
-
-(make sure username is numerical, i.e just copy the command above as it is)
-Then fill out all the fields as you are prompted
-
-#### 5.5 Open the Django shell:
-
-```sh
-python manage.py shell
-```
-
-#### 5.6 Set first_name, last_name for admin:
-
-```sh
-from django.contrib.auth.models import User
-user = User.objects.get(username = 1234)
-user.first_name = "John"
-user.last_name = "Doe"
-user.save()
-```
-
-### 6. Postgres Setup:
-
-#### 6.1. Go to psql, connect to the database:
-
-```sql
-\c campusswap;
-```
-
-#### 6.2 In psql, Insert dummy values(use these for registration):
-
-```sql
-INSERT INTO college_students ("moodleID", first_name, last_name, email)
-VALUES
-(1, 'John', 'Doe', 'johndoe@xyz.edu'),
-(2, 'Jane', 'Smith', 'janesmith@xyz.edu'),
-(3, 'Steve', 'Digg', 'stevedigg@xyz.edu');
-```
-
-You are only allowed to use these three accounts to **register(not login, yes, register)**
-
-### 7. Running the Project:
-
-#### 7.1 Run the Django Server:
-
-```bash
-python manage.py runserver
-```
-
-#### 7.2. Compile and Hot-Reload for Development(make sure you are in the frontend folder):
-
-```sh
-cd frontend
-npm run dev
-```
-
-## FOR PRODUCTION ONLY: Minify for Production
-
-```sh
-npm run build
-```
-
-## NOTE:
-
-- #### You need not open the django server on your browser, just keep it running in your terminal. On the browser, it will show "Page not found at /" and a "GET 404 Error" don't worry the server is doing what it is intended to do.
-- #### To see if register is working as intended, you can check the `auth_user` table.
-- #### You don't need to keep the psql shell open for the DB operations to work.
-- #### If tables for certain apps are not being created:
-  ##### Current apps include: apis, products, admin_actions, payments.
-```sh
-python manage.py makemigrations <app_name>
-```
-- #### if you get a vite not found error on running npm run dev:
-
-```sh
-npm i vite
-```
+- **Payment APIs (`payments/urls.py`):**
+  - `/payments/create_order`: Creates a payment order.
+  - `/payments/record_payment`: Records payment details after successful transaction.
+  - `/payments/get_purchases/<int:moodleID>`: Fetches purchase history for a user.
