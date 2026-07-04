@@ -5,12 +5,6 @@ CampusSwap is a dynamic online marketplace built with Vue.js for the frontend an
 [![Vue Version](https://img.shields.io/badge/Vue-3.3.11-brightgreen)](https://vuejs.org/)
 [![Django Version](https://img.shields.io/badge/Django-5.0.1-orange)](https://www.djangoproject.com/)
 
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [API Reference](#api-reference)
-
 ## Features
 
 - **User Authentication:** Secure registration and login system for students.
@@ -25,6 +19,15 @@ CampusSwap is a dynamic online marketplace built with Vue.js for the frontend an
 - **Image Uploads:** Seamless image uploading for product listings via ImgBB integration.
 - **Markdown Editor:** A rich text editor for creating and editing resource descriptions.
 
+### Key Actions
+
+- **Register:** Create a new student account using your Moodle ID and email.
+- **Login:** Access your account with your Moodle ID and password.
+- **Buy:** Browse available listings, apply filters, and search for items.
+- **Sell:** List items for sale, including details, images, and pricing.
+- **Resources:** Access and contribute academic resources.
+- **Admin Dashboard:** Manage unapproved listings, resources, and users.
+
 ## Tech Stack
 
 - **Frontend:** Vue.js, Vue Router, Vuex, PrimeVue, Axios, Vite
@@ -34,16 +37,7 @@ CampusSwap is a dynamic online marketplace built with Vue.js for the frontend an
 
 ## Setup
 
-- Check out SETUP.md
-
-### Key Actions
-
-- **Register:** Create a new student account using your Moodle ID and email.
-- **Login:** Access your account with your Moodle ID and password.
-- **Buy:** Browse available listings, apply filters, and search for items.
-- **Sell:** List items for sale, including details, images, and pricing.
-- **Resources:** Access and contribute academic resources.
-- **Admin Dashboard:** Manage unapproved listings, resources, and users.
+- Check out `SETUP.md`
 
 ## API Reference
 
